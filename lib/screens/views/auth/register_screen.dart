@@ -15,6 +15,9 @@ class RegiserScreen extends StatefulWidget {
 class _RegiserScreenState extends State<RegiserScreen> {
   final _phoneController = TextEditingController();
   final _passordController = TextEditingController();
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,19 +36,21 @@ class _RegiserScreenState extends State<RegiserScreen> {
           ),
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
+              height: Get.height * 0.4,
               child: Lottie.asset("assets/imgs/re.json"),
             ),
             Container(
+              padding: EdgeInsets.only(top: Get.height * 0.05),
               decoration: BoxDecoration(
                   color: AppColor.secondaryColor,
                   borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(120),
-                      topRight: Radius.circular(120))),
-              height: Get.height,
+                      topLeft: Radius.circular(80),
+                      topRight: Radius.circular(80))),
+              // height: Get.height,
               width: Get.width,
               child: SingleChildScrollView(
                 child: Column(
@@ -53,9 +58,19 @@ class _RegiserScreenState extends State<RegiserScreen> {
                   children: [
                     SizedBox(
                       child: inputField(
-                          controller: _phoneController,
-                          hint: "Phone",
-                          icon: Icons.phone),
+                          controller: _fullNameController,
+                          hint: "ሙሉ ስም",
+                          icon: Icons.person_outline),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      child: inputField(
+                          controller: _emailController,
+                          hint: "Email",
+                          keytype: TextInputType.emailAddress,
+                          icon: Icons.email),
                     ),
                     const SizedBox(
                       height: 20,
@@ -64,6 +79,7 @@ class _RegiserScreenState extends State<RegiserScreen> {
                       child: inputField(
                           controller: _phoneController,
                           hint: "Phone",
+                          keytype: TextInputType.phone,
                           icon: Icons.phone),
                     ),
                     const SizedBox(
@@ -71,23 +87,16 @@ class _RegiserScreenState extends State<RegiserScreen> {
                     ),
                     SizedBox(
                       child: inputField(
-                          controller: _phoneController,
-                          hint: "Phone",
-                          icon: Icons.phone),
+                          controller: _passordController,
+                          hint: "Password",
+                          secure: true,
+                          icon: Icons.lock),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    SizedBox(
-                      child: inputField(
-                          controller: _phoneController,
-                          hint: "Phone",
-                          icon: Icons.phone),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
+                    Container(
+                      padding: EdgeInsets.only(bottom: Get.height * 0.02),
                       width: Get.width * 0.7,
                       child: ElevatedButton(
                         style: ButtonStyle(
@@ -104,7 +113,7 @@ class _RegiserScreenState extends State<RegiserScreen> {
                           Get.off(const UserMainScreen());
                         },
                         child: TextWidget(
-                          label: "Register",
+                          label: "ይመዝገቡ",
                           size: 16,
                         ),
                       ),
@@ -123,10 +132,12 @@ class _RegiserScreenState extends State<RegiserScreen> {
       {required String hint,
       required TextEditingController controller,
       IconData? icon,
+      bool secure = false,
       TextInputType keytype = TextInputType.text}) {
     return SizedBox(
       width: Get.width * 0.7,
       child: TextFormField(
+        obscureText: secure,
         style: const TextStyle(fontSize: 16),
         controller: controller,
         keyboardType: keytype,

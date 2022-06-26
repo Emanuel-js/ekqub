@@ -1,4 +1,5 @@
-import 'package:ekub/screens/views/users/user_main_screen.dart';
+import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/auth/model/auth_model.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _phoneController = TextEditingController();
-  final _passordController = TextEditingController();
+  final bool _showPassword = false;
+  final _globalKey = GlobalKey<FormState>();
+  final _authController = Get.find<AuthController>();
+  final _usernameOrEmailController = TextEditingController();
+  final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,69 +37,80 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            SizedBox(
+              height: Get.height * 0.4,
               child: Lottie.asset("assets/imgs/log.json"),
             ),
-            Expanded(
+            Form(
+              key: _globalKey,
               child: Container(
                 decoration: BoxDecoration(
                     color: AppColor.secondaryColor,
                     borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(120),
-                        topRight: Radius.circular(120))),
-                height: Get.height * 0.5,
+                        topLeft: Radius.circular(80),
+                        topRight: Radius.circular(80))),
                 width: Get.width,
-                child: Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        child: inputField(
-                            controller: _phoneController,
-                            hint: "Phone",
-                            icon: Icons.phone),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        child: inputField(
-                            controller: _phoneController,
-                            hint: "Phone",
-                            icon: Icons.phone),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
+                height: Get.height * 0.5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      child: inputField(
+                          controller: _usernameOrEmailController,
+                          hint: "የተጠቃሚ ስም ወይም ኢሜል",
+                          keytype: TextInputType.text,
+                          icon: Icons.person),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      child: inputField(
+                          controller: _passwordController,
+                          hint: "የይለፍ ቃል",
+                          icon: Icons.lock,
+                          secure: true),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                        margin: const EdgeInsets.only(top: 10),
                         width: Get.width * 0.7,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(AppColor.darkBlue),
-                              padding: MaterialStateProperty.all(
-                                  const EdgeInsets.symmetric(
-                                      vertical: 20, horizontal: 10)),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(15)))),
-                          onPressed: () {
-                            //todo
-                            Get.off(const UserMainScreen());
-                          },
-                          child: TextWidget(
-                            label: "Login",
-                            size: 16,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                        child: Obx(
+                          () => _authController.isLoading
+                              ? const Center(child: CircularProgressIndicator())
+                              : ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              AppColor.darkBlue),
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 10)),
+                                      shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15)))),
+                                  onPressed: () {
+                                    if (_globalKey.currentState!.validate()) {
+                                      _authController.login(AuthModel(
+                                          password: _passwordController.text,
+                                          userNameOrEmail:
+                                              _usernameOrEmailController.text));
+                                    }
+                                  },
+                                  child: TextWidget(
+                                    label: "Login",
+                                    size: 16,
+                                  ),
+                                ),
+                        ))
+                  ],
                 ),
               ),
             )
@@ -109,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
       {required String hint,
       required TextEditingController controller,
       IconData? icon,
+      bool secure = false,
       TextInputType keytype = TextInputType.text}) {
     return SizedBox(
       width: Get.width * 0.7,
@@ -116,9 +132,10 @@ class _LoginScreenState extends State<LoginScreen> {
         style: const TextStyle(fontSize: 16),
         controller: controller,
         keyboardType: keytype,
+        obscureText: secure,
         validator: (v) {
           if (v!.isEmpty) {
-            return "Please insret required filed";
+            return "እባክዎ አስፈላጊውን መረጃ ያስገቡ!";
           }
           return null;
         },

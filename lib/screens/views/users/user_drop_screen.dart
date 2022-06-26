@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class UserDropScreen extends StatelessWidget {
-  const UserDropScreen({Key? key}) : super(key: key);
-
+  UserDropScreen({Key? key}) : super(key: key);
+  final _moneyController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +15,7 @@ class UserDropScreen extends StatelessWidget {
           child: FloatingActionButton(
             heroTag: "transfer",
             onPressed: () {
-              // transfer();
+              dropLott();
             },
             child: Icon(
               FontAwesomeIcons.vault,
@@ -219,6 +219,118 @@ class UserDropScreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget moneyDrop({bool isSlected = false, required String title}) {
+    return ChoiceChip(
+      // padding: const EdgeInsets.symmetric(horizontal: 20),
+      label: TextWidget(label: title),
+      selectedColor: AppColor.secondaryColor,
+      selected: isSlected,
+      backgroundColor: AppColor.primaryColor,
+    );
+  }
+
+  dropLott() {
+    Get.bottomSheet(SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColor.white,
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: Get.height * 0.02,
+            ),
+            Container(
+              width: 120,
+              height: 15,
+              decoration: BoxDecoration(
+                  color: AppColor.lightGray,
+                  borderRadius: BorderRadius.circular(15)),
+            ),
+            GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 3,
+                mainAxisSpacing: 0,
+                crossAxisSpacing: 0,
+                children: [
+                  moneyDrop(isSlected: true, title: "2 ETB"),
+                  moneyDrop(title: "4 ETB"),
+                  moneyDrop(title: "6 ETB"),
+                  moneyDrop(title: "8 ETB"),
+                  moneyDrop(title: "10 ETB"),
+                  moneyDrop(title: "12 ETB"),
+                ]),
+            SizedBox(
+              width: Get.width * 0.8,
+              child: inputField(
+                  controller: _moneyController,
+                  hint: "Custom Drop",
+                  keytype: TextInputType.number),
+            ),
+            SizedBox(
+              height: Get.height * 0.05,
+            ),
+            SizedBox(
+              width: Get.width * 0.9,
+              child: ElevatedButton.icon(
+                style: ButtonStyle(
+                    padding: MaterialStateProperty.all(EdgeInsets.symmetric(
+                        horizontal: Get.height * 0.01, vertical: 15)),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)))),
+                onPressed: () {
+                  Get.snackbar("Drop", "Dorp ");
+                },
+                label: TextWidget(
+                  label: "Drop",
+                  size: 16,
+                ),
+                icon: const Icon(FontAwesomeIcons.piggyBank),
+              ),
+            ),
+            SizedBox(
+              height: Get.height * 0.05,
+            ),
+          ],
+        ),
+      ),
+    ));
+  }
+
+  Widget inputField(
+      {required String hint,
+      required TextEditingController controller,
+      IconData? icon,
+      TextInputType keytype = TextInputType.text}) {
+    return TextFormField(
+      style: const TextStyle(fontSize: 16),
+      controller: controller,
+      keyboardType: keytype,
+      validator: (v) {
+        if (v!.isEmpty) {
+          return "Please insret required filed";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        prefixIcon: Container(
+            padding: const EdgeInsets.only(left: 10), child: Icon(icon)),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        labelText: hint,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColor.primaryColor),
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(color: AppColor.primaryColor),
         ),
       ),
     );

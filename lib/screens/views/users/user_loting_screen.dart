@@ -289,117 +289,113 @@ class _UserLotScreenState extends State<UserLotScreen> {
             color: AppColor.white,
           ),
           height: Get.height * 0.7,
-          child: Expanded(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: Get.height * 0.01,
+          child: Column(
+            children: [
+              SizedBox(
+                height: Get.height * 0.01,
+              ),
+              Container(
+                width: 50,
+                height: 10,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: AppColor.lightGray),
+              ),
+              SizedBox(
+                height: Get.height * 0.02,
+              ),
+              Container(
+                child: TextWidget(
+                  label: "Pick your lucky number ",
+                  color: AppColor.black,
                 ),
-                Container(
-                  width: 50,
-                  height: 10,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: AppColor.lightGray),
+              ),
+              Container(
+                child: TextWidget(
+                  label: "You have 2 chance",
+                  color: AppColor.black,
+                  size: 14,
                 ),
-                SizedBox(
-                  height: Get.height * 0.02,
-                ),
-                Container(
-                  child: TextWidget(
-                    label: "Pick your lucky number ",
-                    color: AppColor.black,
-                  ),
-                ),
-                Container(
-                  child: TextWidget(
-                    label: "You have 2 chance",
-                    color: AppColor.black,
-                    size: 14,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.02,
-                ),
-                wheel(randomNumber),
-                SizedBox(
-                  height: Get.height * 0.02,
-                ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      elevation: 5,
-                      child: Container(
-                          padding: const EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              SizedBox(
+                height: Get.height * 0.02,
+              ),
+              wheel(randomNumber),
+              SizedBox(
+                height: Get.height * 0.02,
+              ),
+              SizedBox(
+                width: Get.width * 0.9,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  elevation: 5,
+                  child: Container(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: TextWidget(
-                                      label: "Selected Number",
-                                      color: AppColor.black,
-                                      size: 16,
-                                    ),
-                                  ),
-                                  Container(
-                                    child: TextWidget(
-                                      label: "$randomNumber",
-                                      size: 14,
-                                      color: AppColor.black,
-                                    ),
-                                  )
-                                ],
+                              Container(
+                                child: TextWidget(
+                                  label: "Selected Number",
+                                  color: AppColor.black,
+                                  size: 16,
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Container(
-                                    child: TextWidget(
-                                      label: "1",
-                                      color: AppColor.black,
-                                    ),
-                                  ),
-                                  const Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  )
-                                ],
+                              Container(
+                                child: TextWidget(
+                                  label: "$randomNumber",
+                                  size: 14,
+                                  color: AppColor.black,
+                                ),
                               )
                             ],
-                          )),
-                    ),
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                child: TextWidget(
+                                  label: "1",
+                                  color: AppColor.black,
+                                ),
+                              ),
+                              const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              )
+                            ],
+                          )
+                        ],
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              SizedBox(
+                width: Get.width * 0.9,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)))),
+                  onPressed: () {
+                    //todo
+                    Get.to(const UserWinnerScreen());
+                  },
+                  child: TextWidget(
+                    label: "Wheel",
+                    size: 16,
                   ),
                 ),
-                SizedBox(
-                  height: Get.height * 0.05,
-                ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)))),
-                    onPressed: () {
-                      //todo
-                      Get.to(const UserWinnerScreen());
-                    },
-                    child: TextWidget(
-                      label: "Wheel",
-                      size: 16,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         enableDrag: true,

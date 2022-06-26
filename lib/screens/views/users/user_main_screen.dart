@@ -20,7 +20,7 @@ class _UserMainScreenState extends State<UserMainScreen> {
   static final List<Widget> _widgetOptions = [
     const UserHomeScreen(),
     UserWalletScreen(),
-    const UserDropScreen()
+    UserDropScreen()
   ];
 
   void _onItemTapped(int index) {

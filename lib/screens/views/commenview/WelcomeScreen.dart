@@ -15,12 +15,13 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
+    return Scaffold(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           //logo
           SizedBox(
+              height: Get.height * 0.5,
               width: Get.width,
               child: const Image(
                 image: AssetImage("assets/imgs/logo.png"),
@@ -31,8 +32,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             decoration: BoxDecoration(
                 color: AppColor.secondaryColor,
                 borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(120),
-                    topRight: Radius.circular(120))),
+                    topLeft: Radius.circular(80),
+                    topRight: Radius.circular(80))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -49,10 +50,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             borderRadius: BorderRadius.circular(15)))),
                     onPressed: () {
                       //todo
-                      Get.off(const LoginScreen());
+                      Get.to(const LoginScreen());
                     },
                     child: TextWidget(
-                      label: "Login",
+                      label: "ይግቡ",
                       size: 16,
                     ),
                   ),
@@ -73,10 +74,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             borderRadius: BorderRadius.circular(15)))),
                     onPressed: () {
                       //todo
-                      Get.off(const RegiserScreen());
+                      Get.to(const RegiserScreen());
                     },
                     child: TextWidget(
-                      label: "Register",
+                      label: "ይመዝገቡ",
                       size: 16,
                     ),
                   ),

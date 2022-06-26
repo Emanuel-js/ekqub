@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ekub/screens/views/users/user_loting_screen.dart';
+import 'package:ekub/screens/views/users/user_profile_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   void handleTimeout() {
     // callback function
-    Get.to(UserLotScreen());
+    Get.to(const UserLotScreen());
   }
 
   @override
@@ -84,14 +85,22 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
 //todo header part
   Widget profile() {
-    return Container(
-      child: CircleAvatar(
-        backgroundColor: AppColor.secondaryColor,
-        radius: 40,
+    return Hero(
+      tag: "profile",
+      child: GestureDetector(
+        onTap: () {
+          Get.to(() => const UserProfileScreen());
+        },
         child: Container(
-          child: const CircleAvatar(
-            radius: 34,
-            backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
+          child: CircleAvatar(
+            backgroundColor: AppColor.secondaryColor,
+            radius: 40,
+            child: Container(
+              child: const CircleAvatar(
+                radius: 34,
+                backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
+              ),
+            ),
           ),
         ),
       ),
@@ -260,7 +269,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             Container(
               child: TextWidget(
                 label: subtitle,
-                size: 12,
+                size: 11,
               ),
             )
             //sub

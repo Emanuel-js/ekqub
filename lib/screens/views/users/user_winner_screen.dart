@@ -1,3 +1,4 @@
+import 'package:ekub/screens/views/users/user_main_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _UserWinnerScreenState extends State<UserWinnerScreen> {
                         borderRadius: BorderRadius.circular(15)))),
                 onPressed: () {
                   //todo
-                  // Get.off(const UserHomeScreen());
+                  Get.to(const UserMainScreen());
                 },
                 child: TextWidget(
                   label: "Continue",
