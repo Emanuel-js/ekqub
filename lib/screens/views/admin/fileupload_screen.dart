@@ -1,5 +1,4 @@
 import 'package:ekub/data/admin/admin_controller.dart';
-import 'package:ekub/screens/views/admin/search_map.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -7,18 +6,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
-import 'package:geolocator/geolocator.dart';
 
-class RegisterMainCollectorDetailInfo extends StatefulWidget {
-  const RegisterMainCollectorDetailInfo({Key? key}) : super(key: key);
+class MainCollectorFileUpload extends StatefulWidget {
+  const MainCollectorFileUpload({Key? key}) : super(key: key);
 
   @override
-  State<RegisterMainCollectorDetailInfo> createState() =>
-      _RegisterMainCollectorDetailInfoState();
+  State<MainCollectorFileUpload> createState() =>
+      _MainCollectorFileUploadState();
 }
 
-class _RegisterMainCollectorDetailInfoState
-    extends State<RegisterMainCollectorDetailInfo> {
+class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
   final _globalKey = GlobalKey<FormState>();
   final _adminController = Get.find<AdminController>();
   final _phoneNumberController = TextEditingController();
@@ -35,39 +32,6 @@ class _RegisterMainCollectorDetailInfoState
 
   @override
   Widget build(BuildContext context) {
-    String location = 'Null, Press Button';
-    String Address = 'search';
-
-    Future<Position> _getGeoLocationPosition() async {
-      bool serviceEnabled;
-      LocationPermission permission;
-      // Test if location services are enabled.
-      serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        // Location services are not enabled don't continue
-        // accessing the position and request users of the
-        // App to enable the location services.
-        await Geolocator.openLocationSettings();
-        return Future.error('Location services are disabled.');
-      }
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          return Future.error('Location permissions are denied');
-        }
-      }
-      if (permission == LocationPermission.deniedForever) {
-        // Permissions are denied forever, handle appropriately.
-        return Future.error(
-            'Location permissions are permanently denied, we cannot request permissions.');
-      }
-      // When we reach here, permissions are granted and we can
-      // continue accessing the position of the device.
-      return await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-    }
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColor.white,
@@ -185,7 +149,7 @@ class _RegisterMainCollectorDetailInfoState
                         color: AppColor.darkGray,
                       ),
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: AppColor.lightBlue),
+                        side: BorderSide(color: AppColor.darkGray),
                         primary: AppColor.primaryColor,
                         padding: const EdgeInsets.symmetric(
                             vertical: 20, horizontal: 10),
@@ -243,40 +207,11 @@ class _RegisterMainCollectorDetailInfoState
                 ),
                 SizedBox(
                   width: Get.width * 0.9,
-                  child: Container(
-                    child: ElevatedButton.icon(
-                      icon: Icon(
-                        Icons.location_on,
-                        color: AppColor.darkGray,
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: AppColor.lightBlue),
-                        primary: AppColor.primaryColor,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 10),
-                        backgroundColor: Colors.white,
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                      ),
-                      onPressed: () {
-                        {
-                          Get.to(() => const SearchPlacesScreen());
-                        }
-                      },
-                      label: Container(
-                        alignment: Alignment.centerLeft,
-                        margin: const EdgeInsets.only(left: 10),
-                        child: TextWidget(
-                          label: "አድራሻ",
-                          color: AppColor.darkGray,
-                          txa: TextAlign.start,
-                          size: 16,
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: inputField(
+                      controller: _latitudeController,
+                      hint: "አድራሻ",
+                      icon: Icons.location_on,
+                      secure: true),
                 ),
                 SizedBox(
                   height: Get.height * 0.03,

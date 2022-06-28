@@ -14,8 +14,6 @@ class AdminHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _autController = Get.find<AuthController>();
 
-    // _autController.getUser();
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.darkBlue,

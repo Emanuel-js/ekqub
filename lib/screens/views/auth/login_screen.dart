@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                   },
                                   child: TextWidget(
-                                    label: "Login",
+                                    label: "ይግቡ",
                                     size: 16,
                                   ),
                                 ),

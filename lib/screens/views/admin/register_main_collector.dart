@@ -1,5 +1,4 @@
 import 'package:ekub/data/admin/admin_controller.dart';
-import 'package:ekub/data/maincollector/main_collector_model.dart';
 import 'package:ekub/screens/views/admin/detailInformation_add.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
@@ -190,17 +189,17 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
                                           borderRadius:
                                               BorderRadius.circular(15)))),
                               onPressed: () {
-                                if (_globalKey.currentState!.validate()) {
-                                  _adminController.registerMainCollector(
-                                      MainCollectorModel(
-                                          firstName: _firstNameController.text,
-                                          lastName: _lastNameController.text,
-                                          email: _emailController.text,
-                                          username: _userNameController.text));
-                                  Get.to(() =>
-                                      const RegisterMainCollectorDetailInfo());
-                                }
+                                // if (_globalKey.currentState!.validate()) {
+                                //   _adminController.registerMainCollector(
+                                //       MainCollectorModel(
+                                //           firstName: _firstNameController.text,
+                                //           lastName: _lastNameController.text,
+                                //           email: _emailController.text,
+                                //           username: _userNameController.text));
 
+                                // }
+                                Get.to(() =>
+                                    const RegisterMainCollectorDetailInfo());
                                 if (_adminController.isLoading) {
                                   _firstNameController.clear();
                                   _lastNameController.clear();

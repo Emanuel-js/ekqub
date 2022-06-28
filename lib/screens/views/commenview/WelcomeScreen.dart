@@ -1,5 +1,5 @@
+import 'package:ekub/screens/views/admin/showmap.dart';
 import 'package:ekub/screens/views/auth/login_screen.dart';
-import 'package:ekub/screens/views/auth/register_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +74,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             borderRadius: BorderRadius.circular(15)))),
                     onPressed: () {
                       //todo
-                      Get.to(const RegiserScreen());
+                      Get.to(const ShowMap());
                     },
                     child: TextWidget(
                       label: "ይመዝገቡ",

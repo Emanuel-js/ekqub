@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ekub/constants/role.dart';
 import 'package:ekub/data/auth/auth_repo.dart';
 import 'package:ekub/data/auth/model/auth_model.dart';
@@ -69,14 +67,7 @@ class AuthController extends GetxController {
     try {
       final result = await AuthRepo().getUser();
       // log("message$result");
-      if (result != null) {
-        List<UserModel> products =
-            List<UserModel>.from(result.map((x) => UserModel.fromJson(x)));
-        log("message$products");
-        _userInfo.value = products;
-        // _userInfo = result;
-
-      }
+      _userInfo.value = result;
     } catch (e) {
       setLoading(false);
     }

@@ -40,12 +40,12 @@ class ApiUtils {
     "Content-Type": "application/json",
   };
 
-  Future<Response> get({
+  Future<Response<T>> get<T>({
     required String url,
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
-    var result = await _dio.get(
+    Response<T> result = await _dio.get<T>(
       url,
       queryParameters: queryParameters,
       options: options,
