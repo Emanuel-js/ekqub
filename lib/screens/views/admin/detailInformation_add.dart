@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:ekub/data/admin/admin_controller.dart';
+import 'package:ekub/data/maincollector/main_collector_model.dart';
+import 'package:ekub/screens/views/admin/fileupload_screen.dart';
 import 'package:ekub/screens/views/admin/search_map.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
@@ -7,7 +11,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
-import 'package:geolocator/geolocator.dart';
 
 class RegisterMainCollectorDetailInfo extends StatefulWidget {
   const RegisterMainCollectorDetailInfo({Key? key}) : super(key: key);
@@ -21,53 +24,17 @@ class _RegisterMainCollectorDetailInfoState
     extends State<RegisterMainCollectorDetailInfo> {
   final _globalKey = GlobalKey<FormState>();
   final _adminController = Get.find<AdminController>();
-  final _phoneNumberController = TextEditingController();
-  final _alternatePhoneNumberController = TextEditingController();
 
   final _residentLocationController = TextEditingController();
-  // final _phoneNameController = TextEditingController();
   final _cityController = TextEditingController();
   final _yearBornController = TextEditingController();
-  final _genderController = TextEditingController();
-  final _latitudeController = TextEditingController();
-  final _longitudeController = TextEditingController();
+  String _genderController = "Male";
+
   DateTime selectedDate = DateTime.now();
+  late File _filePath;
 
   @override
   Widget build(BuildContext context) {
-    String location = 'Null, Press Button';
-    String Address = 'search';
-
-    Future<Position> _getGeoLocationPosition() async {
-      bool serviceEnabled;
-      LocationPermission permission;
-      // Test if location services are enabled.
-      serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        // Location services are not enabled don't continue
-        // accessing the position and request users of the
-        // App to enable the location services.
-        await Geolocator.openLocationSettings();
-        return Future.error('Location services are disabled.');
-      }
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          return Future.error('Location permissions are denied');
-        }
-      }
-      if (permission == LocationPermission.deniedForever) {
-        // Permissions are denied forever, handle appropriately.
-        return Future.error(
-            'Location permissions are permanently denied, we cannot request permissions.');
-      }
-      // When we reach here, permissions are granted and we can
-      // continue accessing the position of the device.
-      return await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-    }
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColor.white,
@@ -146,28 +113,6 @@ class _RegisterMainCollectorDetailInfoState
                 SizedBox(
                   width: Get.width * 0.9,
                   child: inputField(
-                    controller: _phoneNumberController,
-                    hint: "ስልክ ቁጥር",
-                    icon: FontAwesomeIcons.phone,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: inputField(
-                    controller: _alternatePhoneNumberController,
-                    hint: "ስልክ ቁጥር(አማራጭ)",
-                    icon: FontAwesomeIcons.phone,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: inputField(
                     controller: _cityController,
                     hint: "ከተማ",
                     icon: FontAwesomeIcons.city,
@@ -219,15 +164,15 @@ class _RegisterMainCollectorDetailInfoState
                 Container(
                   child: GenderPickerWithImage(
                     verticalAlignedText: false,
-                    femaleText: "ሴት",
-                    maleText: "ወንድ",
+
                     selectedGender: Gender.Male,
                     selectedGenderTextStyle: TextStyle(
                         color: AppColor.darkGray, fontWeight: FontWeight.bold),
                     unSelectedGenderTextStyle: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.normal),
-                    onChanged: (gender) {
-                      print(gender);
+                    onChanged: (Gender? gender) {
+                      _genderController =
+                          gender.toString().replaceAll("Gender.", "");
                     },
                     equallyAligned: true,
                     animationDuration: const Duration(milliseconds: 300),
@@ -262,7 +207,7 @@ class _RegisterMainCollectorDetailInfoState
                       ),
                       onPressed: () {
                         {
-                          Get.to(() => const SearchPlacesScreen());
+                          Get.to(const SearchPlacesScreen());
                         }
                       },
                       label: Container(
@@ -314,7 +259,30 @@ class _RegisterMainCollectorDetailInfoState
                                             borderRadius:
                                                 BorderRadius.circular(15)))),
                                 onPressed: () {
-                                  if (_globalKey.currentState!.validate()) {}
+                                  if (_globalKey.currentState!.validate()) {
+                                    _adminController.mainCollectorReq =
+                                        MainCollectorModel(
+                                      city: _cityController.text,
+                                      yearBorn: selectedDate,
+                                      gender: _genderController,
+                                      longitude:
+                                          _adminController.lat.toString(),
+                                      latitude: _adminController.log.toString(),
+                                      firstName: _adminController
+                                          .mainCollectorReq!.firstName,
+                                      lastName: _adminController
+                                          .mainCollectorReq!.lastName,
+                                      email: _adminController
+                                          .mainCollectorReq!.email,
+                                      phoneNumber: _adminController
+                                          .mainCollectorReq!.phoneNumber,
+                                      alternatePhoneNumber: _adminController
+                                          .mainCollectorReq!
+                                          .alternatePhoneNumber,
+                                    );
+                                    Get.to(
+                                        () => const MainCollectorFileUpload());
+                                  }
                                 },
                                 child: TextWidget(
                                   label: "ቀጣይ",
@@ -335,7 +303,7 @@ class _RegisterMainCollectorDetailInfoState
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(1900, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate) {
       setState(() {

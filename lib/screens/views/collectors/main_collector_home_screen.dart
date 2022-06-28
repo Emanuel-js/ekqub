@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ekub/data/maincollector/main_collector_controller.dart';
 import 'package:ekub/screens/views/collectors/register_sub_collector.dart';
 import 'package:ekub/screens/views/subcollectors/profile_screen.dart';
 import 'package:ekub/screens/views/subcollectors/subcollector_lotter_screen.dart';
@@ -13,6 +16,9 @@ class MainCollectorHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _maincolectorCollector = Get.find<MainCollectorController>();
+
+    log("=======${_maincolectorCollector.mainCollectordata}");
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.primaryColor,

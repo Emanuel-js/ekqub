@@ -2,6 +2,8 @@ import 'package:ekub/constants/role.dart';
 import 'package:ekub/data/auth/auth_repo.dart';
 import 'package:ekub/data/auth/model/auth_model.dart';
 import 'package:ekub/data/helpers/local_storage_provider.dart';
+import 'package:ekub/data/maincollector/main_collector_model.dart';
+import 'package:ekub/data/subcollector/sub_collector_model.dart';
 import 'package:ekub/data/user/model/user.dart';
 import 'package:ekub/screens/views/admin/admin_home_screen.dart';
 import 'package:ekub/screens/views/collectors/main_collector_home_screen.dart';
@@ -28,13 +30,16 @@ class AuthController extends GetxController {
     // _isLoading(true);
   }
 
-  void handleRole(String role) {
+  void handleRole(String role, dynamic data) {
     if (role == Role.ROlE_ADMIN) {
+      MainCollectorModel.fromMap(data);
       Get.off(() => const AdminHomeScreen());
     } else if (role == Role.ROLE_MAIN_COLLECTOR) {
+      MainCollectorModel.fromMap(data);
       Get.off(() => const MainCollectorHomeScreen());
     } else if (role == Role.ROLE_SUB_COLLECTOR) {
       Get.off(() => const SubCollectorHomeScreen());
+      SubCollectorModel.fromMap(data);
     }
   }
 
@@ -53,7 +58,8 @@ class AuthController extends GetxController {
         if (result["accessToken"] != null) {
           _signedInUser = result["accessToken"];
           _signRole = result["roles"][0]["name"];
-          handleRole(signdRole);
+          handleRole(
+              signdRole, result["loggedInUserProfileData"]["userProfile"]);
         } else {
           Get.snackbar("error", "error");
         }

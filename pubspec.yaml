@@ -43,8 +43,10 @@ dependencies:
   gender_picker: ^1.1.0
   connectivity_plus: ^2.3.5
   geolocator: any
+  geocoding: ^2.0.4
   google_maps_flutter: ^2.1.8
   flutter_google_places: ^0.3.0
+  file_picker: ^4.6.1
 dev_dependencies:
 
   # The "flutter_lints" package below contains a set of recommended lints to

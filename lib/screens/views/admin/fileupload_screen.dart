@@ -1,11 +1,11 @@
+import 'dart:developer';
+
 import 'package:ekub/data/admin/admin_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
+import 'package:ekub/utils/file_upload.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:gender_picker/source/enums.dart';
-import 'package:gender_picker/source/gender_picker.dart';
 
 class MainCollectorFileUpload extends StatefulWidget {
   const MainCollectorFileUpload({Key? key}) : super(key: key);
@@ -18,17 +18,6 @@ class MainCollectorFileUpload extends StatefulWidget {
 class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
   final _globalKey = GlobalKey<FormState>();
   final _adminController = Get.find<AdminController>();
-  final _phoneNumberController = TextEditingController();
-  final _alternatePhoneNumberController = TextEditingController();
-
-  final _residentLocationController = TextEditingController();
-  // final _phoneNameController = TextEditingController();
-  final _cityController = TextEditingController();
-  final _yearBornController = TextEditingController();
-  final _genderController = TextEditingController();
-  final _latitudeController = TextEditingController();
-  final _longitudeController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +66,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                       height: 10,
                       width: 30,
                       decoration: BoxDecoration(
-                          color: AppColor.secondaryColor,
+                          color: AppColor.black,
                           borderRadius: BorderRadius.circular(15)),
                     ),
                     SizedBox(
@@ -87,7 +76,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                       height: 10,
                       width: 30,
                       decoration: BoxDecoration(
-                          color: AppColor.black,
+                          color: AppColor.secondaryColor,
                           borderRadius: BorderRadius.circular(15)),
                     ),
                   ],
@@ -105,40 +94,13 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                   ),
                 ),
                 SizedBox(
+                  height: Get.height * 0.03,
+                ),
+                Obx(() => _adminController.imageFile != null
+                    ? getFile()
+                    : Container()),
+                SizedBox(
                   height: Get.height * 0.02,
-                ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: inputField(
-                    controller: _phoneNumberController,
-                    hint: "ስልክ ቁጥር",
-                    icon: FontAwesomeIcons.phone,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: inputField(
-                    controller: _alternatePhoneNumberController,
-                    hint: "ስልክ ቁጥር(አማራጭ)",
-                    icon: FontAwesomeIcons.phone,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: inputField(
-                    controller: _cityController,
-                    hint: "ከተማ",
-                    icon: FontAwesomeIcons.city,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
                 ),
                 SizedBox(
                   width: Get.width * 0.9,
@@ -159,16 +121,17 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15))),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         {
-                          _selectDate(context);
+                          _adminController.imageFile =
+                              await FileUpload().getSingleFile();
                         }
                       },
                       label: Container(
                         alignment: Alignment.centerLeft,
                         margin: const EdgeInsets.only(left: 10),
                         child: TextWidget(
-                          label: "የትውልድ ቀን",
+                          label: "መታወቂያ አስገቡ",
                           color: AppColor.darkGray,
                           txa: TextAlign.start,
                           size: 16,
@@ -176,42 +139,6 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
-                Container(
-                  child: GenderPickerWithImage(
-                    verticalAlignedText: false,
-                    femaleText: "ሴት",
-                    maleText: "ወንድ",
-                    selectedGender: Gender.Male,
-                    selectedGenderTextStyle: TextStyle(
-                        color: AppColor.darkGray, fontWeight: FontWeight.bold),
-                    unSelectedGenderTextStyle: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.normal),
-                    onChanged: (gender) {
-                      print(gender);
-                    },
-                    equallyAligned: true,
-                    animationDuration: const Duration(milliseconds: 300),
-                    isCircular: true,
-                    // default : true,
-                    opacityOfGradient: 0.4,
-                    padding: const EdgeInsets.all(3),
-                    size: 50, //default : 40
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: inputField(
-                      controller: _latitudeController,
-                      hint: "አድራሻ",
-                      icon: Icons.location_on,
-                      secure: true),
                 ),
                 SizedBox(
                   height: Get.height * 0.03,
@@ -249,10 +176,25 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                                             borderRadius:
                                                 BorderRadius.circular(15)))),
                                 onPressed: () {
-                                  if (_globalKey.currentState!.validate()) {}
+                                  if (_adminController.imageFile != null) {
+                                    log("${_adminController.mainCollectorReq}");
+                                    _adminController.registerMainCollector(
+                                      _adminController.mainCollectorReq!,
+                                      _adminController.imageFile,
+                                    );
+                                  } else {
+                                    Get.snackbar(
+                                      "ስህተት",
+                                      "መታወቂያ አስገቡ",
+                                      backgroundColor: AppColor.darkBlue,
+                                      colorText: AppColor.white,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      duration: const Duration(seconds: 2),
+                                    );
+                                  }
                                 },
                                 child: TextWidget(
-                                  label: "ቀጣይ",
+                                  label: "መዝገብ",
                                   size: 16,
                                 ),
                               ),
@@ -266,56 +208,23 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
         ));
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
-  Widget inputField(
-      {required String hint,
-      required TextEditingController controller,
-      IconData? icon,
-      bool secure = false,
-      TextInputType keytype = TextInputType.text}) {
-    return SizedBox(
-      width: Get.width * 0.7,
-      child: TextFormField(
-          obscureText: secure,
-          style: const TextStyle(fontSize: 16),
-          controller: controller,
-          keyboardType: keytype,
-          validator: (v) {
-            if (v!.isEmpty) {
-              return "Please insert required filed";
-            }
-            return null;
-          },
-          decoration: inputStyles(hint: hint, icon: icon)),
-    );
-  }
-
-  InputDecoration inputStyles({required String hint, required var icon}) {
-    return InputDecoration(
-      prefixIcon: Container(
-          padding: const EdgeInsets.only(left: 10), child: Icon(icon)),
-      contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-      labelText: hint,
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColor.primaryColor),
-        borderRadius: BorderRadius.circular(20.0),
+  Widget getFile() {
+    log("file${_adminController.imageFile}");
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: AppColor.darkBlue,
+          width: 1,
+        ),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20.0),
-        borderSide: BorderSide(color: AppColor.primaryColor),
-      ),
+      width: Get.width * 0.9,
+      height: Get.height * 0.4,
+      child: Obx(() => Image.file(
+            _adminController.imageFile!,
+            fit: BoxFit.cover,
+          )),
     );
   }
 }

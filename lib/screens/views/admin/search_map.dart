@@ -1,7 +1,12 @@
+import 'package:ekub/data/admin/admin_controller.dart';
 import 'package:ekub/data/api/baserepository/api.dart';
+import 'package:ekub/screens/widgets/text_widget.dart';
+import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
@@ -17,15 +22,17 @@ const kGoogleApiKey = Api.api_key;
 final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
 class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
+  final _adminController = Get.find<AdminController>();
   static const CameraPosition initialCameraPosition =
-      CameraPosition(target: LatLng(37.42796, -122.08574), zoom: 14.0);
+      CameraPosition(target: LatLng(8.980603, 38.757759), zoom: 14.0);
+  CameraPosition? cameraPosition;
 
   Set<Marker> markersList = {};
 
   late GoogleMapController googleMapController;
 
   final Mode _mode = Mode.overlay;
-
+  String location = "Location Name:";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,11 +54,14 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
 
           setState(() {});
         },
-        label: const Text("Current Location"),
-        icon: const Icon(Icons.location_history),
+        label: TextWidget(label: "አድራሻውን መዝግቡ 📌"),
+        icon: Icon(
+          Icons.location_on,
+          color: AppColor.white,
+        ),
       ),
       appBar: AppBar(
-        title: const Text("Google Search Places"),
+        title: const Text("አድራሻውን ይፈልጉ"),
       ),
       body: Stack(
         children: [
@@ -62,9 +72,26 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
             onMapCreated: (GoogleMapController controller) {
               googleMapController = controller;
             },
+            onCameraMove: (CameraPosition cameraPositiona) {
+              cameraPosition = cameraPositiona; //when map is dragging
+            },
+            onCameraIdle: () async {
+              //when map drag stops
+              _adminController.lat = cameraPosition!.target.latitude;
+              _adminController.log = cameraPosition!.target.longitude;
+
+              List<Placemark> placemarks = await placemarkFromCoordinates(
+                  _adminController.lat!, _adminController.log!);
+              setState(() {
+                //get place name from lat and lang
+                location = placemarks.first.administrativeArea.toString() +
+                    ", " +
+                    placemarks.first.street.toString();
+              });
+            },
           ),
           ElevatedButton(
-              onPressed: _handlePressButton, child: const Text("Search Places"))
+              onPressed: _handlePressButton, child: const Text("ፈልጉ"))
         ],
       ),
     );
@@ -79,7 +106,7 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
         strictbounds: false,
         types: [""],
         decoration: InputDecoration(
-            hintText: 'Search',
+            hintText: 'ፈልግ',
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: const BorderSide(color: Colors.white))),
@@ -106,16 +133,17 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
     final lat = detail.result.geometry!.location.lat;
     final lng = detail.result.geometry!.location.lng;
 
+    _adminController.lat = lat;
+    _adminController.log = lng;
+
     markersList.clear();
     markersList.add(Marker(
         markerId: const MarkerId("0"),
-        position: LatLng(lat, lng),
+        position: LatLng(_adminController.lat!, _adminController.log!),
         infoWindow: InfoWindow(title: detail.result.name)));
 
-    setState(() {});
-
-    googleMapController
-        .animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
+    googleMapController.animateCamera(CameraUpdate.newLatLngZoom(
+        LatLng(_adminController.lat!, _adminController.log!), 14.0));
   }
 
   Future<Position> _determinePosition() async {

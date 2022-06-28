@@ -12,8 +12,8 @@ class ApiUtils {
   static final ApiUtils _apiUtils = ApiUtils._i();
 
   final Dio _dio = Dio(BaseOptions(
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
+    connectTimeout: 25000,
+    receiveTimeout: 15000,
   ));
 
   ApiUtils._i() {

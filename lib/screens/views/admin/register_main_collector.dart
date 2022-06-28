@@ -1,4 +1,5 @@
 import 'package:ekub/data/admin/admin_controller.dart';
+import 'package:ekub/data/maincollector/main_collector_model.dart';
 import 'package:ekub/screens/views/admin/detailInformation_add.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
@@ -18,10 +19,11 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
   final _adminController = Get.find<AdminController>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  // final _phoneNameController = TextEditingController();
-  final _userNameController = TextEditingController();
+  final _phoneNameController = TextEditingController();
+
   final _passwordNameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _alternatePhoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -125,24 +127,23 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
                 SizedBox(
                   width: Get.width * 0.9,
                   child: inputField(
-                    controller: _userNameController,
-                    hint: "የተጠቃሚ ስም",
-                    icon: FontAwesomeIcons.user,
+                    controller: _phoneNameController,
+                    hint: "ስልክ ቁጥር",
+                    icon: FontAwesomeIcons.phone,
+                    keytype: TextInputType.phone,
                   ),
                 ),
-
-                // SizedBox(
-                //   height: Get.height * 0.03,
-                // ),
-                // SizedBox(
-                //   width: Get.width * 0.9,
-                //   child: inputField(
-                //     controller: _firstNameController,
-                //     hint: "Phone",
-                //     icon: FontAwesomeIcons.phone,
-                //     keytype: TextInputType.phone,
-                //   ),
-                // ),
+                SizedBox(
+                  height: Get.height * 0.03,
+                ),
+                SizedBox(
+                  width: Get.width * 0.9,
+                  child: inputField(
+                    controller: _alternatePhoneNumberController,
+                    hint: "ስልክ ቁጥር(አማራጭ)",
+                    icon: FontAwesomeIcons.phone,
+                  ),
+                ),
                 SizedBox(
                   height: Get.height * 0.03,
                 ),
@@ -163,11 +164,9 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
                         },
                         decoration:
                             inputStyles(hint: "ኢሜይል", icon: Icons.email))),
-
                 SizedBox(
                   height: Get.height * 0.03,
                 ),
-
                 Container(
                   child: Obx(
                     () => _adminController.isLoading
@@ -189,23 +188,28 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
                                           borderRadius:
                                               BorderRadius.circular(15)))),
                               onPressed: () {
-                                // if (_globalKey.currentState!.validate()) {
-                                //   _adminController.registerMainCollector(
-                                //       MainCollectorModel(
-                                //           firstName: _firstNameController.text,
-                                //           lastName: _lastNameController.text,
-                                //           email: _emailController.text,
-                                //           username: _userNameController.text));
+                                if (_globalKey.currentState!.validate()) {
+                                  _adminController.mainCollectorReq =
+                                      MainCollectorModel(
+                                          firstName: _firstNameController.text,
+                                          lastName: _lastNameController.text,
+                                          email: _emailController.text,
+                                          phoneNumber:
+                                              _phoneNameController.text,
+                                          alternatePhoneNumber:
+                                              _alternatePhoneNumberController
+                                                  .text);
+                                  Get.to(() =>
+                                      const RegisterMainCollectorDetailInfo());
+                                }
 
-                                // }
-                                Get.to(() =>
-                                    const RegisterMainCollectorDetailInfo());
                                 if (_adminController.isLoading) {
                                   _firstNameController.clear();
                                   _lastNameController.clear();
                                   _emailController.clear();
 
-                                  _userNameController.clear();
+                                  _phoneNameController.clear();
+                                  _alternatePhoneNumberController.clear();
                                 }
                               },
                               child: TextWidget(

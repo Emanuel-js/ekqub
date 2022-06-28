@@ -1,3 +1,4 @@
+import 'package:ekub/data/maincollector/main_collector_model.dart';
 import 'package:ekub/data/maincollector/main_collector_repo.dart';
 import 'package:ekub/data/subcollector/sub_collector_model.dart';
 import 'package:ekub/utils/message_widet.dart';
@@ -9,7 +10,9 @@ class MainCollectorController extends GetxController {
 
   bool get isLoading => _isLoading.value;
   bool get isRegisterd => _isRegisterd.value;
+  final _mainCollectordata = Rxn<MainCollectorModel>();
 
+  MainCollectorModel? get mainCollectordata => _mainCollectordata.value;
   void setLoading(bool show) {
     _isLoading.value = show;
   }

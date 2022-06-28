@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 class MainCollectorModel {
-  String firstName;
-  String lastName;
-  String username;
-  String email;
+  String? firstName;
+  String? lastName;
+  String? email;
   String? role;
   String? phoneNumber;
   String? latitude;
@@ -12,46 +11,49 @@ class MainCollectorModel {
   String? city;
   DateTime? yearBorn;
   String? gender;
-  MainCollectorModel({
-    required this.firstName,
-    required this.lastName,
-    required this.username,
-    required this.email,
-    this.role,
-    this.phoneNumber,
-    this.latitude,
-    this.longitude,
-    this.city,
-    this.yearBorn,
-    this.gender,
-  });
+  String? fileupload;
+  String? alternatePhoneNumber;
+  MainCollectorModel(
+      {this.firstName,
+      this.lastName,
+      this.email,
+      this.role,
+      this.phoneNumber,
+      this.latitude,
+      this.longitude,
+      this.city,
+      this.yearBorn,
+      this.gender,
+      this.fileupload,
+      this.alternatePhoneNumber});
 
-  MainCollectorModel copyWith({
-    String? firstName,
-    String? lastName,
-    String? username,
-    String? email,
-    String? role,
-    String? phoneNumber,
-    String? latitude,
-    String? longitude,
-    String? city,
-    DateTime? yearBorn,
-    String? gender,
-  }) {
+  MainCollectorModel copyWith(
+      {String? firstName,
+      String? lastName,
+      String? email,
+      String? role,
+      String? phoneNumber,
+      String? latitude,
+      String? longitude,
+      String? city,
+      DateTime? yearBorn,
+      String? gender,
+      String? fileupload,
+      String? alternatePhoneNumber}) {
     return MainCollectorModel(
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      username: username ?? this.username,
-      email: email ?? this.email,
-      role: role ?? this.role,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      city: city ?? this.city,
-      yearBorn: yearBorn ?? this.yearBorn,
-      gender: gender ?? this.gender,
-    );
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        email: email ?? this.email,
+        role: role ?? this.role,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
+        city: city ?? this.city,
+        yearBorn: yearBorn ?? this.yearBorn,
+        gender: gender ?? this.gender,
+        fileupload: fileupload ?? this.fileupload,
+        alternatePhoneNumber:
+            alternatePhoneNumber ?? this.alternatePhoneNumber);
   }
 
   Map<String, dynamic> toMap() {
@@ -59,7 +61,7 @@ class MainCollectorModel {
 
     result.addAll({'firstName': firstName});
     result.addAll({'lastName': lastName});
-    result.addAll({'username': username});
+
     result.addAll({'email': email});
     if (role != null) {
       result.addAll({'role': role});
@@ -83,25 +85,29 @@ class MainCollectorModel {
       result.addAll({'gender': gender});
     }
 
+    if (alternatePhoneNumber != null) {
+      result.addAll({'alternatePhoneNumber': alternatePhoneNumber});
+    }
+
     return result;
   }
 
   factory MainCollectorModel.fromMap(Map<String, dynamic> map) {
     return MainCollectorModel(
-      firstName: map['firstName'] ?? '',
-      lastName: map['lastName'] ?? '',
-      username: map['username'] ?? '',
-      email: map['email'] ?? '',
-      role: map['role'],
-      phoneNumber: map['phoneNumber'],
-      latitude: map['latitude'],
-      longitude: map['longitude'],
-      city: map['city'],
-      yearBorn: map['yearBorn'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['yearBorn'])
-          : null,
-      gender: map['gender'],
-    );
+        firstName: map['firstName'] ?? '',
+        lastName: map['lastName'] ?? '',
+        email: map['email'] ?? '',
+        role: map['role'],
+        phoneNumber: map['phoneNumber'],
+        latitude: map['latitude'],
+        longitude: map['longitude'],
+        city: map['city'],
+        fileupload: map['fileupload'],
+        yearBorn: map['yearBorn'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(map['yearBorn'])
+            : null,
+        gender: map['gender'],
+        alternatePhoneNumber: map['alternatePhoneNumber']);
   }
 
   String toJson() => json.encode(toMap());
@@ -111,7 +117,7 @@ class MainCollectorModel {
 
   @override
   String toString() {
-    return 'MainCollectorModel(firstName: $firstName, lastName: $lastName, username: $username, email: $email, role: $role, phoneNumber: $phoneNumber, latitude: $latitude, longitude: $longitude, city: $city, yearBorn: $yearBorn, gender: $gender)';
+    return 'MainCollectorModel(firstName: $firstName, lastName: $lastName, email: $email, role: $role, phoneNumber: $phoneNumber, latitude: $latitude, longitude: $longitude, city: $city, yearBorn: $yearBorn, gender: $gender,fileupload:$fileupload)';
   }
 
   @override
@@ -121,7 +127,6 @@ class MainCollectorModel {
     return other is MainCollectorModel &&
         other.firstName == firstName &&
         other.lastName == lastName &&
-        other.username == username &&
         other.email == email &&
         other.role == role &&
         other.phoneNumber == phoneNumber &&
@@ -129,14 +134,14 @@ class MainCollectorModel {
         other.longitude == longitude &&
         other.city == city &&
         other.yearBorn == yearBorn &&
-        other.gender == gender;
+        other.gender == gender &&
+        other.fileupload == fileupload;
   }
 
   @override
   int get hashCode {
     return firstName.hashCode ^
         lastName.hashCode ^
-        username.hashCode ^
         email.hashCode ^
         role.hashCode ^
         phoneNumber.hashCode ^
@@ -144,6 +149,7 @@ class MainCollectorModel {
         longitude.hashCode ^
         city.hashCode ^
         yearBorn.hashCode ^
-        gender.hashCode;
+        gender.hashCode ^
+        fileupload.hashCode;
   }
 }
