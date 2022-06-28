@@ -1,10 +1,11 @@
+import 'dart:math';
+
 import 'package:ekub/data/admin/admin_controller.dart';
 import 'package:ekub/data/api/baserepository/api.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,26 +34,23 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
 
   final Mode _mode = Mode.overlay;
   String location = "Location Name:";
+
+  addMarker(cordinate, title) {
+    int id = Random().nextInt(100);
+    setState(() {});
+    markersList.add(Marker(
+        markerId: MarkerId(id.toString()),
+        position: cordinate,
+        infoWindow: InfoWindow(title: title)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: homeScaffoldKey,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          Position position = await _determinePosition();
-
-          googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-              CameraPosition(
-                  target: LatLng(position.latitude, position.longitude),
-                  zoom: 14)));
-
-          markersList.clear();
-
-          markersList.add(Marker(
-              markerId: const MarkerId('currentLocation'),
-              position: LatLng(position.latitude, position.longitude)));
-
-          setState(() {});
+          _handlePressButton();
         },
         label: TextWidget(label: "አድራሻውን መዝግቡ 📌"),
         icon: Icon(
@@ -75,23 +73,16 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
             onCameraMove: (CameraPosition cameraPositiona) {
               cameraPosition = cameraPositiona; //when map is dragging
             },
-            onCameraIdle: () async {
-              //when map drag stops
-              _adminController.lat = cameraPosition!.target.latitude;
-              _adminController.log = cameraPosition!.target.longitude;
-
-              List<Placemark> placemarks = await placemarkFromCoordinates(
-                  _adminController.lat!, _adminController.log!);
-              setState(() {
-                //get place name from lat and lang
-                location = placemarks.first.administrativeArea.toString() +
-                    ", " +
-                    placemarks.first.street.toString();
-              });
+            onTap: (controler) {
+              _adminController.lat = controler.latitude;
+              _adminController.log = controler.longitude;
+              googleMapController
+                  .animateCamera(CameraUpdate.newLatLngZoom(controler, 14.0));
+              markersList.clear();
+              addMarker(controler, "");
+              setState(() {});
             },
           ),
-          ElevatedButton(
-              onPressed: _handlePressButton, child: const Text("ፈልጉ"))
         ],
       ),
     );
@@ -122,6 +113,7 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
         .showSnackBar(SnackBar(content: Text(response.errorMessage!)));
   }
 
+//  detail.result.name
   Future<void> displayPrediction(
       Prediction p, ScaffoldState? currentState) async {
     GoogleMapsPlaces places = GoogleMapsPlaces(
@@ -135,13 +127,9 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
 
     _adminController.lat = lat;
     _adminController.log = lng;
-
     markersList.clear();
-    markersList.add(Marker(
-        markerId: const MarkerId("0"),
-        position: LatLng(_adminController.lat!, _adminController.log!),
-        infoWindow: InfoWindow(title: detail.result.name)));
-
+    addMarker(LatLng(_adminController.lat!, _adminController.log!),
+        detail.result.name);
     googleMapController.animateCamera(CameraUpdate.newLatLngZoom(
         LatLng(_adminController.lat!, _adminController.log!), 14.0));
   }

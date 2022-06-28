@@ -126,23 +126,33 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
                 ),
                 SizedBox(
                   width: Get.width * 0.9,
-                  child: inputField(
-                    controller: _phoneNameController,
-                    hint: "ስልክ ቁጥር",
-                    icon: FontAwesomeIcons.phone,
-                    keytype: TextInputType.phone,
-                  ),
+                  child: TextFormField(
+                      style: const TextStyle(fontSize: 16),
+                      controller: _phoneNameController,
+                      keyboardType: TextInputType.phone,
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return "Please enter your phone number";
+                        }
+                        if (!text.isPhoneNumber) {
+                          return "Please enter valid phone number";
+                        }
+                        return null;
+                      },
+                      decoration: inputStyles(
+                          hint: "ስልክ ቁጥር", icon: FontAwesomeIcons.phone)),
                 ),
                 SizedBox(
                   height: Get.height * 0.03,
                 ),
                 SizedBox(
                   width: Get.width * 0.9,
-                  child: inputField(
-                    controller: _alternatePhoneNumberController,
-                    hint: "ስልክ ቁጥር(አማራጭ)",
-                    icon: FontAwesomeIcons.phone,
-                  ),
+                  child: TextFormField(
+                      style: const TextStyle(fontSize: 16),
+                      controller: _alternatePhoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      decoration: inputStyles(
+                          hint: "ስልክ ቁጥር(አማራጭ)", icon: FontAwesomeIcons.phone)),
                 ),
                 SizedBox(
                   height: Get.height * 0.03,
@@ -239,8 +249,8 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
           style: const TextStyle(fontSize: 16),
           controller: controller,
           keyboardType: keytype,
-          validator: (v) {
-            if (v!.isEmpty) {
+          validator: (text) {
+            if (text == null || text.isEmpty) {
               return "Please insert required filed";
             }
             return null;

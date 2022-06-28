@@ -21,7 +21,9 @@ class AdminController extends GetxController {
   set log(val) => _log.value = val;
 
   bool get isLoading => _isLoading.value;
+
   bool get isRegisterd => _isRegisterd.value;
+  set isRegisterd(val) => _isRegisterd.value = val;
 
   MainCollectorModel? get mainCollectorReq => _mainCollectorReq.value;
   set mainCollectorReq(val) => _mainCollectorReq.value = val;
@@ -38,7 +40,7 @@ class AdminController extends GetxController {
 
     try {
       final res = await AdminRepo().registerMainCollector(data, image);
-      print("res==============$res");
+
       if (res != null) {
         _isRegisterd.value = true;
         setLoading(false);
@@ -50,6 +52,5 @@ class AdminController extends GetxController {
       _isRegisterd.value = false;
       setLoading(false);
     }
-    return _isRegisterd.value;
   }
 }
