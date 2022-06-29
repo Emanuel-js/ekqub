@@ -7,4 +7,6 @@ class ApiEndPoints {
 
   static const subCollectorRegister = "mainCollector/addMySubCollector";
   static const updateSubCollector = "mainCollector/update/personalInfo";
+
+  static const clientRegister = "subCollector/addClient";
 }

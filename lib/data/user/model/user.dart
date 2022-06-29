@@ -1,66 +1,88 @@
 import 'dart:convert';
 
 class UserModel {
-  String firstName;
-  String lastName;
-  String username;
-  String email;
+  String? firstName;
+  String? lastName;
+  String? username;
+  String? email;
   String? role;
   String? phoneNumber;
+  String? alternatePhoneNumber;
   String? latitude;
   String? longitude;
   String? city;
   DateTime? yearBorn;
   String? gender;
-  UserModel({
-    required this.firstName,
-    required this.lastName,
-    required this.username,
-    required this.email,
-    this.role,
-    this.phoneNumber,
-    this.latitude,
-    this.longitude,
-    this.city,
-    this.yearBorn,
-    this.gender,
-  });
+  String? initialBalance;
+  String? idCardImageUrl;
+  String? avatarImageUrl;
+  UserModel(
+      {this.firstName,
+      this.lastName,
+      this.username,
+      this.email,
+      this.role,
+      this.phoneNumber,
+      this.latitude,
+      this.longitude,
+      this.city,
+      this.yearBorn,
+      this.gender,
+      this.alternatePhoneNumber,
+      this.initialBalance,
+      this.idCardImageUrl,
+      this.avatarImageUrl});
 
-  UserModel copyWith({
-    String? firstName,
-    String? lastName,
-    String? username,
-    String? email,
-    String? role,
-    String? phoneNumber,
-    String? latitude,
-    String? longitude,
-    String? city,
-    DateTime? yearBorn,
-    String? gender,
-  }) {
+  UserModel copyWith(
+      {String? firstName,
+      String? lastName,
+      String? username,
+      String? email,
+      String? role,
+      String? phoneNumber,
+      String? latitude,
+      String? longitude,
+      String? city,
+      DateTime? yearBorn,
+      String? gender,
+      String? initialBalance,
+      String? idCardImageUrl,
+      String? avatarImageUrl,
+      String? alternatePhoneNumber}) {
     return UserModel(
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      username: username ?? this.username,
-      email: email ?? this.email,
-      role: role ?? this.role,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      city: city ?? this.city,
-      yearBorn: yearBorn ?? this.yearBorn,
-      gender: gender ?? this.gender,
-    );
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        username: username ?? this.username,
+        email: email ?? this.email,
+        role: role ?? this.role,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
+        city: city ?? this.city,
+        yearBorn: yearBorn ?? this.yearBorn,
+        gender: gender ?? this.gender,
+        initialBalance: initialBalance ?? this.initialBalance,
+        idCardImageUrl: idCardImageUrl ?? this.idCardImageUrl,
+        avatarImageUrl: avatarImageUrl ?? this.avatarImageUrl,
+        alternatePhoneNumber:
+            alternatePhoneNumber ?? this.alternatePhoneNumber);
   }
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    result.addAll({'firstName': firstName});
-    result.addAll({'lastName': lastName});
-    result.addAll({'username': username});
-    result.addAll({'email': email});
+    if (firstName != null) {
+      result.addAll({'firstName': firstName});
+    }
+    if (lastName != null) {
+      result.addAll({'lastName': lastName});
+    }
+    if (username != null) {
+      result.addAll({'username': username});
+    }
+    if (email != null) {
+      result.addAll({'email': email});
+    }
     if (role != null) {
       result.addAll({'role': role});
     }
@@ -86,12 +108,55 @@ class UserModel {
     return result;
   }
 
+  Map<String, dynamic> toMapUser() {
+    final result = <String, dynamic>{};
+
+    if (firstName != null) {
+      result.addAll({'firstName': firstName});
+    }
+    if (lastName != null) {
+      result.addAll({'lastName': lastName});
+    }
+    if (username != null) {
+      result.addAll({'username': username});
+    }
+    if (email != null) {
+      result.addAll({'email': email});
+    }
+    if (role != null) {
+      result.addAll({'role': role});
+    }
+    if (phoneNumber != null) {
+      result.addAll({'phoneNumber': phoneNumber});
+    }
+    if (latitude != null) {
+      result.addAll({'latitude': latitude});
+    }
+    if (longitude != null) {
+      result.addAll({'longitude': longitude});
+    }
+    if (city != null) {
+      result.addAll({'city': city});
+    }
+    if (yearBorn != null) {
+      result.addAll({'yearBorn': yearBorn!.millisecondsSinceEpoch});
+    }
+    if (gender != null) {
+      result.addAll({'gender': gender});
+    }
+    if (initialBalance != null) {
+      result.addAll({'initialBalance': initialBalance});
+    }
+
+    return result;
+  }
+
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      firstName: map['firstName'] ?? '',
-      lastName: map['lastName'] ?? '',
-      username: map['username'] ?? '',
-      email: map['email'] ?? '',
+      firstName: map['firstName'],
+      lastName: map['lastName'],
+      username: map['username'],
+      email: map['email'],
       role: map['role'],
       phoneNumber: map['phoneNumber'],
       latitude: map['latitude'],
@@ -101,6 +166,9 @@ class UserModel {
           ? DateTime.fromMillisecondsSinceEpoch(map['yearBorn'])
           : null,
       gender: map['gender'],
+      initialBalance: map['initialBalance'],
+      idCardImageUrl: map['idCardImageUrl'],
+      avatarImageUrl: map['avatarImageUrl'],
     );
   }
 
@@ -111,7 +179,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(firstName: $firstName, lastName: $lastName, username: $username, email: $email, role: $role, phoneNumber: $phoneNumber, latitude: $latitude, longitude: $longitude, city: $city, yearBorn: $yearBorn, gender: $gender)';
+    return 'UserModel(firstName: $firstName, lastName: $lastName, username: $username, email: $email, role: $role, phoneNumber: $phoneNumber, latitude: $latitude, longitude: $longitude, city: $city, yearBorn: $yearBorn, gender: $gender, initialBalance: $initialBalance, idCardImageUrl: $idCardImageUrl, avatarImageUrl: $avatarImageUrl)';
   }
 
   @override
@@ -129,7 +197,10 @@ class UserModel {
         other.longitude == longitude &&
         other.city == city &&
         other.yearBorn == yearBorn &&
-        other.gender == gender;
+        other.gender == gender &&
+        other.initialBalance == initialBalance &&
+        other.idCardImageUrl == idCardImageUrl &&
+        other.avatarImageUrl == avatarImageUrl;
   }
 
   @override
@@ -144,6 +215,9 @@ class UserModel {
         longitude.hashCode ^
         city.hashCode ^
         yearBorn.hashCode ^
-        gender.hashCode;
+        gender.hashCode ^
+        initialBalance.hashCode ^
+        idCardImageUrl.hashCode ^
+        avatarImageUrl.hashCode;
   }
 }

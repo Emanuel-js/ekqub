@@ -1,7 +1,10 @@
 import 'package:ekub/appInit.dart';
 import 'package:ekub/data/admin/admin_controller.dart';
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/helpers/local_storage_provider.dart';
 import 'package:ekub/data/maincollector/main_collector_controller.dart';
+import 'package:ekub/data/subcollector/sub_collector_controller.dart';
+import 'package:ekub/screens/views/commenview/WelcomeScreen.dart';
 import 'package:ekub/screens/views/commenview/onbording_screen.dart';
 import 'package:ekub/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,7 @@ void main() async {
   Get.put(AuthController());
   Get.put(AdminController());
   Get.put(MainCollectorController());
+  Get.put(SubCollectorController());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,17 +47,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: Scaffold(
-        body: OnboardingScreen(),
+        body: getPage(),
       ),
     );
   }
 
-  // Widget getPage() {
-  //   if (LocalStorageService.instance.get("accessToken") != null) {
-  //     return const MyHomePage();
-  //   }
-  //   return const OnboardingScreen();
-  // }
+  Widget getPage() {
+    if (LocalStorageService.instance.get("accessToken") != null) {
+      return const WelcomeScreen();
+    }
+    return const OnboardingScreen();
+  }
 }

@@ -1,4 +1,4 @@
-import 'package:ekub/screens/views/subcollectors/register_lotter_screen.dart';
+import 'package:ekub/screens/views/subcollectors/registerr/register_lotter_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';

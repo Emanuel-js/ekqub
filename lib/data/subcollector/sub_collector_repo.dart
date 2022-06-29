@@ -9,7 +9,7 @@ import 'package:ekub/data/user/model/user.dart';
 import '../api/api_endpoint.dart';
 import '../api/baserepository/api.dart';
 
-class ManiCollectorRepo {
+class SubCollectorRepo {
   Future registerSubCollector(UserModel data, File? image) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -17,7 +17,7 @@ class ManiCollectorRepo {
           success: false, msg: apiUtils.getNetworkError());
     }
 
-    String url = Api.baseUrl + ApiEndPoints.subCollectorRegister;
+    String url = Api.baseUrl + ApiEndPoints.clientRegister;
 
     try {
       var request = {

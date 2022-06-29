@@ -1,27 +1,29 @@
-import 'package:ekub/data/maincollector/main_collector_controller.dart';
-import 'package:ekub/data/subcollector/sub_collector_model.dart';
+import 'package:ekub/data/subcollector/sub_collector_controller.dart';
+import 'package:ekub/data/user/model/user.dart';
+import 'package:ekub/screens/views/subcollectors/registerr/registerr_lottter_detail.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class RegisterSubCollector extends StatefulWidget {
-  const RegisterSubCollector({Key? key}) : super(key: key);
+class RegisterLottScreen extends StatefulWidget {
+  const RegisterLottScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterSubCollector> createState() => _RegisterSubCollectorState();
+  State<RegisterLottScreen> createState() => _RegisterLottScreenState();
 }
 
-class _RegisterSubCollectorState extends State<RegisterSubCollector> {
+class _RegisterLottScreenState extends State<RegisterLottScreen> {
   final _globalKey = GlobalKey<FormState>();
-  final _mainCollector = Get.find<MainCollectorController>();
+  final _adminController = Get.find<SubCollectorController>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  // final _phoneNameController = TextEditingController();
-  final _userNameController = TextEditingController();
+  final _phoneNameController = TextEditingController();
+
   final _passwordNameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _alternatePhoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +55,46 @@ class _RegisterSubCollectorState extends State<RegisterSubCollector> {
                 SizedBox(
                   height: Get.height * 0.05,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 10,
+                      width: 30,
+                      decoration: BoxDecoration(
+                          color: AppColor.secondaryColor,
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
+                    SizedBox(
+                      width: Get.width * 0.05,
+                    ),
+                    Container(
+                      height: 10,
+                      width: 30,
+                      decoration: BoxDecoration(
+                          color: AppColor.black,
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
+                    SizedBox(
+                      width: Get.width * 0.05,
+                    ),
+                    Container(
+                      height: 10,
+                      width: 30,
+                      decoration: BoxDecoration(
+                          color: AppColor.black,
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: Get.height * 0.03,
+                ),
                 Container(
                   alignment: Alignment.centerLeft,
                   margin: const EdgeInsets.only(left: 30, bottom: 30),
                   child: TextWidget(
-                    label: "አዲስ ሻጭ ይመዝገቡ",
+                    label: "አዲስ ቆጣቢ ይመዝገቡ",
                     color: AppColor.black,
                     ftw: FontWeight.w600,
                   ),
@@ -89,25 +126,34 @@ class _RegisterSubCollectorState extends State<RegisterSubCollector> {
                 ),
                 SizedBox(
                   width: Get.width * 0.9,
-                  child: inputField(
-                    controller: _userNameController,
-                    hint: "የተጠቃሚ ስም",
-                    icon: FontAwesomeIcons.user,
-                  ),
+                  child: TextFormField(
+                      style: const TextStyle(fontSize: 16),
+                      controller: _phoneNameController,
+                      keyboardType: TextInputType.phone,
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return "Please enter your phone number";
+                        }
+                        if (!text.isPhoneNumber) {
+                          return "Please enter valid phone number";
+                        }
+                        return null;
+                      },
+                      decoration: inputStyles(
+                          hint: "ስልክ ቁጥር", icon: FontAwesomeIcons.phone)),
                 ),
-
-                // SizedBox(
-                //   height: Get.height * 0.03,
-                // ),
-                // SizedBox(
-                //   width: Get.width * 0.9,
-                //   child: inputField(
-                //     controller: _firstNameController,
-                //     hint: "Phone",
-                //     icon: FontAwesomeIcons.phone,
-                //     keytype: TextInputType.phone,
-                //   ),
-                // ),
+                SizedBox(
+                  height: Get.height * 0.03,
+                ),
+                SizedBox(
+                  width: Get.width * 0.9,
+                  child: TextFormField(
+                      style: const TextStyle(fontSize: 16),
+                      controller: _alternatePhoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      decoration: inputStyles(
+                          hint: "ስልክ ቁጥር(አማራጭ)", icon: FontAwesomeIcons.phone)),
+                ),
                 SizedBox(
                   height: Get.height * 0.03,
                 ),
@@ -131,20 +177,9 @@ class _RegisterSubCollectorState extends State<RegisterSubCollector> {
                 SizedBox(
                   height: Get.height * 0.03,
                 ),
-                SizedBox(
-                  width: Get.width * 0.9,
-                  child: inputField(
-                      controller: _passwordNameController,
-                      hint: "የይለፍ ቃል",
-                      icon: Icons.lock,
-                      secure: true),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
                 Container(
                   child: Obx(
-                    () => _mainCollector.isLoading
+                    () => _adminController.isLoading
                         ? const Center(
                             child: CircularProgressIndicator(),
                           )
@@ -164,23 +199,27 @@ class _RegisterSubCollectorState extends State<RegisterSubCollector> {
                                               BorderRadius.circular(15)))),
                               onPressed: () {
                                 if (_globalKey.currentState!.validate()) {
-                                  _mainCollector.registerSubCollector(
-                                      SubCollectorModel(
-                                          firstName: _firstNameController.text,
-                                          lastName: _lastNameController.text,
-                                          email: _emailController.text,
-                                          username: _userNameController.text));
+                                  _adminController.mainCollectorReq = UserModel(
+                                      firstName: _firstNameController.text,
+                                      lastName: _lastNameController.text,
+                                      email: _emailController.text,
+                                      phoneNumber: _phoneNameController.text,
+                                      alternatePhoneNumber:
+                                          _alternatePhoneNumberController.text);
+                                  Get.to(() => const RegisterLotDetailInfo());
                                 }
-                                if (_mainCollector.isLoading) {
+
+                                if (_adminController.isLoading) {
                                   _firstNameController.clear();
                                   _lastNameController.clear();
                                   _emailController.clear();
-                                  _passwordNameController.clear();
-                                  _userNameController.clear();
+
+                                  _phoneNameController.clear();
+                                  _alternatePhoneNumberController.clear();
                                 }
                               },
                               child: TextWidget(
-                                label: "ይመዝግቡ",
+                                label: "ቀጣይ",
                                 size: 16,
                               ),
                             ),
@@ -206,8 +245,8 @@ class _RegisterSubCollectorState extends State<RegisterSubCollector> {
           style: const TextStyle(fontSize: 16),
           controller: controller,
           keyboardType: keytype,
-          validator: (v) {
-            if (v!.isEmpty) {
+          validator: (text) {
+            if (text == null || text.isEmpty) {
               return "Please insert required filed";
             }
             return null;

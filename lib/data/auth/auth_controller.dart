@@ -2,25 +2,31 @@ import 'package:ekub/constants/role.dart';
 import 'package:ekub/data/auth/auth_repo.dart';
 import 'package:ekub/data/auth/model/auth_model.dart';
 import 'package:ekub/data/helpers/local_storage_provider.dart';
-import 'package:ekub/data/maincollector/main_collector_model.dart';
-import 'package:ekub/data/subcollector/sub_collector_model.dart';
 import 'package:ekub/data/user/model/user.dart';
+import 'package:ekub/data/user/model/user_account_model.dart';
 import 'package:ekub/screens/views/admin/admin_home_screen.dart';
 import 'package:ekub/screens/views/collectors/main_collector_home_screen.dart';
 import 'package:ekub/screens/views/commenview/WelcomeScreen.dart';
 import 'package:ekub/screens/views/subcollectors/subcollector_home_screen.dart';
+import 'package:ekub/screens/views/users/user_main_screen.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   late String _signedInUser;
-  final _userInfo = <UserModel>[].obs;
+  final _userInfo = Rxn<UserAccountModel>();
+  final _userDetail = Rxn<UserModel>();
+
   late String _signRole;
   final _isLogged = false.obs;
   final _isLoading = false.obs;
 
   String get signedInUser => _signedInUser;
   String get signdRole => _signRole;
-  List<UserModel> get userInfo => _userInfo.value;
+
+  UserAccountModel? get userInfo => _userInfo.value;
+
+  UserModel? get userDetail => _userDetail.value;
+  set userDetail(val) => _userDetail.value = val;
 
   bool get isLoading => _isLoading.value;
   bool get isLogged => _isLogged.value;
@@ -30,16 +36,15 @@ class AuthController extends GetxController {
     // _isLoading(true);
   }
 
-  void handleRole(String role, dynamic data) {
+  void handleRole(String role) {
     if (role == Role.ROlE_ADMIN) {
-      MainCollectorModel.fromMap(data);
       Get.off(() => const AdminHomeScreen());
     } else if (role == Role.ROLE_MAIN_COLLECTOR) {
-      MainCollectorModel.fromMap(data);
       Get.off(() => const MainCollectorHomeScreen());
     } else if (role == Role.ROLE_SUB_COLLECTOR) {
       Get.off(() => const SubCollectorHomeScreen());
-      SubCollectorModel.fromMap(data);
+    } else if (role == Role.ROlE_USER) {
+      Get.off(() => const UserMainScreen());
     }
   }
 
@@ -52,14 +57,17 @@ class AuthController extends GetxController {
           .addNew("accessToken", result["accessToken"]);
       await LocalStorageService.instance
           .addNew("role", result["roles"][0]["name"]);
-
       if (result != null) {
         setLoading(false);
         if (result["accessToken"] != null) {
           _signedInUser = result["accessToken"];
           _signRole = result["roles"][0]["name"];
-          handleRole(
-              signdRole, result["loggedInUserProfileData"]["userProfile"]);
+
+          _userInfo.value = UserAccountModel(
+              username: result["loggedInUserProfileData"]["username"],
+              email: result["loggedInUserProfileData"]["email"]);
+          print("......... $userInfo");
+          handleRole(signdRole);
         } else {
           Get.snackbar("error", "error");
         }
@@ -69,15 +77,15 @@ class AuthController extends GetxController {
     }
   }
 
-  void getUser() async {
-    try {
-      final result = await AuthRepo().getUser();
-      // log("message$result");
-      _userInfo.value = result;
-    } catch (e) {
-      setLoading(false);
-    }
-  }
+  // void getUser() async {
+  //   try {
+  //     final result = await AuthRepo().getUser();
+  //     // log("message$result");
+  //     _userInfo.value = result;
+  //   } catch (e) {
+  //     setLoading(false);
+  //   }
+  // }
 
   void logOut() {
     _isLogged.value = false;

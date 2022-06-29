@@ -1,22 +1,22 @@
-import 'package:ekub/data/admin/admin_controller.dart';
+import 'package:ekub/data/maincollector/main_collector_controller.dart';
 import 'package:ekub/data/user/model/user.dart';
-import 'package:ekub/screens/views/admin/detailInformation_add.dart';
+import 'package:ekub/screens/views/collectors/register/register_sub_detail.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class RegisterMainCollector extends StatefulWidget {
-  const RegisterMainCollector({Key? key}) : super(key: key);
+class RegisterSubCollector extends StatefulWidget {
+  const RegisterSubCollector({Key? key}) : super(key: key);
 
   @override
-  State<RegisterMainCollector> createState() => _RegisterMainCollectorState();
+  State<RegisterSubCollector> createState() => _RegisterSubCollectorState();
 }
 
-class _RegisterMainCollectorState extends State<RegisterMainCollector> {
+class _RegisterSubCollectorState extends State<RegisterSubCollector> {
   final _globalKey = GlobalKey<FormState>();
-  final _adminController = Get.find<AdminController>();
+  final _adminController = Get.find<MainCollectorController>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _phoneNameController = TextEditingController();
@@ -94,7 +94,7 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
                   alignment: Alignment.centerLeft,
                   margin: const EdgeInsets.only(left: 30, bottom: 30),
                   child: TextWidget(
-                    label: "አዲስ ዋና ሰብሳቢ ይመዝገቡ",
+                    label: "አዲስ ሻጭ ይመዝገቡ",
                     color: AppColor.black,
                     ftw: FontWeight.w600,
                   ),
@@ -207,7 +207,7 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
                                       alternatePhoneNumber:
                                           _alternatePhoneNumberController.text);
                                   Get.to(() =>
-                                      const RegisterMainCollectorDetailInfo());
+                                      const RegisterSubCollectorDetailInfo());
                                 }
 
                                 if (_adminController.isLoading) {

@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:ekub/data/maincollector/main_collector_repo.dart';
+import 'package:ekub/data/subcollector/sub_collector_repo.dart';
 import 'package:ekub/data/user/model/user.dart';
-import 'package:ekub/screens/views/collectors/main_collector_home_screen.dart';
+import 'package:ekub/screens/views/subcollectors/subcollector_home_screen.dart';
 import 'package:ekub/utils/message_widet.dart';
 import 'package:get/get.dart';
 
-class MainCollectorController extends GetxController {
+class SubCollectorController extends GetxController {
   final _isLoading = false.obs;
   final _isRegisterd = false.obs;
   final _imagFile = Rxn<File>();
@@ -34,15 +34,15 @@ class MainCollectorController extends GetxController {
     _isLoading.value = show;
   }
 
-  registerSubCollector(UserModel data, File? image) async {
+  registerClient(UserModel data, File? image) async {
     setLoading(true);
 
     try {
-      final res = await ManiCollectorRepo().registerSubCollector(data, image);
+      final res = await SubCollectorRepo().registerSubCollector(data, image);
       if (res != null) {
         _isRegisterd.value = true;
         setLoading(false);
-        Get.to(() => const MainCollectorHomeScreen());
+        Get.to(() => const SubCollectorHomeScreen());
         displayMessage(title: "Message", msg: " በተሳካ ሁኔታ ተመዝግቧል");
       }
     } catch (e) {

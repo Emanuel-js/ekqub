@@ -4,8 +4,8 @@ import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SubCollectorProfile extends StatelessWidget {
-  const SubCollectorProfile({Key? key}) : super(key: key);
+class MainCollectorProfile extends StatelessWidget {
+  const MainCollectorProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

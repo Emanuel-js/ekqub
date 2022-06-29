@@ -94,7 +94,7 @@ class AdminHomeScreen extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.005,
                     ),
                     TextWidget(
-                      label: "Aman",
+                      label: _autController.userInfo!.username.toString(),
                       color: AppColor.white,
                       ftw: FontWeight.bold,
                       size: 30,

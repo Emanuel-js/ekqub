@@ -17,7 +17,7 @@ class OnboardingScreen extends StatelessWidget {
         image: Center(
           child: Image(
             image: const AssetImage("assets/imgs/onbord1.png"),
-            width: Get.width * 0.7,
+            width: Get.width * 0.8,
           ),
         ),
       ),
@@ -27,7 +27,7 @@ class OnboardingScreen extends StatelessWidget {
         image: Center(
           child: Image(
             image: const AssetImage("assets/imgs/onboard2.png"),
-            width: Get.width * 0.9,
+            width: Get.width * 0.8,
           ),
         ),
       ),
@@ -37,7 +37,7 @@ class OnboardingScreen extends StatelessWidget {
         image: Center(
           child: Image(
             image: const AssetImage("assets/imgs/onboard3.png"),
-            width: Get.width * 0.9,
+            width: Get.width * 0.8,
           ),
         ),
       ),

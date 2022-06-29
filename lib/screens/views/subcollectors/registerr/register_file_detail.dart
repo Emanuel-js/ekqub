@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import 'package:ekub/data/admin/admin_controller.dart';
+import 'package:ekub/data/subcollector/sub_collector_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:ekub/utils/file_upload.dart';
@@ -8,17 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class MainCollectorFileUpload extends StatefulWidget {
-  const MainCollectorFileUpload({Key? key}) : super(key: key);
+class LotterFileUpload extends StatefulWidget {
+  const LotterFileUpload({Key? key}) : super(key: key);
 
   @override
-  State<MainCollectorFileUpload> createState() =>
-      _MainCollectorFileUploadState();
+  State<LotterFileUpload> createState() => _LotterFileUploadState();
 }
 
-class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
+class _LotterFileUploadState extends State<LotterFileUpload> {
   final _globalKey = GlobalKey<FormState>();
-  final _adminController = Get.find<AdminController>();
+  final _mainCollectorController = Get.find<SubCollectorController>();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +68,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left: 30, bottom: 30),
               child: TextWidget(
-                label: "አዲስ ዋና ሰብሳቢ ይመዝገቡ",
+                label: "አዲስ ቆጣቢ ይመዝገቡ",
                 color: AppColor.black,
                 ftw: FontWeight.w600,
               ),
@@ -79,8 +76,9 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
             SizedBox(
               height: Get.height * 0.03,
             ),
-            Obx(() =>
-                _adminController.imageFile != null ? getFile() : Container()),
+            Obx(() => _mainCollectorController.imageFile != null
+                ? getFile()
+                : Container()),
             SizedBox(
               height: Get.height * 0.02,
             ),
@@ -104,7 +102,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                   ),
                   onPressed: () async {
                     {
-                      _adminController.imageFile =
+                      _mainCollectorController.imageFile =
                           await FileUpload().getSingleFile();
                     }
                   },
@@ -112,7 +110,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                     alignment: Alignment.centerLeft,
                     margin: const EdgeInsets.only(left: 10),
                     child: Obx(() => TextWidget(
-                          label: _adminController.imageFile != null
+                          label: _mainCollectorController.imageFile != null
                               ? "መታወቂያ ካርድ ተመርጧል"
                               : "መታወቂያ አስገቡ",
                           color: AppColor.darkGray,
@@ -127,7 +125,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
               height: Get.height * 0.03,
             ),
             Container(
-              child: Obx(() => _adminController.isLoading
+              child: Obx(() => _mainCollectorController.isLoading
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -158,16 +156,16 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                                         borderRadius:
                                             BorderRadius.circular(15)))),
                             onPressed: () {
-                              if (_adminController.imageFile != null) {
-                                _adminController.registerMainCollector(
-                                  _adminController.mainCollectorReq!,
-                                  _adminController.imageFile,
+                              if (_mainCollectorController.imageFile != null) {
+                                _mainCollectorController.registerClient(
+                                  _mainCollectorController.mainCollectorReq!,
+                                  _mainCollectorController.imageFile,
                                 );
 
-                                if (_adminController.isRegisterd) {
-                                  _adminController.imageFile = null;
-                                  _adminController.lat = null;
-                                  _adminController.log = null;
+                                if (_mainCollectorController.isRegisterd) {
+                                  _mainCollectorController.imageFile = null;
+                                  _mainCollectorController.lat = null;
+                                  _mainCollectorController.log = null;
                                 }
                               } else {
                                 Get.snackbar(
@@ -196,7 +194,6 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
   }
 
   Widget getFile() {
-    log("file${_adminController.imageFile}");
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -209,7 +206,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
       width: Get.width * 0.9,
       height: Get.height * 0.4,
       child: Obx(() => Image.file(
-            _adminController.imageFile!,
+            _mainCollectorController.imageFile!,
             fit: BoxFit.cover,
           )),
     );

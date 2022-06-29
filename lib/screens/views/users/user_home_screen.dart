@@ -28,57 +28,59 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   @override
   Widget build(BuildContext context) {
     scheduleTimeout(5 * 1000);
-    return Scaffold(
-      backgroundColor: AppColor.lightGray,
-      body: Column(
-        children: [
-          SizedBox(height: Get.height * 0.01),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [profile(), timeCard()],
-          ),
-          SizedBox(
-            height: Get.height * .02,
-          ),
-          Container(child: banner()),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-            child: GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              mainAxisSpacing: Get.height * 0.02,
-              crossAxisSpacing: Get.width * 0.02,
-              children: [
-                card(
-                    data: "5",
-                    icon: FontAwesomeIcons.receipt,
-                    subtitle: "lotto number you have",
-                    title: "Total Lots",
-                    color: AppColor.lightBlue),
-                card(
-                    data: "100 ETB",
-                    icon: FontAwesomeIcons.wallet,
-                    subtitle: "wallet account remaining",
-                    title: "Total Wallet",
-                    color: AppColor.primaryColor),
-                card(
-                  data: "20 ETB",
-                  icon: FontAwesomeIcons.moneyBills,
-                  subtitle: "saving account balance",
-                  title: "Saving Amount",
-                  color: AppColor.darkGray,
-                ),
-                card(
-                    data: "5",
-                    icon: FontAwesomeIcons.piggyBank,
-                    subtitle: "total times you drop",
-                    title: "Total Drop",
-                    color: AppColor.purple),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColor.lightGray,
+        body: Column(
+          children: [
+            SizedBox(height: Get.height * 0.01),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [profile(), timeCard()],
             ),
-          )
-        ],
+            SizedBox(
+              height: Get.height * .02,
+            ),
+            Container(child: banner()),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 2,
+                mainAxisSpacing: Get.height * 0.02,
+                crossAxisSpacing: Get.width * 0.02,
+                children: [
+                  card(
+                      data: "5",
+                      icon: FontAwesomeIcons.receipt,
+                      subtitle: "lotto number you have",
+                      title: "Total Lots",
+                      color: AppColor.lightBlue),
+                  card(
+                      data: "100 ETB",
+                      icon: FontAwesomeIcons.wallet,
+                      subtitle: "wallet account remaining",
+                      title: "Total Wallet",
+                      color: AppColor.primaryColor),
+                  card(
+                    data: "20 ETB",
+                    icon: FontAwesomeIcons.moneyBills,
+                    subtitle: "saving account balance",
+                    title: "Saving Amount",
+                    color: AppColor.darkGray,
+                  ),
+                  card(
+                      data: "5",
+                      icon: FontAwesomeIcons.piggyBank,
+                      subtitle: "total times you drop",
+                      title: "Total Drop",
+                      color: AppColor.purple),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

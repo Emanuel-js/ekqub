@@ -1,8 +1,7 @@
-import 'dart:developer';
-
+import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/maincollector/main_collector_controller.dart';
-import 'package:ekub/screens/views/collectors/register_sub_collector.dart';
-import 'package:ekub/screens/views/subcollectors/profile_screen.dart';
+import 'package:ekub/screens/views/collectors/main_profile.dart';
+import 'package:ekub/screens/views/collectors/register/register_sub_collector.dart';
 import 'package:ekub/screens/views/subcollectors/subcollector_lotter_screen.dart';
 import 'package:ekub/screens/views/subcollectors/subcollector_wallet_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
@@ -17,8 +16,8 @@ class MainCollectorHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _maincolectorCollector = Get.find<MainCollectorController>();
+    final _authControler = Get.find<AuthController>();
 
-    log("=======${_maincolectorCollector.mainCollectordata}");
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.primaryColor,
@@ -60,7 +59,7 @@ class MainCollectorHomeScreen extends StatelessWidget {
                     tag: "profile",
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(() => const SubCollectorProfileScreen());
+                        Get.to(() => const MainCollectorProfile());
                       },
                       child: Container(
                         child: CircleAvatar(
@@ -90,7 +89,7 @@ class MainCollectorHomeScreen extends StatelessWidget {
                   children: [
                     Container(
                       child: TextWidget(
-                        label: "Welcome",
+                        label: "እንኳን ደህና መጡ",
                         color: AppColor.white,
                         ftw: FontWeight.normal,
                       ),
@@ -99,7 +98,7 @@ class MainCollectorHomeScreen extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.005,
                     ),
                     TextWidget(
-                      label: 'Amanuel Awol',
+                      label: _authControler.userInfo!.username.toString(),
                       color: AppColor.white,
                       ftw: FontWeight.bold,
                       size: 30,
@@ -130,7 +129,7 @@ class MainCollectorHomeScreen extends StatelessWidget {
                       icon: FontAwesomeIcons.moneyBill,
                       title: "Total Earning",
                       onPress: () {
-                        Get.to(() => const SubCollectorProfileScreen());
+                        Get.to(() => const MainCollectorProfile());
                       })
                 ],
               ),

@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:ekub/data/admin/admin_controller.dart';
+import 'package:ekub/data/maincollector/main_collector_controller.dart';
 import 'package:ekub/data/user/model/user.dart';
-import 'package:ekub/screens/views/admin/fileupload_screen.dart';
-import 'package:ekub/screens/views/admin/search_map.dart';
+import 'package:ekub/screens/views/collectors/register/register_sub_map.dart';
+import 'package:ekub/screens/views/collectors/register/subfile_detail_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -13,18 +13,18 @@ import 'package:get/get.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
 
-class RegisterMainCollectorDetailInfo extends StatefulWidget {
-  const RegisterMainCollectorDetailInfo({Key? key}) : super(key: key);
+class RegisterSubCollectorDetailInfo extends StatefulWidget {
+  const RegisterSubCollectorDetailInfo({Key? key}) : super(key: key);
 
   @override
-  State<RegisterMainCollectorDetailInfo> createState() =>
-      _RegisterMainCollectorDetailInfoState();
+  State<RegisterSubCollectorDetailInfo> createState() =>
+      _RegisterSubCollectorDetailInfoState();
 }
 
-class _RegisterMainCollectorDetailInfoState
-    extends State<RegisterMainCollectorDetailInfo> {
+class _RegisterSubCollectorDetailInfoState
+    extends State<RegisterSubCollectorDetailInfo> {
   final _globalKey = GlobalKey<FormState>();
-  final _adminController = Get.find<AdminController>();
+  final _adminController = Get.find<MainCollectorController>();
 
   final _residentLocationController = TextEditingController();
   final _cityController = TextEditingController();
@@ -86,7 +86,7 @@ class _RegisterMainCollectorDetailInfoState
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left: 30, bottom: 30),
               child: TextWidget(
-                label: "አዲስ ዋና ሰብሳቢ ይመዝገቡ",
+                label: "አዲስ ሻጭ ይመዝገቡ",
                 color: AppColor.black,
                 ftw: FontWeight.w600,
               ),
@@ -194,7 +194,7 @@ class _RegisterMainCollectorDetailInfoState
                   ),
                   onPressed: () {
                     {
-                      Get.to(const SearchPlacesScreen());
+                      Get.to(const RegisterSubCollectionMap());
                     }
                   },
                   label: Container(
@@ -266,7 +266,7 @@ class _RegisterMainCollectorDetailInfoState
                                   alternatePhoneNumber: _adminController
                                       .mainCollectorReq!.alternatePhoneNumber,
                                 );
-                                Get.to(() => const MainCollectorFileUpload());
+                                Get.to(() => const SubCollectorFileUpload());
                               }
                               if (_adminController.lat == null) {
                                 Get.snackbar(

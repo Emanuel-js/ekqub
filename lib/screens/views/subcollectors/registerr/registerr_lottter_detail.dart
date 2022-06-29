@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:ekub/data/admin/admin_controller.dart';
+import 'package:ekub/data/subcollector/sub_collector_controller.dart';
 import 'package:ekub/data/user/model/user.dart';
-import 'package:ekub/screens/views/admin/fileupload_screen.dart';
-import 'package:ekub/screens/views/admin/search_map.dart';
+import 'package:ekub/screens/views/subcollectors/registerr/register_file_detail.dart';
+import 'package:ekub/screens/views/subcollectors/registerr/register_lottter_addres.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -13,22 +13,21 @@ import 'package:get/get.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
 
-class RegisterMainCollectorDetailInfo extends StatefulWidget {
-  const RegisterMainCollectorDetailInfo({Key? key}) : super(key: key);
+class RegisterLotDetailInfo extends StatefulWidget {
+  const RegisterLotDetailInfo({Key? key}) : super(key: key);
 
   @override
-  State<RegisterMainCollectorDetailInfo> createState() =>
-      _RegisterMainCollectorDetailInfoState();
+  State<RegisterLotDetailInfo> createState() => _RegisterLotDetailInfoState();
 }
 
-class _RegisterMainCollectorDetailInfoState
-    extends State<RegisterMainCollectorDetailInfo> {
+class _RegisterLotDetailInfoState extends State<RegisterLotDetailInfo> {
   final _globalKey = GlobalKey<FormState>();
-  final _adminController = Get.find<AdminController>();
+  final _adminController = Get.find<SubCollectorController>();
 
   final _residentLocationController = TextEditingController();
   final _cityController = TextEditingController();
   final _yearBornController = TextEditingController();
+  final _initialBalance = TextEditingController();
   String _genderController = "Male";
 
   DateTime selectedDate = DateTime.now();
@@ -86,7 +85,7 @@ class _RegisterMainCollectorDetailInfoState
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.only(left: 30, bottom: 30),
               child: TextWidget(
-                label: "አዲስ ዋና ሰብሳቢ ይመዝገቡ",
+                label: "አዲስ ቆጣቢ ይመዝገቡ",
                 color: AppColor.black,
                 ftw: FontWeight.w600,
               ),
@@ -101,6 +100,18 @@ class _RegisterMainCollectorDetailInfoState
                 hint: "ከተማ",
                 icon: FontAwesomeIcons.city,
               ),
+            ),
+            SizedBox(
+              height: Get.height * 0.03,
+            ),
+            SizedBox(
+              width: Get.width * 0.9,
+              child: TextFormField(
+                  style: const TextStyle(fontSize: 16),
+                  controller: _initialBalance,
+                  keyboardType: TextInputType.phone,
+                  decoration: inputStyles(
+                      hint: "የመነሻ ሂሳብ ገንዘብ", icon: FontAwesomeIcons.moneyBill)),
             ),
             SizedBox(
               height: Get.height * 0.03,
@@ -194,7 +205,7 @@ class _RegisterMainCollectorDetailInfoState
                   ),
                   onPressed: () {
                     {
-                      Get.to(const SearchPlacesScreen());
+                      Get.to(const RegisterLotterAddres());
                     }
                   },
                   label: Container(
@@ -252,6 +263,7 @@ class _RegisterMainCollectorDetailInfoState
                                 _adminController.mainCollectorReq = UserModel(
                                   city: _cityController.text,
                                   yearBorn: selectedDate,
+                                  initialBalance: _initialBalance.text,
                                   gender: _genderController,
                                   longitude: _adminController.lat.toString(),
                                   latitude: _adminController.log.toString(),
@@ -266,7 +278,7 @@ class _RegisterMainCollectorDetailInfoState
                                   alternatePhoneNumber: _adminController
                                       .mainCollectorReq!.alternatePhoneNumber,
                                 );
-                                Get.to(() => const MainCollectorFileUpload());
+                                Get.to(() => const LotterFileUpload());
                               }
                               if (_adminController.lat == null) {
                                 Get.snackbar(

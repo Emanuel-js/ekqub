@@ -1,17 +1,16 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:ekub/data/api/api_helper.dart';
 import 'package:ekub/data/auth/model/auth_response.dart';
-import 'package:ekub/data/maincollector/main_collector_model.dart';
+import 'package:ekub/data/user/model/user.dart';
 
 import '../api/api_endpoint.dart';
 import '../api/baserepository/api.dart';
 
 class AdminRepo {
-  Future registerMainCollector(MainCollectorModel data, File? image) async {
+  Future registerMainCollector(UserModel data, File? image) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       return AuthResponse.withError(
@@ -25,7 +24,7 @@ class AdminRepo {
         ...data.toMap(),
         "fileupload": await MultipartFile.fromFile(image!.path),
       };
-      log("Res============$request");
+
       FormData formData = FormData.fromMap(request);
 
       final response = await apiUtils.post(url: url, data: formData);
