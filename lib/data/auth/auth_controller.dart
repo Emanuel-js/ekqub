@@ -13,8 +13,8 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   late String _signedInUser;
-  final _userInfo = Rxn<UserAccountModel>();
-  final _userDetail = Rxn<UserModel>();
+  final _userInfo = UserAccountModel().obs;
+  final _userDetail = UserModel().obs;
 
   late String _signRole;
   final _isLogged = false.obs;
@@ -57,16 +57,19 @@ class AuthController extends GetxController {
           .addNew("accessToken", result["accessToken"]);
       await LocalStorageService.instance
           .addNew("role", result["roles"][0]["name"]);
+
       if (result != null) {
         setLoading(false);
+
         if (result["accessToken"] != null) {
           _signedInUser = result["accessToken"];
           _signRole = result["roles"][0]["name"];
 
           _userInfo.value = UserAccountModel(
               username: result["loggedInUserProfileData"]["username"],
-              email: result["loggedInUserProfileData"]["email"]);
-          print("......... $userInfo");
+              email: result["loggedInUserProfileData"]["email"],
+              id: result["loggedInUserProfileData"]["id"].toString());
+
           handleRole(signdRole);
         } else {
           Get.snackbar("error", "error");

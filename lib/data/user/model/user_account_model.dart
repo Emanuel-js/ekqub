@@ -1,22 +1,24 @@
 import 'dart:convert';
 
 class UserAccountModel {
+  String? id;
   String? username;
   String? email;
   String? lockTime;
   String? failedAttempt;
   bool? accountNonLocked;
   String? createdBy;
-  UserAccountModel({
-    this.username,
-    this.email,
-    this.lockTime,
-    this.failedAttempt,
-    this.accountNonLocked,
-    this.createdBy,
-  });
+  UserAccountModel(
+      {this.username,
+      this.email,
+      this.lockTime,
+      this.failedAttempt,
+      this.accountNonLocked,
+      this.createdBy,
+      this.id});
 
   UserAccountModel copyWith({
+    String? id,
     String? username,
     String? email,
     String? lockTime,
@@ -25,6 +27,7 @@ class UserAccountModel {
     String? createdBy,
   }) {
     return UserAccountModel(
+      id: id ?? this.id,
       username: username ?? this.username,
       email: email ?? this.email,
       lockTime: lockTime ?? this.lockTime,
@@ -62,6 +65,7 @@ class UserAccountModel {
   factory UserAccountModel.fromMap(Map<String, dynamic> map) {
     return UserAccountModel(
       username: map['username'],
+      id: map['id'],
       email: map['email'],
       lockTime: map['lockTime'],
       failedAttempt: map['failedAttempt'],
@@ -86,6 +90,7 @@ class UserAccountModel {
 
     return other is UserAccountModel &&
         other.username == username &&
+        other.id == id &&
         other.email == email &&
         other.lockTime == lockTime &&
         other.failedAttempt == failedAttempt &&
@@ -100,6 +105,7 @@ class UserAccountModel {
         lockTime.hashCode ^
         failedAttempt.hashCode ^
         accountNonLocked.hashCode ^
-        createdBy.hashCode;
+        createdBy.hashCode ^
+        id.hashCode;
   }
 }

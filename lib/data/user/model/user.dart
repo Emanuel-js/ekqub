@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class UserModel {
+  String? id;
   String? firstName;
   String? lastName;
   String? username;
@@ -17,7 +18,8 @@ class UserModel {
   String? idCardImageUrl;
   String? avatarImageUrl;
   UserModel(
-      {this.firstName,
+      {this.id,
+      this.firstName,
       this.lastName,
       this.username,
       this.email,
@@ -34,7 +36,8 @@ class UserModel {
       this.avatarImageUrl});
 
   UserModel copyWith(
-      {String? firstName,
+      {String? id,
+      String? firstName,
       String? lastName,
       String? username,
       String? email,
@@ -50,6 +53,7 @@ class UserModel {
       String? avatarImageUrl,
       String? alternatePhoneNumber}) {
     return UserModel(
+        id: id ?? this.id,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         username: username ?? this.username,
@@ -153,6 +157,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
+      id: map["id"],
       firstName: map['firstName'],
       lastName: map['lastName'],
       username: map['username'],

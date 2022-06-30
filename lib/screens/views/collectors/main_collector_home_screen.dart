@@ -1,23 +1,28 @@
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/maincollector/main_collector_controller.dart';
+import 'package:ekub/screens/views/collectors/main_collector_wallet.dart';
 import 'package:ekub/screens/views/collectors/main_profile.dart';
 import 'package:ekub/screens/views/collectors/register/register_sub_collector.dart';
 import 'package:ekub/screens/views/subcollectors/subcollector_lotter_screen.dart';
-import 'package:ekub/screens/views/subcollectors/subcollector_wallet_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class MainCollectorHomeScreen extends StatelessWidget {
+class MainCollectorHomeScreen extends StatefulWidget {
   const MainCollectorHomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final _maincolectorCollector = Get.find<MainCollectorController>();
-    final _authControler = Get.find<AuthController>();
+  State<MainCollectorHomeScreen> createState() =>
+      _MainCollectorHomeScreenState();
+}
 
+class _MainCollectorHomeScreenState extends State<MainCollectorHomeScreen> {
+  final _maincolectorCollector = Get.find<MainCollectorController>();
+  final _authControler = Get.find<AuthController>();
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.primaryColor,
@@ -113,19 +118,19 @@ class MainCollectorHomeScreen extends StatelessWidget {
                   _cards(
                       data: "100",
                       icon: FontAwesomeIcons.peopleGroup,
-                      title: "Total Lottery",
+                      title: "ጠቅላላ ቆጣቢዎች",
                       onPress: () {
                         Get.to(const SubCollectorLottScreen());
                       }),
                   _cards(
-                      data: "10K ETB",
+                      data: "10K ብር",
                       icon: FontAwesomeIcons.wallet,
-                      title: "Total Wallet",
+                      title: "የተላለፈ ገንዘብ",
                       onPress: () {
-                        Get.to(SubCollectorWalletScreen());
+                        Get.to(const MainCollectorWalletScreen());
                       }),
                   _cards(
-                      data: "20K ETB",
+                      data: "20K ብር",
                       icon: FontAwesomeIcons.moneyBill,
                       title: "Total Earning",
                       onPress: () {

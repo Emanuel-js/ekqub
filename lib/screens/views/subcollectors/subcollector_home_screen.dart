@@ -1,4 +1,5 @@
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/subcollectors/profile_screen.dart';
 import 'package:ekub/screens/views/subcollectors/registerr/register_lotter_screen.dart';
 import 'package:ekub/screens/views/subcollectors/subcollector_lotter_screen.dart';
@@ -15,6 +16,8 @@ class SubCollectorHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _authController = Get.find<AuthController>();
+    final _walletController = Get.find<WalletController>();
+    _walletController.getWalletAccount(_authController.userInfo!.id.toString());
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.primaryColor,
@@ -114,13 +117,15 @@ class SubCollectorHomeScreen extends StatelessWidget {
                       onPress: () {
                         Get.to(const SubCollectorLottScreen());
                       }),
-                  _cards(
-                      data: "10K ETB",
-                      icon: FontAwesomeIcons.wallet,
-                      title: "Total Wallet",
-                      onPress: () {
-                        Get.to(SubCollectorWalletScreen());
-                      }),
+                  Obx(
+                    () => _cards(
+                        data: "${_walletController.myWallet!.balance} ETB",
+                        icon: FontAwesomeIcons.wallet,
+                        title: "Total Wallet",
+                        onPress: () {
+                          Get.to(const SubCollectorWalletScreen());
+                        }),
+                  ),
                   _cards(
                       data: "20K ETB",
                       icon: FontAwesomeIcons.moneyBill,

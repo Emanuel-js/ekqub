@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class SubCollectorWalletScreen extends StatefulWidget {
-  const SubCollectorWalletScreen({Key? key}) : super(key: key);
+class MainCollectorWalletScreen extends StatefulWidget {
+  const MainCollectorWalletScreen({Key? key}) : super(key: key);
 
   @override
-  State<SubCollectorWalletScreen> createState() =>
-      _SubCollectorWalletScreenState();
+  State<MainCollectorWalletScreen> createState() =>
+      _MainCollectorWalletScreenState();
 }
 
-class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
+class _MainCollectorWalletScreenState extends State<MainCollectorWalletScreen> {
   final _walletController = Get.find<WalletController>();
 
   final _amountController = TextEditingController();
@@ -72,18 +72,13 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                       )),
                   backgroundColor: AppColor.darkBlue,
                   elevation: 0,
-                  actions: [
-                    Container(
-                        margin: const EdgeInsets.only(right: 20, top: 20),
-                        child: TextWidget(label: "Wallet"))
-                  ],
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(
-                    left: 25.0, right: 15.0, top: Get.height * 0.18),
+                    left: 30.0, right: 15.0, top: Get.height * 0.18),
                 child: TextWidget(
-                  label: "My Account: ${_walletController.myWallet?.account}",
+                  label: "ገንዘብን ወደ ሻጭ ያስተላልፉ",
                   color: AppColor.white,
                 ),
               ),
@@ -92,11 +87,9 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                     left: 15.0, right: 15.0, top: Get.height * 0.23),
                 child: Column(
                   children: [
-                    Obx(
-                      () => _cards(
-                          title: "Wallet Balance",
-                          data: "${_walletController.myWallet?.balance} ETB",
-                          icon: FontAwesomeIcons.wallet),
+                    _cards(
+                      title: "ጠቅላላ የተላለፈ ገንዘብ",
+                      data: "100.00 ብር",
                     ),
                   ],
                 ),
@@ -107,7 +100,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.only(left: 20, top: 10),
             child: TextWidget(
-              label: "Transaction History",
+              label: "የግብይት መዝገቦች",
               color: AppColor.black,
             ),
           ),
@@ -157,7 +150,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                   margin: EdgeInsets.only(left: Get.width * 0.057),
                   alignment: Alignment.centerLeft,
                   child: TextWidget(
-                    label: "Transaction",
+                    label: "ግብይት",
                     color: AppColor.black,
                   ),
                 ),
@@ -177,8 +170,8 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                 SizedBox(
                   width: Get.width * 0.9,
                   child: inputField(
-                      keytype: TextInputType.number,
                       controller: _amountController,
+                      keytype: TextInputType.number,
                       hint: "የገንዘብ መጠን",
                       icon: FontAwesomeIcons.moneyBillWave),
                 ),
@@ -216,12 +209,9 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                                             BorderRadius.circular(15)))),
                             onPressed: () {
                               if (_globalKey.currentState!.validate()) {
-                                _walletController
-                                    .transferToUser(TransactionModel(
+                                _walletController.topUpWallet(TransactionModel(
                                   amount: double.parse(_amountController.text),
                                   receiverAccount: _phoneController.text,
-                                  senderAccount:
-                                      _walletController.myWallet!.account,
                                 ));
                               }
                               if (_walletController.isLoading) {
@@ -257,7 +247,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
       keyboardType: keytype,
       validator: (v) {
         if (v!.isEmpty) {
-          return "Please insret required filed";
+          return "አስፈላጊውን ፋይል ያስገቡ";
         }
         return null;
       },
@@ -355,7 +345,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
   Widget _cards({
     required String title,
     required String data,
-    required IconData icon,
+    IconData? icon,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
@@ -393,19 +383,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                 ),
               ),
               SizedBox(
-                width: Get.width * 0.25,
-              ),
-              Expanded(
-                child: Container(
-                  child: Icon(
-                    icon,
-                    color: AppColor.white,
-                    size: 40,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 1,
+                width: Get.width * 0.2,
               ),
             ],
           ),

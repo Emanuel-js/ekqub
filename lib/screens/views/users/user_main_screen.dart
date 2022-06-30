@@ -1,3 +1,5 @@
+import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/users/user_home_screen.dart';
 import 'package:ekub/screens/views/users/user_drop_screen.dart';
 import 'package:ekub/screens/views/users/user_wallet_screen.dart';
@@ -5,6 +7,7 @@ import 'package:ekub/theme/app_color.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 class UserMainScreen extends StatefulWidget {
   const UserMainScreen({Key? key}) : super(key: key);
@@ -14,12 +17,14 @@ class UserMainScreen extends StatefulWidget {
 }
 
 class _UserMainScreenState extends State<UserMainScreen> {
+  final _authControler = Get.find<AuthController>();
+  final _walletController = Get.find<WalletController>();
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = [
     const UserHomeScreen(),
-    UserWalletScreen(),
+    const UserWalletScreen(),
     UserDropScreen()
   ];
 
@@ -31,6 +36,8 @@ class _UserMainScreenState extends State<UserMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _walletController.getWalletAccount(_authControler.userInfo!.id.toString());
+
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

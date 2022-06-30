@@ -9,4 +9,9 @@ class ApiEndPoints {
   static const updateSubCollector = "mainCollector/update/personalInfo";
 
   static const clientRegister = "subCollector/addClient";
+
+  static const getUserWalletAccount = "wallet/user";
+
+  static const transferMoney = "transaction/transferBalance";
+  static const transferWalletToSales = "transaction/addBalance";
 }

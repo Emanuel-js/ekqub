@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/users/user_loting_screen.dart';
 import 'package:ekub/screens/views/users/user_profile_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
@@ -17,8 +19,11 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
-  Timer scheduleTimeout([int milliseconds = 10000]) =>
-      Timer(Duration(milliseconds: milliseconds), handleTimeout);
+  final _authControler = Get.find<AuthController>();
+  final _walletController = Get.find<WalletController>();
+
+  Timer scheduleTimeout([int milliseconds = 560000]) =>
+      Timer(Duration(days: milliseconds), handleTimeout);
 
   void handleTimeout() {
     // callback function
@@ -27,6 +32,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _walletController.getWalletAccount(_authControler.userInfo!.id.toString());
+
     scheduleTimeout(5 * 1000);
     return SafeArea(
       child: Scaffold(
@@ -54,27 +61,29 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   card(
                       data: "5",
                       icon: FontAwesomeIcons.receipt,
-                      subtitle: "lotto number you have",
-                      title: "Total Lots",
+                      subtitle: "ጠቅላላ እጣዎች ያሎት",
+                      title: "ጠቅላላ እጣዎች",
                       color: AppColor.lightBlue),
+                  Obx(
+                    () => card(
+                        data: "${_walletController.myWallet?.balance} ብር",
+                        icon: FontAwesomeIcons.wallet,
+                        subtitle: "ያለዎት ጠቅላላ ቀሪ ገንዘብ",
+                        title: "ጠቅላላ ቀሪ ገንዘብ",
+                        color: AppColor.primaryColor),
+                  ),
                   card(
-                      data: "100 ETB",
-                      icon: FontAwesomeIcons.wallet,
-                      subtitle: "wallet account remaining",
-                      title: "Total Wallet",
-                      color: AppColor.primaryColor),
-                  card(
-                    data: "20 ETB",
+                    data: "20 ብር",
                     icon: FontAwesomeIcons.moneyBills,
-                    subtitle: "saving account balance",
-                    title: "Saving Amount",
+                    subtitle: "ያለዎት አጠቃላይ ቁጠባ ገንዘብ ",
+                    title: "የተጠራቀመ ገንዘብ",
                     color: AppColor.darkGray,
                   ),
                   card(
                       data: "5",
                       icon: FontAwesomeIcons.piggyBank,
-                      subtitle: "total times you drop",
-                      title: "Total Drop",
+                      subtitle: "ጠቅላላ የጣሉት እጣዎች",
+                      title: "የጣሉት እጣዎች",
                       color: AppColor.purple),
                 ],
               ),
@@ -140,14 +149,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     children: [
                       Container(
                         child: TextWidget(
-                          label: "Today lots",
+                          label: "የዛሬ እጣ",
                           color: AppColor.white,
                           ftw: FontWeight.w600,
                         ),
                       ),
                       Container(
                         child: TextWidget(
-                          label: "Remaining Time 3:00h",
+                          label: "የቀረው ጊዜ 3:00h",
                           color: AppColor.white,
                           size: 14,
                         ),

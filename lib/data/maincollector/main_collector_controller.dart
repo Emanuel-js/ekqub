@@ -43,7 +43,8 @@ class MainCollectorController extends GetxController {
         _isRegisterd.value = true;
         setLoading(false);
         Get.to(() => const MainCollectorHomeScreen());
-        displayMessage(title: "Message", msg: " በተሳካ ሁኔታ ተመዝግቧል");
+        MessageHandler()
+            .displayMessage(title: "Message", msg: " በተሳካ ሁኔታ ተመዝግቧል");
       }
     } catch (e) {
       _isRegisterd.value = false;

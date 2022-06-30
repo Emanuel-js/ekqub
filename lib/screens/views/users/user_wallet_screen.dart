@@ -1,15 +1,26 @@
+import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class UserWalletScreen extends StatelessWidget {
-  UserWalletScreen({Key? key}) : super(key: key);
+class UserWalletScreen extends StatefulWidget {
+  const UserWalletScreen({Key? key}) : super(key: key);
+
+  @override
+  State<UserWalletScreen> createState() => _UserWalletScreenState();
+}
+
+class _UserWalletScreenState extends State<UserWalletScreen> {
   final _amountController = TextEditingController();
+
   final _phoneController = TextEditingController();
+
   final _remarkController = TextEditingController();
-  final _globalKey = GlobalKey();
+
+  final _globalKey = GlobalKey<FormState>();
+  final _walletController = Get.find<WalletController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,10 +51,12 @@ class UserWalletScreen extends StatelessWidget {
           child: Column(
             children: [
               //cards
-              _cards(
-                  data: "100 ETB",
-                  icon: FontAwesomeIcons.wallet,
-                  title: "Wallet Balance"),
+              Obx(
+                () => _cards(
+                    data: "${_walletController.myWallet?.balance} ብር",
+                    icon: FontAwesomeIcons.wallet,
+                    title: "ቀሪ ገንዘብ"),
+              ),
 
               _cards(
                   data: "200 ETB",

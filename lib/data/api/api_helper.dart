@@ -144,7 +144,7 @@ class ApiUtils {
 
       if (dioError.response != null) {
         var msg = dioError.response;
-        displayMessage(
+        MessageHandler().displayMessage(
             title: "message",
             msg: dioError.response!.data["httpmessage"].toString());
 

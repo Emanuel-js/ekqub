@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final bool _showPassword = false;
+  bool _showPassword = false;
   final _globalKey = GlobalKey<FormState>();
   final _authController = Get.find<AuthController>();
   final _usernameOrEmailController = TextEditingController();
@@ -73,7 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           hint: "የይለፍ ቃል",
                           icon: Icons.lock,
-                          secure: true),
+                          suficon: _showPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          secure: !_showPassword),
                     ),
                     const SizedBox(
                       height: 20,
@@ -124,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
       {required String hint,
       required TextEditingController controller,
       IconData? icon,
+      IconData? suficon,
       bool secure = false,
       TextInputType keytype = TextInputType.text}) {
     return SizedBox(
@@ -142,6 +146,13 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: InputDecoration(
           prefixIcon: Container(
               padding: const EdgeInsets.only(left: 10), child: Icon(icon)),
+          suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  _showPassword = !_showPassword;
+                });
+              },
+              icon: Icon(suficon)),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           labelText: hint,
