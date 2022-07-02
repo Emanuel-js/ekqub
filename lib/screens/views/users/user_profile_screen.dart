@@ -1,3 +1,4 @@
+import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,24 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _authControler = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.white,
         elevation: 0,
+        actions: [
+          Container(
+            child: IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: AppColor.black,
+              ),
+              onPressed: () {
+                _authControler.logOut();
+              },
+            ),
+          )
+        ],
         leading: Container(
             margin: const EdgeInsets.only(left: 10, top: 10),
             child: CircleAvatar(
@@ -40,21 +55,16 @@ class UserProfileScreen extends StatelessWidget {
                 height: Get.height * 0.5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: Get.height * 0.02,
-                    ),
                     Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        // crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextWidget(
-                            label: "Saving Balance ",
+                            label: "Total Earning ",
                             ftw: FontWeight.w600,
                           ),
-                          TextWidget(label: "200 ETB"),
+                          TextWidget(label: "2,000 ETB"),
                         ],
                       ),
                     ),
@@ -81,40 +91,10 @@ class UserProfileScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           TextWidget(
-                            label: "Total dorp",
+                            label: "Total Lotter I Have",
                             ftw: FontWeight.w600,
                           ),
-                          TextWidget(label: "10 Times"),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.02,
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          TextWidget(
-                            label: "My Level",
-                            ftw: FontWeight.w600,
-                          ),
-                          TextWidget(label: "2 ETB"),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.02,
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          TextWidget(
-                            label: "Total dorp",
-                            ftw: FontWeight.w600,
-                          ),
-                          TextWidget(label: "10 Times"),
+                          TextWidget(label: "300"),
                         ],
                       ),
                     )

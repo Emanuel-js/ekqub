@@ -14,4 +14,10 @@ class ApiEndPoints {
 
   static const transferMoney = "transaction/transferBalance";
   static const transferWalletToSales = "transaction/addBalance";
+  static const transactionHistory = "transaction/user";
+  static const savingAccount = "wallet/accumlatedBalance";
+
+  static const createDropTickets = "lotto/createDropTickets";
+  static const getCreatedTickets = "lotto/GetAllMyTickets/";
+  static const getMyUsers = "common/getAllMyUsers";
 }

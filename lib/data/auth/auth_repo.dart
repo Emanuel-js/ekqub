@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ekub/data/api/api_helper.dart';
 import 'package:ekub/data/auth/model/auth_model.dart';
 import 'package:ekub/data/auth/model/auth_response.dart';
-import 'package:ekub/data/user/model/user.dart';
+import 'package:ekub/data/user/model/user_detail_model.dart';
 
 import '../api/api_endpoint.dart';
 import '../api/baserepository/api.dart';
@@ -27,15 +27,16 @@ class AuthRepo {
     }
   }
 
-  Future<List<UserModel>> getUser() async {
+  Future<List<UserDetailModel>> getMyUsers() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
     }
 
-    String url = Api.baseUrl + ApiEndPoints.getAllUsers;
+    String url = Api.baseUrl + ApiEndPoints.getMyUsers;
 
-    final response = await apiUtils.get<List<Map<String, dynamic>>>(url: url);
-    return response.data!.map((res) => UserModel.fromMap(res)).toList();
+    final response = await apiUtils.get(url: url);
+
+    return response.data;
   }
 }

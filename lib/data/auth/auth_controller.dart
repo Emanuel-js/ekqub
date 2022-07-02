@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:ekub/constants/role.dart';
 import 'package:ekub/data/auth/auth_repo.dart';
 import 'package:ekub/data/auth/model/auth_model.dart';
 import 'package:ekub/data/helpers/local_storage_provider.dart';
-import 'package:ekub/data/user/model/user.dart';
 import 'package:ekub/data/user/model/user_account_model.dart';
+import 'package:ekub/data/user/model/user_detail_model.dart';
 import 'package:ekub/screens/views/admin/admin_home_screen.dart';
 import 'package:ekub/screens/views/collectors/main_collector_home_screen.dart';
 import 'package:ekub/screens/views/commenview/WelcomeScreen.dart';
@@ -14,7 +16,7 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   late String _signedInUser;
   final _userInfo = UserAccountModel().obs;
-  final _userDetail = UserModel().obs;
+  final _userDetail = <UserDetailModel>[].obs;
 
   late String _signRole;
   final _isLogged = false.obs;
@@ -25,7 +27,7 @@ class AuthController extends GetxController {
 
   UserAccountModel? get userInfo => _userInfo.value;
 
-  UserModel? get userDetail => _userDetail.value;
+  List<UserDetailModel>? get userDetail => _userDetail.value;
   set userDetail(val) => _userDetail.value = val;
 
   bool get isLoading => _isLoading.value;
@@ -80,15 +82,15 @@ class AuthController extends GetxController {
     }
   }
 
-  // void getUser() async {
-  //   try {
-  //     final result = await AuthRepo().getUser();
-  //     // log("message$result");
-  //     _userInfo.value = result;
-  //   } catch (e) {
-  //     setLoading(false);
-  //   }
-  // }
+  void getUserMyUsers() async {
+    try {
+      final result = await AuthRepo().getMyUsers();
+      log(result.toString());
+      _userDetail.value = result;
+    } catch (e) {
+      setLoading(false);
+    }
+  }
 
   void logOut() {
     _isLogged.value = false;

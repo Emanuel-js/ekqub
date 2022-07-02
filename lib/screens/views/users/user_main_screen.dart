@@ -49,9 +49,9 @@ class _UserMainScreenState extends State<UserMainScreen> {
         child: FancyBottomNavigation(
           circleColor: AppColor.primaryColor,
           tabs: [
-            TabData(iconData: FontAwesomeIcons.house, title: "Home"),
-            TabData(iconData: FontAwesomeIcons.wallet, title: "Wallet"),
-            TabData(iconData: FontAwesomeIcons.piggyBank, title: "Drop")
+            TabData(iconData: FontAwesomeIcons.house, title: "መነሻ"),
+            TabData(iconData: FontAwesomeIcons.wallet, title: "ቁጠባ"),
+            TabData(iconData: FontAwesomeIcons.piggyBank, title: "ጣል")
           ],
           onTabChangedListener: (position) {
             setState(() {

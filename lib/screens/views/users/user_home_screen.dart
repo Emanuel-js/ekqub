@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/ticket/ticket_controller.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/users/user_loting_screen.dart';
 import 'package:ekub/screens/views/users/user_profile_screen.dart';
@@ -21,6 +22,7 @@ class UserHomeScreen extends StatefulWidget {
 class _UserHomeScreenState extends State<UserHomeScreen> {
   final _authControler = Get.find<AuthController>();
   final _walletController = Get.find<WalletController>();
+  final _ticketController = Get.find<TicketController>();
 
   Timer scheduleTimeout([int milliseconds = 560000]) =>
       Timer(Duration(days: milliseconds), handleTimeout);
@@ -33,8 +35,11 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   @override
   Widget build(BuildContext context) {
     _walletController.getWalletAccount(_authControler.userInfo!.id.toString());
+    _walletController
+        .getTransactionHistory(_authControler.userInfo!.id.toString());
+    _walletController.getSavingBalance(_authControler.userInfo!.id.toString());
+    _ticketController.getMyTicket(_authControler.userInfo!.id.toString());
 
-    scheduleTimeout(5 * 1000);
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColor.lightGray,
@@ -58,12 +63,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                 mainAxisSpacing: Get.height * 0.02,
                 crossAxisSpacing: Get.width * 0.02,
                 children: [
-                  card(
-                      data: "5",
-                      icon: FontAwesomeIcons.receipt,
-                      subtitle: "ጠቅላላ እጣዎች ያሎት",
-                      title: "ጠቅላላ እጣዎች",
-                      color: AppColor.lightBlue),
+                  Obx(
+                    () => card(
+                        data: "${_ticketController.myLotto?.length}",
+                        icon: FontAwesomeIcons.receipt,
+                        subtitle: "ጠቅላላ እጣዎች ያሎት",
+                        title: "ጠቅላላ እጣዎች",
+                        color: AppColor.lightBlue),
+                  ),
                   Obx(
                     () => card(
                         data: "${_walletController.myWallet?.balance} ብር",
@@ -72,19 +79,23 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         title: "ጠቅላላ ቀሪ ገንዘብ",
                         color: AppColor.primaryColor),
                   ),
-                  card(
-                    data: "20 ብር",
-                    icon: FontAwesomeIcons.moneyBills,
-                    subtitle: "ያለዎት አጠቃላይ ቁጠባ ገንዘብ ",
-                    title: "የተጠራቀመ ገንዘብ",
-                    color: AppColor.darkGray,
+                  Obx(
+                    () => card(
+                      data: "${_walletController.mySavingBalance?.balance} ብር",
+                      icon: FontAwesomeIcons.moneyBills,
+                      subtitle: "ያለዎት አጠቃላይ ቁጠባ ገንዘብ ",
+                      title: "የተጠራቀመ ገንዘብ",
+                      color: AppColor.darkGray,
+                    ),
                   ),
-                  card(
-                      data: "5",
-                      icon: FontAwesomeIcons.piggyBank,
-                      subtitle: "ጠቅላላ የጣሉት እጣዎች",
-                      title: "የጣሉት እጣዎች",
-                      color: AppColor.purple),
+                  Obx(
+                    () => card(
+                        data: "${_ticketController.myLotto?.length}",
+                        icon: FontAwesomeIcons.piggyBank,
+                        subtitle: "ጠቅላላ የጣሉት እጣዎች",
+                        title: "የጣሉት እጣዎች",
+                        color: AppColor.purple),
+                  ),
                 ],
               ),
             )
@@ -196,7 +207,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       children: [
                         Container(
                           child: TextWidget(
-                            label: "Today Winner",
+                            label: "የዛሬ እጣ አሸናፊ",
                             color: AppColor.white,
                           ),
                         ),
@@ -211,7 +222,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         ),
                         Container(
                           child: TextWidget(
-                            label: "1,000,000 ETB",
+                            label: "1,000,000 ብር",
                             color: AppColor.white,
                           ),
                         ),
@@ -237,54 +248,56 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       required IconData icon,
       required Color color,
       required String subtitle}) {
-    return Card(
-      color: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Container(
-        padding: EdgeInsets.only(left: Get.width * 0.05),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //title
-            Container(
-              child: TextWidget(
-                label: title,
-                size: 18,
-                ftw: FontWeight.w600,
-              ),
-            ), //subtitle
-            Container(
-              child: Row(
-                children: [
-                  Container(
-                    child: TextWidget(
-                      label: data,
-                      ftw: FontWeight.w200,
-                      size: 25,
+    return GestureDetector(
+      child: Card(
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Container(
+          padding: EdgeInsets.only(left: Get.width * 0.05),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //title
+              Container(
+                child: TextWidget(
+                  label: title,
+                  size: 18,
+                  ftw: FontWeight.w600,
+                ),
+              ), //subtitle
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                      child: TextWidget(
+                        label: data,
+                        ftw: FontWeight.w200,
+                        size: 25,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.02,
-                  ),
-                  Icon(
-                    icon,
-                    color: AppColor.white,
-                    size: 25,
-                  )
-                ],
+                    SizedBox(
+                      width: Get.width * 0.02,
+                    ),
+                    Icon(
+                      icon,
+                      color: AppColor.white,
+                      size: 25,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              child: TextWidget(
-                label: subtitle,
-                size: 11,
-              ),
-            )
-            //sub
-          ],
+              Container(
+                child: TextWidget(
+                  label: subtitle,
+                  size: 11,
+                ),
+              )
+              //sub
+            ],
+          ),
         ),
       ),
     );

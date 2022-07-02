@@ -1,14 +1,31 @@
+import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/ticket/model/drop_ticket_model.dart';
+import 'package:ekub/data/ticket/model/ticekt_model.dart';
+import 'package:ekub/data/ticket/ticket_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class UserDropScreen extends StatelessWidget {
-  UserDropScreen({Key? key}) : super(key: key);
+class UserDropScreen extends StatefulWidget {
+  const UserDropScreen({Key? key}) : super(key: key);
+
+  @override
+  State<UserDropScreen> createState() => _UserDropScreenState();
+}
+
+class _UserDropScreenState extends State<UserDropScreen> {
   final _moneyController = TextEditingController();
+
+  final _timesController = TextEditingController();
+
+  final _globalKey = GlobalKey<FormState>();
+  final _ticketController = Get.find<TicketController>();
+  final _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
+    _ticketController.getMyTicket(_authController.userInfo!.id.toString());
     return Scaffold(
         floatingActionButton: Container(
           margin: const EdgeInsets.only(bottom: 30),
@@ -29,7 +46,7 @@ class UserDropScreen extends StatelessWidget {
           title: Container(
             alignment: Alignment.centerRight,
             child: TextWidget(
-              label: "Wallet",
+              label: "ጣል",
               size: 20,
               color: AppColor.black,
             ),
@@ -39,21 +56,25 @@ class UserDropScreen extends StatelessWidget {
         body: Container(
           child: Column(
             children: [
-              _cards(
-                  data: "10",
-                  title: "Total Drop Times",
-                  icon: FontAwesomeIcons.piggyBank,
-                  subtite: "start date 2/10/2022"),
-              _cards(
-                  data: "5",
-                  title: "Daily Drops",
-                  icon: FontAwesomeIcons.receipt,
-                  subtite: "10 ETB"),
-              _cards(
-                  data: "2 ETB",
-                  title: "My Level",
-                  icon: FontAwesomeIcons.stairs,
-                  subtite: "Level 1"),
+              Obx(
+                () => _cards(
+                    data: "${_ticketController.myLotto?.length}",
+                    title: "ጠቅላላ የጣሉት",
+                    icon: FontAwesomeIcons.piggyBank,
+                    subtite: "start date 2/10/2022"),
+              ),
+              Obx(
+                () => _cards(
+                    data: "${_ticketController.myLotto?.length}",
+                    title: "ዕለታዊ እጣ",
+                    icon: FontAwesomeIcons.receipt,
+                    subtite: "10 ETB"),
+              ),
+              // _cards(
+              //     data: "5s ETB",
+              //     title: "My Level",
+              //     icon: FontAwesomeIcons.stairs,
+              //     subtite: "Level 1"),
               SizedBox(
                 height: Get.height * 0.04,
               ),
@@ -61,41 +82,24 @@ class UserDropScreen extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: Get.width * 0.09),
                 child: TextWidget(
-                  label: "My Lots Code",
+                  label: "የኦእጣዎች",
                   ftw: FontWeight.w600,
                   color: AppColor.black,
                 ),
               ),
               Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        width: Get.width * 0.8,
-                        child: tiketCard()),
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        width: Get.width * 0.8,
-                        child: tiketCard()),
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        width: Get.width * 0.8,
-                        child: tiketCard()),
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        width: Get.width * 0.8,
-                        child: tiketCard()),
-                    Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 10),
-                        width: Get.width * 0.8,
-                        child: tiketCard()),
-                  ],
+                child: Obx(
+                  () => ListView.builder(
+                      itemCount: _ticketController.myLotto?.length,
+                      itemBuilder: (context, index) {
+                        final lotto = _ticketController.myLotto![index];
+
+                        return Container(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            width: Get.width * 0.8,
+                            child: tiketCard(lotto));
+                      }),
                 ),
               )
             ],
@@ -103,7 +107,10 @@ class UserDropScreen extends StatelessWidget {
         ));
   }
 
-  Widget tiketCard() {
+  Widget tiketCard(TicketModel loto) {
+    var i = loto.ticketNumber;
+    var mylot = i.toString().split('');
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -117,23 +124,13 @@ class UserDropScreen extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: AppColor.secondaryColor,
                 radius: 20,
-                child: Icon(
-                  FontAwesomeIcons.receipt,
-                  color: AppColor.white,
-                ),
+                child: TextWidget(label: "${loto.amount}"),
               ),
             ),
             SizedBox(
               width: Get.width * 0.04,
             ),
-            tiketNumber("1"),
-            tiketNumber("8"),
-            tiketNumber("3"),
-            tiketNumber("3"),
-            tiketNumber("9"),
-            tiketNumber("6"),
-            tiketNumber("2"),
-            tiketNumber("1"),
+            ...mylot.map((lo) => tiketNumber(lo.toString())).toList(),
           ],
         ),
       ),
@@ -240,64 +237,89 @@ class UserDropScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColor.white,
         ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: Get.height * 0.02,
-            ),
-            Container(
-              width: 120,
-              height: 15,
-              decoration: BoxDecoration(
-                  color: AppColor.lightGray,
-                  borderRadius: BorderRadius.circular(15)),
-            ),
-            GridView.count(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 3,
-                mainAxisSpacing: 0,
-                crossAxisSpacing: 0,
-                children: [
-                  moneyDrop(isSlected: true, title: "2 ETB"),
-                  moneyDrop(title: "4 ETB"),
-                  moneyDrop(title: "6 ETB"),
-                  moneyDrop(title: "8 ETB"),
-                  moneyDrop(title: "10 ETB"),
-                  moneyDrop(title: "12 ETB"),
-                ]),
-            SizedBox(
-              width: Get.width * 0.8,
-              child: inputField(
-                  controller: _moneyController,
-                  hint: "Custom Drop",
-                  keytype: TextInputType.number),
-            ),
-            SizedBox(
-              height: Get.height * 0.05,
-            ),
-            SizedBox(
-              width: Get.width * 0.9,
-              child: ElevatedButton.icon(
-                style: ButtonStyle(
-                    padding: MaterialStateProperty.all(EdgeInsets.symmetric(
-                        horizontal: Get.height * 0.01, vertical: 15)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)))),
-                onPressed: () {
-                  Get.snackbar("Drop", "Dorp ");
-                },
-                label: TextWidget(
-                  label: "Drop",
-                  size: 16,
-                ),
-                icon: const Icon(FontAwesomeIcons.piggyBank),
+        child: Form(
+          key: _globalKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: Get.height * 0.02,
               ),
-            ),
-            SizedBox(
-              height: Get.height * 0.05,
-            ),
-          ],
+              Container(
+                width: 120,
+                height: 15,
+                decoration: BoxDecoration(
+                    color: AppColor.lightGray,
+                    borderRadius: BorderRadius.circular(15)),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              // GridView.count(
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     shrinkWrap: true,
+              //     crossAxisCount: 3,
+              //     mainAxisSpacing: 0,
+              //     crossAxisSpacing: 0,
+              //     children: [
+              //       moneyDrop(isSlected: true, title: "2 ETB"),
+              //       moneyDrop(title: "4 ETB"),
+              //       moneyDrop(title: "6 ETB"),
+              //       moneyDrop(title: "8 ETB"),
+              //       moneyDrop(title: "10 ETB"),
+              //       moneyDrop(title: "12 ETB"),
+              //     ]),
+              SizedBox(
+                width: Get.width * 0.8,
+                child: inputField(
+                    controller: _moneyController,
+                    hint: "የገንዘብ መጠን",
+                    keytype: TextInputType.number),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              SizedBox(
+                width: Get.width * 0.8,
+                child: inputField(
+                    controller: _timesController,
+                    hint: "የትኬት መጠን",
+                    keytype: TextInputType.number),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              SizedBox(
+                width: Get.width * 0.9,
+                child: ElevatedButton.icon(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(
+                          horizontal: Get.height * 0.01, vertical: 15)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)))),
+                  onPressed: () {
+                    if (_globalKey.currentState!.validate()) {
+                      _ticketController.dropTicket(DropTicketModel(
+                          amount: double.parse(_moneyController.text),
+                          numberOfTickets: int.parse(_timesController.text),
+                          userId: int.parse(
+                              _authController.userInfo!.id.toString())));
+                      if (_ticketController.isLoading) {
+                        Get.back();
+                      }
+                    }
+                  },
+                  label: TextWidget(
+                    label: "ጣል",
+                    size: 16,
+                  ),
+                  icon: const Icon(FontAwesomeIcons.piggyBank),
+                ),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+            ],
+          ),
         ),
       ),
     ));

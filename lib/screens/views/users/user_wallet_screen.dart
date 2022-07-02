@@ -1,3 +1,5 @@
+import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/ticket/ticket_controller.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
@@ -14,15 +16,19 @@ class UserWalletScreen extends StatefulWidget {
 
 class _UserWalletScreenState extends State<UserWalletScreen> {
   final _amountController = TextEditingController();
-
+  final _ticketController = Get.find<TicketController>();
   final _phoneController = TextEditingController();
 
   final _remarkController = TextEditingController();
 
   final _globalKey = GlobalKey<FormState>();
   final _walletController = Get.find<WalletController>();
+  final _authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
+    _walletController
+        .getTransactionHistory(_authController.userInfo!.id.toString());
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           heroTag: "transfer",
@@ -40,7 +46,7 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
           title: Container(
             alignment: Alignment.centerRight,
             child: TextWidget(
-              label: "Wallet",
+              label: "የተጠራቀመ ገንዘብ",
               size: 20,
               color: AppColor.black,
             ),
@@ -59,9 +65,9 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
               ),
 
               _cards(
-                  data: "200 ETB",
+                  data: "${_walletController.mySavingBalance?.balance} ብር",
                   icon: FontAwesomeIcons.moneyBills,
-                  title: "Saving Account"),
+                  title: "የተጠራቀመ ገንዘብ"),
               SizedBox(
                 height: Get.height * 0.02,
               ),
@@ -71,7 +77,7 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                   children: [
                     Container(
                       child: TextWidget(
-                        label: "Transaction History",
+                        label: "የግብይት መዝገቦች",
                         color: AppColor.black,
                       ),
                     ),
@@ -83,9 +89,11 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15)))),
-                      onPressed: () {},
+                      onPressed: () {
+                        //todo
+                      },
                       label: TextWidget(
-                        label: "charge",
+                        label: "መሙያ",
                         size: 16,
                       ),
                       icon: const Icon(FontAwesomeIcons.dollarSign),
@@ -94,21 +102,19 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                 ),
               ),
 
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    _transactionList(),
-                    _transactionList(),
-                    _transactionList(),
-                    _transactionList(),
-                    _transactionList(),
-                    _transactionList(),
-                    _transactionList(),
-                    _transactionList(),
-                  ],
-                ),
-              )
+              Obx(() => Expanded(
+                  child: ListView.builder(
+                      itemCount: _walletController.myTransaction?.length,
+                      itemBuilder: (BuildContext ctxt, int index) {
+                        var transaction =
+                            _walletController.myTransaction![index];
+                        return _transactionList(
+                            id: transaction.receiverAccount,
+                            phone: "09191919",
+                            amount: transaction.amount,
+                            date: transaction.transactionDate,
+                            Trnsactiontype: transaction.transactionType);
+                      }))),
             ],
           ),
         ));
@@ -238,7 +244,12 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
     );
   }
 
-  Widget _transactionList() {
+  Widget _transactionList(
+      {String? phone,
+      double? amount,
+      String? date,
+      String? Trnsactiontype,
+      int? id}) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child: Card(
@@ -261,7 +272,7 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                       children: [
                         Container(
                           child: TextWidget(
-                            label: "25199999",
+                            label: phone.toString(),
                             size: 14,
                             color: AppColor.black,
                           ),
@@ -271,7 +282,9 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                         ),
                         Container(
                           child: TextWidget(
-                            label: "+20 ETB",
+                            label: id == _authController.userInfo!.id
+                                ? "- " + amount.toString()
+                                : "+ " + amount.toString(),
                             color: AppColor.black,
                             size: 12,
                           ),
@@ -288,7 +301,7 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                       children: [
                         Container(
                           child: TextWidget(
-                            label: "20/2/2022",
+                            label: date.toString(),
                             color: AppColor.darkGray,
                             size: 12,
                           ),
@@ -298,8 +311,10 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                         ),
                         Container(
                           child: TextWidget(
-                            label: "transaction",
-                            color: AppColor.black,
+                            label: Trnsactiontype.toString(),
+                            color: _authController.userInfo!.id == id
+                                ? AppColor.black
+                                : AppColor.purple,
                             size: 12,
                           ),
                         )

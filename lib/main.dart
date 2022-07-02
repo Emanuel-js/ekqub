@@ -4,6 +4,7 @@ import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/helpers/local_storage_provider.dart';
 import 'package:ekub/data/maincollector/main_collector_controller.dart';
 import 'package:ekub/data/subcollector/sub_collector_controller.dart';
+import 'package:ekub/data/ticket/ticket_controller.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/commenview/WelcomeScreen.dart';
 import 'package:ekub/screens/views/commenview/onbording_screen.dart';
@@ -22,6 +23,7 @@ void main() async {
   Get.put(MainCollectorController());
   Get.put(SubCollectorController());
   Get.put(WalletController());
+  Get.put(TicketController());
 }
 
 class MyApp extends StatelessWidget {

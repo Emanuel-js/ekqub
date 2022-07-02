@@ -1,4 +1,5 @@
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/screens/views/admin/mainCollector/admin_registerd_main_collector.dart';
 import 'package:ekub/screens/views/admin/profile.dart';
 import 'package:ekub/screens/views/admin/register_main_collector.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
@@ -112,36 +113,44 @@ class AdminHomeScreen extends StatelessWidget {
                 crossAxisSpacing: Get.width * 0.02,
                 children: [
                   _cards(
+                      onPressed: () {},
                       data: "1M",
                       icon: FontAwesomeIcons.receipt,
                       subtitle: "አጠቃላይ እቁብ ጣይዮች ብዛት",
                       title: "እቁብ ጣይዮች",
                       color: AppColor.lightBlue),
                   _cards(
+                      onPressed: () {
+                        Get.to(() => const AdminResistersMainCollector());
+                      },
                       data: "5",
                       icon: FontAwesomeIcons.userGroup,
                       subtitle: "የሰብሳቢዎች ጠቅላላ ቁጥር",
                       title: "የዋና ሰብሳቢዎች",
                       color: AppColor.darkGray),
                   _cards(
+                      onPressed: () {},
                       data: "100",
                       icon: FontAwesomeIcons.personCirclePlus,
                       subtitle: "የሽያጭ ሠራተኞች ጠቅላላ ቁጥር",
                       title: "ሽያጭ ሠራተኞች",
                       color: AppColor.darkGray),
                   _cards(
+                      onPressed: () {},
                       data: "10M ብር",
                       icon: FontAwesomeIcons.moneyBill,
                       subtitle: "ጠቅላላ የተቀመጠ ገንዘብ",
                       title: "የተቀመጠ ገንዘብ",
                       color: AppColor.lightBlue),
                   _cards(
+                      onPressed: () {},
                       data: "5",
                       icon: FontAwesomeIcons.moneyCheck,
                       subtitle: "እቁብ የወጣለት ብዛት",
                       title: "እቁብ የደረሰው",
                       color: AppColor.lightBlue),
                   _cards(
+                      onPressed: () {},
                       data: "5",
                       icon: FontAwesomeIcons.personWalking,
                       subtitle: "አቆርጦ የወጣ እቁብ ጣይ",
@@ -161,55 +170,61 @@ class AdminHomeScreen extends StatelessWidget {
       required String data,
       required IconData icon,
       required Color color,
+      required Function onPressed,
       required String subtitle}) {
-    return Card(
-      color: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Container(
-        padding: EdgeInsets.only(left: Get.width * 0.05),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //title
-            Container(
-              child: TextWidget(
-                label: title,
-                size: 18,
-                ftw: FontWeight.w600,
-              ),
-            ), //subtitle
-            Container(
-              child: Row(
-                children: [
-                  Container(
-                    child: TextWidget(
-                      label: data,
-                      ftw: FontWeight.w200,
-                      size: 25,
+    return GestureDetector(
+      onTap: () {
+        onPressed();
+      },
+      child: Card(
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Container(
+          padding: EdgeInsets.only(left: Get.width * 0.05),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //title
+              Container(
+                child: TextWidget(
+                  label: title,
+                  size: 18,
+                  ftw: FontWeight.w600,
+                ),
+              ), //subtitle
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                      child: TextWidget(
+                        label: data,
+                        ftw: FontWeight.w200,
+                        size: 25,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.02,
-                  ),
-                  Icon(
-                    icon,
-                    color: AppColor.white,
-                    size: 25,
-                  )
-                ],
+                    SizedBox(
+                      width: Get.width * 0.02,
+                    ),
+                    Icon(
+                      icon,
+                      color: AppColor.white,
+                      size: 25,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              child: TextWidget(
-                label: subtitle,
-                size: 11,
-              ),
-            )
-            //sub
-          ],
+              Container(
+                child: TextWidget(
+                  label: subtitle,
+                  size: 11,
+                ),
+              )
+              //sub
+            ],
+          ),
         ),
       ),
     );
