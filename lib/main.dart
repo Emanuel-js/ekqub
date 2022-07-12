@@ -1,4 +1,5 @@
 import 'package:ekub/appInit.dart';
+import 'package:ekub/constants/messages.dart';
 import 'package:ekub/data/admin/admin_controller.dart';
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/helpers/local_storage_provider.dart';
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget getPage() {
-    if (LocalStorageService.instance.get("accessToken") != null) {
+    if (LocalStorageService.instance.get(AppConst.APP_ACCESS_TOKEN) != null) {
       return const WelcomeScreen();
     }
     return const OnboardingScreen();

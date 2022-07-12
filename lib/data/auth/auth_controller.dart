@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ekub/constants/messages.dart';
 import 'package:ekub/constants/role.dart';
 import 'package:ekub/data/auth/auth_repo.dart';
 import 'package:ekub/data/auth/model/auth_model.dart';
@@ -56,16 +57,16 @@ class AuthController extends GetxController {
       final result = await AuthRepo().login(data);
 
       await LocalStorageService.instance
-          .addNew("accessToken", result["accessToken"]);
+          .addNew(AppConst.APP_ACCESS_TOKEN, result[AppConst.APP_ACCESS_TOKEN]);
       await LocalStorageService.instance
-          .addNew("role", result["roles"][0]["name"]);
+          .addNew(AppConst.USER_ROLE, result["roles"]["name"]);
 
       if (result != null) {
         setLoading(false);
 
-        if (result["accessToken"] != null) {
-          _signedInUser = result["accessToken"];
-          _signRole = result["roles"][0]["name"];
+        if (result[AppConst.APP_ACCESS_TOKEN] != null) {
+          _signedInUser = result[AppConst.APP_ACCESS_TOKEN];
+          _signRole = result["roles"]["name"];
 
           _userInfo.value = UserAccountModel(
               username: result["loggedInUserProfileData"]["username"],
@@ -94,8 +95,8 @@ class AuthController extends GetxController {
 
   void logOut() {
     _isLogged.value = false;
-    LocalStorageService.instance.remove("roles");
-    LocalStorageService.instance.remove("accessToken");
+    LocalStorageService.instance.remove(AppConst.USER_ROLE);
+    LocalStorageService.instance.remove(AppConst.APP_ACCESS_TOKEN);
     Get.offAll(() => const WelcomeScreen());
   }
 }
