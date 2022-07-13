@@ -87,7 +87,7 @@ class AdminHomeScreen extends StatelessWidget {
                     Container(
                       child: TextWidget(
                         label: "እንኳን ደህና መጡ",
-                        color: AppColor.white,
+                        // color: AppColor.white,
                         ftw: FontWeight.normal,
                       ),
                     ),
@@ -96,7 +96,7 @@ class AdminHomeScreen extends StatelessWidget {
                     ),
                     TextWidget(
                       label: _autController.userInfo!.username.toString(),
-                      color: AppColor.white,
+                      // color: AppColor.white,
                       ftw: FontWeight.bold,
                       size: 30,
                     )

@@ -9,14 +9,15 @@ class UserModel {
   String? role;
   String? phoneNumber;
   String? alternatePhoneNumber;
-  String? latitude;
-  String? longitude;
+  double? latitude;
+  double? longitude;
   String? city;
   DateTime? yearBorn;
   String? gender;
   String? initialBalance;
   String? idCardImageUrl;
   String? avatarImageUrl;
+  String? residentLocation;
   UserModel(
       {this.id,
       this.firstName,
@@ -33,6 +34,7 @@ class UserModel {
       this.alternatePhoneNumber,
       this.initialBalance,
       this.idCardImageUrl,
+      this.residentLocation,
       this.avatarImageUrl});
 
   UserModel copyWith(
@@ -43,14 +45,15 @@ class UserModel {
       String? email,
       String? role,
       String? phoneNumber,
-      String? latitude,
-      String? longitude,
+      double? latitude,
+      double? longitude,
       String? city,
       DateTime? yearBorn,
       String? gender,
       String? initialBalance,
       String? idCardImageUrl,
       String? avatarImageUrl,
+      String? residentLocation,
       String? alternatePhoneNumber}) {
     return UserModel(
         id: id ?? this.id,
@@ -68,8 +71,8 @@ class UserModel {
         initialBalance: initialBalance ?? this.initialBalance,
         idCardImageUrl: idCardImageUrl ?? this.idCardImageUrl,
         avatarImageUrl: avatarImageUrl ?? this.avatarImageUrl,
-        alternatePhoneNumber:
-            alternatePhoneNumber ?? this.alternatePhoneNumber);
+        alternatePhoneNumber: alternatePhoneNumber ?? this.alternatePhoneNumber,
+        residentLocation: residentLocation ?? this.residentLocation);
   }
 
   Map<String, dynamic> toMap() {
@@ -160,10 +163,8 @@ class UserModel {
       id: map["id"],
       firstName: map['firstName'],
       lastName: map['lastName'],
-      username: map['username'],
-      email: map['email'],
-      role: map['role'],
       phoneNumber: map['phoneNumber'],
+      residentLocation: map['residentLocation'],
       latitude: map['latitude'],
       longitude: map['longitude'],
       city: map['city'],
@@ -171,7 +172,6 @@ class UserModel {
           ? DateTime.fromMillisecondsSinceEpoch(map['yearBorn'])
           : null,
       gender: map['gender'],
-      initialBalance: map['initialBalance'],
       idCardImageUrl: map['idCardImageUrl'],
       avatarImageUrl: map['avatarImageUrl'],
     );
@@ -185,44 +185,5 @@ class UserModel {
   @override
   String toString() {
     return 'UserModel(firstName: $firstName, lastName: $lastName, username: $username, email: $email, role: $role, phoneNumber: $phoneNumber, latitude: $latitude, longitude: $longitude, city: $city, yearBorn: $yearBorn, gender: $gender, initialBalance: $initialBalance, idCardImageUrl: $idCardImageUrl, avatarImageUrl: $avatarImageUrl)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is UserModel &&
-        other.firstName == firstName &&
-        other.lastName == lastName &&
-        other.username == username &&
-        other.email == email &&
-        other.role == role &&
-        other.phoneNumber == phoneNumber &&
-        other.latitude == latitude &&
-        other.longitude == longitude &&
-        other.city == city &&
-        other.yearBorn == yearBorn &&
-        other.gender == gender &&
-        other.initialBalance == initialBalance &&
-        other.idCardImageUrl == idCardImageUrl &&
-        other.avatarImageUrl == avatarImageUrl;
-  }
-
-  @override
-  int get hashCode {
-    return firstName.hashCode ^
-        lastName.hashCode ^
-        username.hashCode ^
-        email.hashCode ^
-        role.hashCode ^
-        phoneNumber.hashCode ^
-        latitude.hashCode ^
-        longitude.hashCode ^
-        city.hashCode ^
-        yearBorn.hashCode ^
-        gender.hashCode ^
-        initialBalance.hashCode ^
-        idCardImageUrl.hashCode ^
-        avatarImageUrl.hashCode;
   }
 }

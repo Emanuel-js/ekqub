@@ -12,14 +12,13 @@ class AdminProfile extends StatelessWidget {
     final _authControler = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.white,
+        // backgroundColor: AppColor.white,
         elevation: 0,
         actions: [
           Container(
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.logout,
-                color: AppColor.black,
               ),
               onPressed: () {
                 _authControler.logOut();

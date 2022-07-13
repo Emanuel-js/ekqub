@@ -29,7 +29,7 @@ class _RegisterSubCollectorState extends State<RegisterSubCollector> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColor.white,
+          backgroundColor: Colors.transparent,
           elevation: 0,
           leading: Container(
               margin: const EdgeInsets.only(left: 10, top: 10),
@@ -72,7 +72,7 @@ class _RegisterSubCollectorState extends State<RegisterSubCollector> {
                       height: 10,
                       width: 30,
                       decoration: BoxDecoration(
-                          color: AppColor.black,
+                          color: AppColor.primaryColor,
                           borderRadius: BorderRadius.circular(15)),
                     ),
                     SizedBox(
@@ -82,7 +82,7 @@ class _RegisterSubCollectorState extends State<RegisterSubCollector> {
                       height: 10,
                       width: 30,
                       decoration: BoxDecoration(
-                          color: AppColor.black,
+                          color: AppColor.primaryColor,
                           borderRadius: BorderRadius.circular(15)),
                     ),
                   ],

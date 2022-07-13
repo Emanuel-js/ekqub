@@ -195,12 +195,11 @@ class _MainCollectorHomeScreenState extends State<MainCollectorHomeScreen> {
                 Expanded(
                   child: Container(
                     child: CircleAvatar(
-                      radius: 50,
+                      radius: 30,
                       backgroundColor: AppColor.secondaryColor,
                       child: Icon(
                         icon,
                         color: AppColor.white,
-                        size: 40,
                       ),
                     ),
                   ),

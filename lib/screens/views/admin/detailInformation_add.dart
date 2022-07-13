@@ -54,7 +54,7 @@ class _RegisterMainCollectorDetailInfoState
                   height: 10,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: AppColor.black,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 SizedBox(
@@ -74,7 +74,7 @@ class _RegisterMainCollectorDetailInfoState
                   height: 10,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: AppColor.black,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(15)),
                 ),
               ],
@@ -253,8 +253,8 @@ class _RegisterMainCollectorDetailInfoState
                                   city: _cityController.text,
                                   yearBorn: selectedDate,
                                   gender: _genderController,
-                                  longitude: _adminController.lat.toString(),
-                                  latitude: _adminController.log.toString(),
+                                  longitude: _adminController.lat,
+                                  latitude: _adminController.log,
                                   firstName: _adminController
                                       .mainCollectorReq!.firstName,
                                   lastName: _adminController

@@ -265,8 +265,8 @@ class _RegisterLotDetailInfoState extends State<RegisterLotDetailInfo> {
                                   yearBorn: selectedDate,
                                   initialBalance: _initialBalance.text,
                                   gender: _genderController,
-                                  longitude: _adminController.lat.toString(),
-                                  latitude: _adminController.log.toString(),
+                                  longitude: _adminController.lat,
+                                  latitude: _adminController.log,
                                   firstName: _adminController
                                       .mainCollectorReq!.firstName,
                                   lastName: _adminController

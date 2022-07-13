@@ -16,12 +16,18 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   late String _signedInUser;
+
+  final _isDarkMode = false.obs;
+
   final _userInfo = UserAccountModel().obs;
   final _userDetail = <UserDetailModel>[].obs;
 
   late String _signRole;
   final _isLogged = false.obs;
   final _isLoading = false.obs;
+
+  bool get isDarkMode => _isDarkMode.value;
+  set isDarkMode(val) => _isDarkMode.value = val;
 
   String get signedInUser => _signedInUser;
   String get signdRole => _signRole;
@@ -83,10 +89,10 @@ class AuthController extends GetxController {
     }
   }
 
-  void getUserMyUsers() async {
+  void getMyUsers() async {
     try {
       final result = await AuthRepo().getMyUsers();
-      log(result.toString());
+      log("$result");
       _userDetail.value = result;
     } catch (e) {
       setLoading(false);

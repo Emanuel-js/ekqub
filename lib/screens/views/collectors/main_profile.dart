@@ -12,14 +12,13 @@ class MainCollectorProfile extends StatelessWidget {
     final _authControler = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
           Container(
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.logout,
-                color: AppColor.black,
               ),
               onPressed: () {
                 _authControler.logOut();
@@ -97,6 +96,14 @@ class MainCollectorProfile extends StatelessWidget {
                           TextWidget(label: "300"),
                         ],
                       ),
+                    ),
+                    Container(
+                      child: IconButton(
+                          onPressed: () {
+                            _authControler.isDarkMode =
+                                !_authControler.isDarkMode;
+                          },
+                          icon: const Icon(Icons.abc)),
                     )
                   ],
                 ),

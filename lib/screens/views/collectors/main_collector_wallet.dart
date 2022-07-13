@@ -28,7 +28,6 @@ class _MainCollectorWalletScreenState extends State<MainCollectorWalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.lightGray,
       floatingActionButton: FloatingActionButton(
           heroTag: "transferto",
           backgroundColor: AppColor.primaryColor,
@@ -273,6 +272,7 @@ class _MainCollectorWalletScreenState extends State<MainCollectorWalletScreen> {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child: Card(
+            color: AppColor.lightBlue,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Container(

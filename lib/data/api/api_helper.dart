@@ -12,7 +12,7 @@ class ApiUtils {
   static final ApiUtils _apiUtils = ApiUtils._i();
 
   final Dio _dio = Dio(BaseOptions(
-    connectTimeout: 25000,
+    connectTimeout: 20000,
     receiveTimeout: 15000,
   ));
 
@@ -160,7 +160,7 @@ class ApiUtils {
           errorDescription = "Request to API server was cancelled";
           break;
         case DioErrorType.connectTimeout:
-          errorDescription = "Connection timeout with API server";
+          errorDescription = "Connection timeout";
           break;
         case DioErrorType.receiveTimeout:
           errorDescription = "Receive timeout in connection with API server";
@@ -176,6 +176,8 @@ class ApiUtils {
     } else {
       errorDescription = "Unexpected error occured";
     }
+    MessageHandler()
+        .displayMessage(title: "message", msg: errorDescription.toString());
     log("handleError:: errorDescription >> $errorDescription");
 
     return errorDescription;

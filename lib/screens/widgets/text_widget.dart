@@ -24,7 +24,6 @@ class TextWidget extends StatelessWidget {
       textAlign: txa,
       style: TextStyle(
           letterSpacing: lts,
-          color: color,
           fontWeight: ftw,
           fontSize: size,
           fontFamily: 'Poppins'),

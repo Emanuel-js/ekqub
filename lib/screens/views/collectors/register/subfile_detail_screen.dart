@@ -36,7 +36,7 @@ class _SubCollectorFileUploadState extends State<SubCollectorFileUpload> {
                   height: 10,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: AppColor.black,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 SizedBox(
@@ -46,7 +46,7 @@ class _SubCollectorFileUploadState extends State<SubCollectorFileUpload> {
                   height: 10,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: AppColor.black,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 SizedBox(
