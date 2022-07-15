@@ -50,13 +50,13 @@ class _RegisterSubCollectionMapState extends State<RegisterSubCollectionMap> {
     return Scaffold(
       key: homeScaffoldKey,
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppColor.black,
         onPressed: () async {
           _handlePressButton();
         },
         label: TextWidget(label: "አድራሻውን መዝግቡ 📌"),
-        icon: Icon(
+        icon: const Icon(
           Icons.location_on,
-          color: AppColor.white,
         ),
       ),
       appBar: AppBar(

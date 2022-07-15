@@ -1,8 +1,11 @@
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/user/model/user_detail_model.dart';
 import 'package:ekub/screens/views/admin/mainCollector/main_collector_detail.dart';
 import 'package:ekub/screens/widgets/tab_indictor.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
+import 'package:ekub/theme/app_theme.dart';
+import 'package:ekub/utils/formating.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,10 +19,11 @@ class AdminResistersMainCollector extends StatefulWidget {
 
 class _AdminResistersMainCollectorState
     extends State<AdminResistersMainCollector> with TickerProviderStateMixin {
+  final _authControler = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 3, vsync: this);
-    final _authControler = Get.find<AuthController>();
     _authControler.getMyUsers();
     return Scaffold(
         appBar: AppBar(
@@ -29,7 +33,7 @@ class _AdminResistersMainCollectorState
             Container(
               margin: const EdgeInsets.all(10),
               child: TextWidget(
-                label: "User List",
+                label: "የተመዝጋቢ ዝርዝር",
                 // color: AppColor.black,
               ),
             )
@@ -59,23 +63,31 @@ class _AdminResistersMainCollectorState
                   child: TabBar(
                       controller: _tabController,
                       isScrollable: true,
-                      unselectedLabelColor: AppColor.purple,
-                      labelColor: AppColor.primaryColor,
+                      unselectedLabelColor: _authControler.isDarkMode
+                          ? AppColor.darkGray
+                          : AppColor.purple,
+                      labelColor: _authControler.isDarkMode
+                          ? AppColor.white
+                          : AppColor.primaryColor,
                       labelPadding: const EdgeInsets.only(left: 20, right: 20),
-                      indicator: CircleTabIndicator(AppColor.black, 4),
+                      indicator: CircleTabIndicator(
+                          _authControler.isDarkMode
+                              ? AppColor.secondaryColor
+                              : AppColor.black,
+                          4),
                       tabs: [
                         TextWidget(
-                          label: "today",
+                          label: "ዛሬ",
                           // color: AppColor.black,
                           size: 16,
                         ),
                         TextWidget(
-                          label: "month",
+                          label: "ወርሃዊ",
                           // color: AppColor.black,
                           size: 16,
                         ),
                         TextWidget(
-                          label: "alltime",
+                          label: "የሁልጊዜ",
                           size: 16,
                           // color: AppColor.black,
                         ),
@@ -88,103 +100,24 @@ class _AdminResistersMainCollectorState
                 width: double.maxFinite,
                 height: Get.height * 0.78,
                 child: TabBarView(controller: _tabController, children: [
+                  Obx(
+                    () => ListView.builder(
+                        itemCount: _authControler.userDetail!.length,
+                        itemBuilder: ((context, index) {
+                          UserDetailModel myUser =
+                              _authControler.userDetail![index];
+
+                          return getUsers(userDetailModel: myUser);
+                        })),
+                  ),
                   Container(
                     child: ListView(
-                      children: [
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
+                      children: const [],
                     ),
                   ),
                   Container(
                     child: ListView(
-                      children: [
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: ListView(
-                      children: [
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        getUsers(),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
+                      children: const [],
                     ),
                   ),
                 ]),
@@ -194,14 +127,18 @@ class _AdminResistersMainCollectorState
         ));
   }
 
-  Widget getUsers() {
+  Widget getUsers({
+    required UserDetailModel userDetailModel,
+  }) {
     return GestureDetector(
       onTap: () => {Get.to(() => const AdminMainCollectorDetail())},
       child: Container(
         width: double.maxFinite,
         height: Get.height * 0.15,
         decoration: BoxDecoration(
-          // color: AppTheme.darkTheme.primaryColor,
+          color: _authControler.isDarkMode
+              ? AppTheme.darkTheme.primaryColor
+              : AppTheme.lightTheme.primaryColor,
           borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.all(10),
@@ -211,9 +148,9 @@ class _AdminResistersMainCollectorState
             Container(
               child: CircleAvatar(
                 backgroundColor: AppColor.secondaryColor,
-                radius: 50,
+                radius: 35,
                 child: const CircleAvatar(
-                  radius: 40,
+                  radius: 30,
                   backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
                 ),
               ),
@@ -227,14 +164,16 @@ class _AdminResistersMainCollectorState
                   Container(
                     child: TextWidget(
                       // color: AppColor.black,
-                      label: "First Name",
+                      label: userDetailModel.userProfile!.firstName.toString() +
+                          userDetailModel.userProfile!.lastName.toString(),
                       size: 15,
                     ),
                   ),
                   Container(
                     child: TextWidget(
                         // color: AppColor.black,
-                        label: "Phone Number",
+                        label:
+                            userDetailModel.userProfile!.phoneNumber.toString(),
                         size: 15),
                   )
                 ],
@@ -243,7 +182,8 @@ class _AdminResistersMainCollectorState
             Container(
               child: TextWidget(
                 // color: AppColor.black,
-                label: "7/13/2022",
+                label:
+                    Formatting.formatDate(userDetailModel.createdAt.toString()),
                 size: 15,
               ),
             ),

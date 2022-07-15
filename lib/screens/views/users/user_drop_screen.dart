@@ -4,6 +4,7 @@ import 'package:ekub/data/ticket/model/ticekt_model.dart';
 import 'package:ekub/data/ticket/ticket_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
+import 'package:ekub/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -27,21 +28,24 @@ class _UserDropScreenState extends State<UserDropScreen> {
   Widget build(BuildContext context) {
     _ticketController.getMyTicket(_authController.userInfo!.id.toString());
     return Scaffold(
-        floatingActionButton: Container(
-          margin: const EdgeInsets.only(bottom: 30),
-          child: FloatingActionButton(
-            heroTag: "transfer",
-            onPressed: () {
-              dropLott();
-            },
-            child: Icon(
-              FontAwesomeIcons.vault,
-              color: AppColor.white,
+        floatingActionButton: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 30),
+            child: FloatingActionButton(
+              heroTag: "transfer",
+              onPressed: () {
+                dropLott();
+              },
+              child: Icon(
+                FontAwesomeIcons.vault,
+                color: AppColor.white,
+              ),
             ),
           ),
         ),
         appBar: AppBar(
-          backgroundColor: AppColor.lightGray,
+          leading: Container(),
+          backgroundColor: Colors.transparent,
           elevation: 0,
           title: Container(
             alignment: Alignment.centerRight,
@@ -52,7 +56,6 @@ class _UserDropScreenState extends State<UserDropScreen> {
             ),
           ),
         ),
-        backgroundColor: AppColor.lightGray,
         body: Container(
           child: Column(
             children: [
@@ -82,7 +85,7 @@ class _UserDropScreenState extends State<UserDropScreen> {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.only(left: Get.width * 0.09),
                 child: TextWidget(
-                  label: "የኦእጣዎች",
+                  label: "የእኔ ዕጣዎች",
                   ftw: FontWeight.w600,
                   color: AppColor.black,
                 ),
@@ -235,7 +238,9 @@ class _UserDropScreenState extends State<UserDropScreen> {
     Get.bottomSheet(SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
-          color: AppColor.white,
+          color: _authController.isDarkMode
+              ? AppTheme.darkTheme.backgroundColor
+              : AppTheme.lightTheme.backgroundColor,
         ),
         child: Form(
           key: _globalKey,
@@ -254,20 +259,6 @@ class _UserDropScreenState extends State<UserDropScreen> {
               SizedBox(
                 height: Get.height * 0.05,
               ),
-              // GridView.count(
-              //     physics: const NeverScrollableScrollPhysics(),
-              //     shrinkWrap: true,
-              //     crossAxisCount: 3,
-              //     mainAxisSpacing: 0,
-              //     crossAxisSpacing: 0,
-              //     children: [
-              //       moneyDrop(isSlected: true, title: "2 ETB"),
-              //       moneyDrop(title: "4 ETB"),
-              //       moneyDrop(title: "6 ETB"),
-              //       moneyDrop(title: "8 ETB"),
-              //       moneyDrop(title: "10 ETB"),
-              //       moneyDrop(title: "12 ETB"),
-              //     ]),
               SizedBox(
                 width: Get.width * 0.8,
                 child: inputField(

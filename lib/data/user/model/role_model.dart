@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'dart:developer';
+
 class RoleModel {
   int? id;
   String? name;
@@ -31,11 +33,10 @@ class RoleModel {
     return result;
   }
 
-  factory RoleModel.fromMap(Map<String, dynamic> map) {
-    return RoleModel(
-      id: map['id'],
-      name: map['name'],
-    );
+  RoleModel.fromMap(Map<String, dynamic> map) {
+    log("inside role model from map");
+    id = map['id'];
+    name = map['name'];
   }
 
   String toJson() => json.encode(toMap());

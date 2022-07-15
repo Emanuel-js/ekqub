@@ -26,7 +26,7 @@ class TicketController extends GetxController {
     setLoading(true);
     try {
       final result = await TicketRepo().dropTicket(data);
-
+      log(result.toString());
       if (result != null) {
         getMyTicket(_authController.userInfo!.id.toString());
 

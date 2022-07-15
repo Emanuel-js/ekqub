@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'dart:developer';
+
 class UserModel {
-  String? id;
+  int? id;
   String? firstName;
   String? lastName;
   String? username;
@@ -38,7 +40,7 @@ class UserModel {
       this.avatarImageUrl});
 
   UserModel copyWith(
-      {String? id,
+      {int? id,
       String? firstName,
       String? lastName,
       String? username,
@@ -158,23 +160,38 @@ class UserModel {
     return result;
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      id: map["id"],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      phoneNumber: map['phoneNumber'],
-      residentLocation: map['residentLocation'],
-      latitude: map['latitude'],
-      longitude: map['longitude'],
-      city: map['city'],
-      yearBorn: map['yearBorn'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['yearBorn'])
-          : null,
-      gender: map['gender'],
-      idCardImageUrl: map['idCardImageUrl'],
-      avatarImageUrl: map['avatarImageUrl'],
-    );
+  UserModel.fromMap(Map<String, dynamic> map) {
+    log("Inside user model from map");
+    id = map['id'];
+    firstName = map['firstName'];
+    lastName = map['lastName'];
+
+    email = map['email'];
+    phoneNumber = map['phoneNumber'];
+    latitude = map['latitude'];
+    longitude = map['longitude'];
+    city = map['city'];
+    yearBorn = DateTime.parse(map['yearBorn']);
+
+    gender = map['gender'];
+    idCardImageUrl = map['idCardImageUrl'];
+    avatarImageUrl = map['avatarImageUrl'];
+    // return UserModel(
+    //   id: map["id"],
+    //   firstName: map['firstName'],
+    //   lastName: map['lastName'],
+    //   phoneNumber: map['phoneNumber'],
+    //   residentLocation: map['residentLocation'],
+    //   latitude: map['latitude'],
+    //   longitude: map['longitude'],
+    //   city: map['city'],
+    //   yearBorn: map['yearBorn'] != null
+    //       ? DateTime.fromMillisecondsSinceEpoch(map['yearBorn'])
+    //       : null,
+    //   gender: map['gender'],
+    //   idCardImageUrl: map['idCardImageUrl'],
+    //   avatarImageUrl: map['avatarImageUrl'],
+    // );
   }
 
   String toJson() => json.encode(toMap());

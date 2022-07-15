@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ekub/data/user/model/role_model.dart';
 import 'package:ekub/data/user/model/user.dart';
@@ -14,8 +14,8 @@ class UserDetailModel {
   String? lockTime;
   int? failedAttempt;
   bool? accountNonLocked;
-  UserModel userProfile;
-  RoleModel role;
+  UserModel? userProfile;
+  RoleModel? role;
   UserDetailModel({
     this.createdAt,
     this.updatedAt,
@@ -27,8 +27,8 @@ class UserDetailModel {
     this.lockTime,
     this.failedAttempt,
     this.accountNonLocked,
-    required this.userProfile,
-    required this.role,
+    this.userProfile,
+    this.role,
   });
 
   UserDetailModel copyWith({
@@ -94,71 +94,46 @@ class UserDetailModel {
     if (accountNonLocked != null) {
       result.addAll({'accountNonLocked': accountNonLocked});
     }
-    result.addAll({'userProfile': userProfile.toMap()});
-    result.addAll({'role': role.toMap()});
+    if (userProfile != null) {
+      result.addAll({'userProfile': userProfile!.toMap()});
+    }
+    if (role != null) {
+      result.addAll({'role': role!.toMap()});
+    }
 
     return result;
   }
 
-  factory UserDetailModel.fromMap(Map<String, dynamic> map) {
-    return UserDetailModel(
-      createdAt: map['createdAt'],
-      updatedAt: map['updatedAt'],
-      createdBy: map['createdBy'],
-      updatedBy: map['updatedBy'],
-      id: map['id']?.toInt(),
-      username: map['username'],
-      email: map['email'],
-      lockTime: map['lockTime'],
-      failedAttempt: map['failedAttempt']?.toInt(),
-      accountNonLocked: map['accountNonLocked'],
-      userProfile: UserModel.fromMap(map['userProfile']),
-      role: RoleModel.fromMap(map['role']),
-    );
-  }
+  UserDetailModel.fromMap(Map<String, dynamic> map) {
+    log("inside user detail model from map");
+    createdAt = map['createdAt'];
+    updatedAt = map['updatedAt'];
+    createdBy = map['createdBy'];
+    updatedBy = map['updatedBy'];
+    id = map['id'];
+    username = map['username'];
+    email = map['email'];
+    lockTime = map['lockTime'];
+    failedAttempt = map['failedAttempt'];
+    accountNonLocked = map['accountNonLocked'];
 
-  String toJson() => json.encode(toMap());
-
-  factory UserDetailModel.fromJson(String source) =>
-      UserDetailModel.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'UserDetailModel(createdAt: $createdAt, updatedAt: $updatedAt, createdBy: $createdBy, updatedBy: $updatedBy, id: $id, username: $username, email: $email, lockTime: $lockTime, failedAttempt: $failedAttempt, accountNonLocked: $accountNonLocked, userProfile: $userProfile, role: $role)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is UserDetailModel &&
-        other.createdAt == createdAt &&
-        other.updatedAt == updatedAt &&
-        other.createdBy == createdBy &&
-        other.updatedBy == updatedBy &&
-        other.id == id &&
-        other.username == username &&
-        other.email == email &&
-        other.lockTime == lockTime &&
-        other.failedAttempt == failedAttempt &&
-        other.accountNonLocked == accountNonLocked &&
-        other.userProfile == userProfile &&
-        other.role == role;
-  }
-
-  @override
-  int get hashCode {
-    return createdAt.hashCode ^
-        updatedAt.hashCode ^
-        createdBy.hashCode ^
-        updatedBy.hashCode ^
-        id.hashCode ^
-        username.hashCode ^
-        email.hashCode ^
-        lockTime.hashCode ^
-        failedAttempt.hashCode ^
-        accountNonLocked.hashCode ^
-        userProfile.hashCode ^
-        role.hashCode;
+    userProfile = UserModel.fromMap(map['userProfile']);
+    // log("User profile is $userProfile");
+    role = RoleModel.fromMap(map['role']);
+    log("role is $role");
+    // return UserDetailModel(
+    //   createdAt: map['createdAt'],
+    //   updatedAt: map['updatedAt'],
+    //   createdBy: map['createdBy'],
+    //   updatedBy: map['updatedBy'],
+    //   id: int.parse(map['id']),
+    //   username: map['username'],
+    //   email: map['email'],
+    //   lockTime: map['lockTime'],
+    //   failedAttempt: map['failedAttempt'],
+    //   accountNonLocked: map['accountNonLocked'],
+    //   userProfile: UserModel.fromMap(map['userProfile']),
+    //   role: RoleModel.fromMap(map['role']),
+    // );
   }
 }

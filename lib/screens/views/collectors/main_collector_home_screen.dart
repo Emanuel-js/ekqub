@@ -2,8 +2,8 @@ import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/maincollector/main_collector_controller.dart';
 import 'package:ekub/screens/views/collectors/main_collector_wallet.dart';
 import 'package:ekub/screens/views/collectors/main_profile.dart';
+import 'package:ekub/screens/views/collectors/main_register_sub_list.dart';
 import 'package:ekub/screens/views/collectors/register/register_sub_collector.dart';
-import 'package:ekub/screens/views/subcollectors/subcollector_lotter_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +120,7 @@ class _MainCollectorHomeScreenState extends State<MainCollectorHomeScreen> {
                       icon: FontAwesomeIcons.peopleGroup,
                       title: "ጠቅላላ ቆጣቢዎች",
                       onPress: () {
-                        Get.to(const SubCollectorLottScreen());
+                        Get.to(MainRegisterSubList());
                       }),
                   _cards(
                       data: "10K ብር",

@@ -1,7 +1,9 @@
+import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/wallet/model/transaction_model.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
+import 'package:ekub/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,7 @@ class MainCollectorWalletScreen extends StatefulWidget {
 
 class _MainCollectorWalletScreenState extends State<MainCollectorWalletScreen> {
   final _walletController = Get.find<WalletController>();
+  final _authControler = Get.find<AuthController>();
 
   final _amountController = TextEditingController();
 
@@ -127,7 +130,9 @@ class _MainCollectorWalletScreenState extends State<MainCollectorWalletScreen> {
         child: Form(
           key: _globalKey,
           child: Container(
-            color: AppColor.white,
+            color: _authControler.isDarkMode
+                ? AppTheme.darkTheme.backgroundColor
+                : AppTheme.lightTheme.backgroundColor,
             height: Get.height * 0.5,
             child: Column(
               children: [

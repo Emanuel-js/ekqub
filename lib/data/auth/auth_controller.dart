@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ekub/constants/messages.dart';
 import 'package:ekub/constants/role.dart';
 import 'package:ekub/data/auth/auth_repo.dart';
@@ -69,7 +67,7 @@ class AuthController extends GetxController {
 
       if (result != null) {
         setLoading(false);
-
+        getMyUsers();
         if (result[AppConst.APP_ACCESS_TOKEN] != null) {
           _signedInUser = result[AppConst.APP_ACCESS_TOKEN];
           _signRole = result["roles"]["name"];
@@ -92,7 +90,6 @@ class AuthController extends GetxController {
   void getMyUsers() async {
     try {
       final result = await AuthRepo().getMyUsers();
-      log("$result");
       _userDetail.value = result;
     } catch (e) {
       setLoading(false);

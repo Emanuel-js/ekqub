@@ -1,6 +1,6 @@
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/user/model/user_detail_model.dart';
-import 'package:ekub/screens/views/subcollectors/registerr/register_lotter_screen.dart';
+import 'package:ekub/screens/views/collectors/register/register_sub_collector.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:ekub/theme/app_theme.dart';
@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class SubCollectorLottScreen extends StatelessWidget {
-  SubCollectorLottScreen({Key? key}) : super(key: key);
+class MainRegisterSubList extends StatelessWidget {
+  MainRegisterSubList({Key? key}) : super(key: key);
   final _authControler = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class SubCollectorLottScreen extends StatelessWidget {
             color: AppColor.white,
           ),
           onPressed: () {
-            Get.to(const RegisterLottScreen());
+            Get.to(const RegisterSubCollector());
           }),
       body: Column(
         children: [

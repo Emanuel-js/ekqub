@@ -34,72 +34,99 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Future<bool> _onWillPop() async {
+      return (await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Are you sure?'),
+              content: const Text('Do you want to exit an App'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).pop(false), //<-- SEE HERE
+                  child: const Text('No'),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).pop(true), // <-- SEE HERE
+                  child: const Text('Yes'),
+                ),
+              ],
+            ),
+          )) ??
+          false;
+    }
+
     _walletController.getWalletAccount(_authControler.userInfo!.id.toString());
     _walletController
         .getTransactionHistory(_authControler.userInfo!.id.toString());
     _walletController.getSavingBalance(_authControler.userInfo!.id.toString());
     _ticketController.getMyTicket(_authControler.userInfo!.id.toString());
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColor.lightGray,
-        body: Column(
-          children: [
-            SizedBox(height: Get.height * 0.01),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [profile(), timeCard()],
-            ),
-            SizedBox(
-              height: Get.height * .02,
-            ),
-            Container(child: banner()),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
-              child: GridView.count(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                mainAxisSpacing: Get.height * 0.02,
-                crossAxisSpacing: Get.width * 0.02,
-                children: [
-                  Obx(
-                    () => card(
-                        data: "${_ticketController.myLotto?.length}",
-                        icon: FontAwesomeIcons.receipt,
-                        subtitle: "ጠቅላላ እጣዎች ያሎት",
-                        title: "ጠቅላላ እጣዎች",
-                        color: AppColor.lightBlue),
-                  ),
-                  Obx(
-                    () => card(
-                        data: "${_walletController.myWallet?.balance} ብር",
-                        icon: FontAwesomeIcons.wallet,
-                        subtitle: "ያለዎት ጠቅላላ ቀሪ ገንዘብ",
-                        title: "ጠቅላላ ቀሪ ገንዘብ",
-                        color: AppColor.primaryColor),
-                  ),
-                  Obx(
-                    () => card(
-                      data: "${_walletController.mySavingBalance?.balance} ብር",
-                      icon: FontAwesomeIcons.moneyBills,
-                      subtitle: "ያለዎት አጠቃላይ ቁጠባ ገንዘብ ",
-                      title: "የተጠራቀመ ገንዘብ",
-                      color: AppColor.darkGray,
-                    ),
-                  ),
-                  Obx(
-                    () => card(
-                        data: "${_ticketController.myLotto?.length}",
-                        icon: FontAwesomeIcons.piggyBank,
-                        subtitle: "ጠቅላላ የጣሉት እጣዎች",
-                        title: "የጣሉት እጣዎች",
-                        color: AppColor.purple),
-                  ),
-                ],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: SafeArea(
+        child: Scaffold(
+          body: Column(
+            children: [
+              SizedBox(height: Get.height * 0.01),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [profile(), timeCard()],
               ),
-            )
-          ],
+              SizedBox(
+                height: Get.height * .02,
+              ),
+              Container(child: banner()),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+                child: GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  mainAxisSpacing: Get.height * 0.02,
+                  crossAxisSpacing: Get.width * 0.02,
+                  children: [
+                    Obx(
+                      () => card(
+                          data: "${_ticketController.myLotto?.length}",
+                          icon: FontAwesomeIcons.receipt,
+                          subtitle: "ጠቅላላ እጣዎች ያሎት",
+                          title: "ጠቅላላ እጣዎች",
+                          color: AppColor.lightBlue),
+                    ),
+                    Obx(
+                      () => card(
+                          data: "${_walletController.myWallet?.balance} ብር",
+                          icon: FontAwesomeIcons.wallet,
+                          subtitle: "ያለዎት ጠቅላላ ቀሪ ገንዘብ",
+                          title: "ጠቅላላ ቀሪ ገንዘብ",
+                          color: AppColor.primaryColor),
+                    ),
+                    Obx(
+                      () => card(
+                        data:
+                            "${_walletController.mySavingBalance?.balance} ብር",
+                        icon: FontAwesomeIcons.moneyBills,
+                        subtitle: "ያለዎት አጠቃላይ ቁጠባ ገንዘብ ",
+                        title: "የተጠራቀመ ገንዘብ",
+                        color: AppColor.darkGray,
+                      ),
+                    ),
+                    Obx(
+                      () => card(
+                          data: "${_ticketController.myLotto?.length}",
+                          icon: FontAwesomeIcons.piggyBank,
+                          subtitle: "ጠቅላላ የጣሉት እጣዎች",
+                          title: "የጣሉት እጣዎች",
+                          color: AppColor.purple),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

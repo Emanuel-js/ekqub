@@ -36,7 +36,7 @@ class _LotterFileUploadState extends State<LotterFileUpload> {
                   height: 10,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: AppColor.black,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 SizedBox(
@@ -46,7 +46,7 @@ class _LotterFileUploadState extends State<LotterFileUpload> {
                   height: 10,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: AppColor.black,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 SizedBox(
@@ -92,10 +92,9 @@ class _LotterFileUploadState extends State<LotterFileUpload> {
                   ),
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColor.darkGray),
-                    primary: AppColor.primaryColor,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),

@@ -28,7 +28,6 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.lightGray,
       floatingActionButton: FloatingActionButton(
           heroTag: "transferto",
           backgroundColor: AppColor.primaryColor,

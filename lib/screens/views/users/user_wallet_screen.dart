@@ -41,7 +41,8 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
           ),
         ),
         appBar: AppBar(
-          backgroundColor: AppColor.lightGray,
+          leading: Container(),
+          backgroundColor: Colors.transparent,
           elevation: 0,
           title: Container(
             alignment: Alignment.centerRight,
@@ -52,7 +53,6 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
             ),
           ),
         ),
-        backgroundColor: AppColor.lightGray,
         body: Container(
           child: Column(
             children: [

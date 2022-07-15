@@ -40,32 +40,28 @@ class AuthRepo {
     final response = await apiUtils.get(url: url);
     // log(response.data.toString());
 
-    var x = response.data[0];
-    log(x["userProfile"].toString());
+    // log(x["userProfile"].toString());
 
-    var b = UserDetailModel(
-      id: x["id"],
-      createdBy: x["createdBy"],
-      createdAt: x["createdAt"],
-      email: x["email"],
-      accountNonLocked: x["accountNonLocked"],
-      failedAttempt: x["failedAttempt"],
-      lockTime: x["lockTime"],
-      updatedAt: x["updatedAt"],
-      updatedBy: x["updatedBy"],
-      role: x["role"],
-      userProfile: x["userProfile"],
-    );
-    log(b.toString());
+    // var b = UserDetailModel(
+    //   id: x["id"],
+    //   createdBy: x["createdBy"],
+    //   createdAt: x["createdAt"],
+    //   email: x["email"],
+    //   accountNonLocked: x["accountNonLocked"],
+    //   failedAttempt: x["failedAttempt"],
+    //   lockTime: x["lockTime"],
+    //   updatedAt: x["updatedAt"],
+    //   updatedBy: x["updatedBy"],
+    //   role: x["role"],
+    //   userProfile: x["userProfile"],
+    // );
+    // log(b.toString());
 
-    List<UserDetailModel> result =
-        List<UserDetailModel>.from(response.data.map((res) => {
-              UserDetailModel.fromMap(res),
-            }));
+    List<UserDetailModel> result = List<UserDetailModel>.from(response.data.map(
+      (res) => UserDetailModel.fromMap(res),
+    ));
 
-    // List<UserDetailModel> res =
-    //     List<UserDetailModel>.from(response.data.map((x) => log(x)));
-
+    log(result.toString());
     return result;
   }
 }

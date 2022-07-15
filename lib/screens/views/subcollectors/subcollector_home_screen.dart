@@ -113,15 +113,15 @@ class SubCollectorHomeScreen extends StatelessWidget {
                   _cards(
                       data: "100",
                       icon: FontAwesomeIcons.peopleGroup,
-                      title: "Total Lottery",
+                      title: "ጠቅላላ ዕጣ",
                       onPress: () {
-                        Get.to(const SubCollectorLottScreen());
+                        Get.to(SubCollectorLottScreen());
                       }),
                   Obx(
                     () => _cards(
                         data: "${_walletController.myWallet!.balance} ETB",
                         icon: FontAwesomeIcons.wallet,
-                        title: "Total Wallet",
+                        title: "ጠቅላላ ተቀማጭ",
                         onPress: () {
                           Get.to(const SubCollectorWalletScreen());
                         }),

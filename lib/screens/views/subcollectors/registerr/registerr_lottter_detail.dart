@@ -53,7 +53,7 @@ class _RegisterLotDetailInfoState extends State<RegisterLotDetailInfo> {
                   height: 10,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: AppColor.black,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 SizedBox(
@@ -73,7 +73,7 @@ class _RegisterLotDetailInfoState extends State<RegisterLotDetailInfo> {
                   height: 10,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: AppColor.black,
+                      color: AppColor.primaryColor,
                       borderRadius: BorderRadius.circular(15)),
                 ),
               ],
@@ -126,10 +126,9 @@ class _RegisterLotDetailInfoState extends State<RegisterLotDetailInfo> {
                   ),
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColor.lightBlue),
-                    primary: AppColor.primaryColor,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -149,7 +148,6 @@ class _RegisterLotDetailInfoState extends State<RegisterLotDetailInfo> {
                           selectedDate.month.toString() +
                           "/" +
                           selectedDate.day.toString(),
-                      color: AppColor.darkGray,
                       txa: TextAlign.start,
                       size: 16,
                     ),
@@ -195,10 +193,9 @@ class _RegisterLotDetailInfoState extends State<RegisterLotDetailInfo> {
                   ),
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColor.lightBlue),
-                    primary: AppColor.primaryColor,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),

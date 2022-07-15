@@ -47,7 +47,7 @@ dependencies:
   google_maps_flutter: ^2.1.8
   flutter_google_places: ^0.3.0
   file_picker: ^4.6.1
-  
+  intl: ^0.17.0
 dev_dependencies:
 
   # The "flutter_lints" package below contains a set of recommended lints to

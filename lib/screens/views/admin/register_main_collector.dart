@@ -29,6 +29,7 @@ class _RegisterMainCollectorState extends State<RegisterMainCollector> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           elevation: 0,
           leading: Container(
               margin: const EdgeInsets.only(left: 10, top: 10),
