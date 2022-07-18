@@ -115,10 +115,9 @@ class _RegisterMainCollectorDetailInfoState
                   ),
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColor.lightBlue),
-                    primary: AppColor.primaryColor,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -154,10 +153,10 @@ class _RegisterMainCollectorDetailInfoState
                 verticalAlignedText: false,
 
                 selectedGender: Gender.Male,
-                selectedGenderTextStyle: TextStyle(
-                    color: AppColor.darkGray, fontWeight: FontWeight.bold),
+                selectedGenderTextStyle:
+                    const TextStyle(fontWeight: FontWeight.bold),
                 unSelectedGenderTextStyle: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.normal),
+                    color: Colors.transparent, fontWeight: FontWeight.normal),
                 onChanged: (Gender? gender) {
                   _genderController =
                       gender.toString().replaceAll("Gender.", "");
@@ -184,10 +183,9 @@ class _RegisterMainCollectorDetailInfoState
                   ),
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColor.lightBlue),
-                    primary: AppColor.primaryColor,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),

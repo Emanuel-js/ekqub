@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/wallet/model/refend_model.dart';
 import 'package:ekub/data/wallet/model/saving_account_model.dart';
 import 'package:ekub/data/wallet/model/transaction_model.dart';
 import 'package:ekub/data/wallet/model/trnsactionResponce.dart';
@@ -91,6 +92,23 @@ class WalletController extends GetxController {
       _mySavingBalance.value = result;
     } catch (e) {
       log("message$e");
+    }
+  }
+
+  void requestRefund(RefundModel data) async {
+    setLoading(true);
+    try {
+      final result = await WalletRepo().requestReFund(data);
+
+      if (result != null) {
+        MessageHandler()
+            .displayMessage(msg: "Transaction is Done", title: "Transaction");
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    } catch (e) {
+      setLoading(false);
     }
   }
 }

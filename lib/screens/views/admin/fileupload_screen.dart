@@ -94,10 +94,9 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                   ),
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColor.darkGray),
-                    primary: AppColor.primaryColor,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -168,6 +167,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                                   _adminController.imageFile = null;
                                   _adminController.lat = null;
                                   _adminController.log = null;
+                                  _adminController.mainCollectorReq = null;
                                 }
                               } else {
                                 Get.snackbar(

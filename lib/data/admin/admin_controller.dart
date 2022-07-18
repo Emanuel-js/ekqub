@@ -41,7 +41,7 @@ class AdminController extends GetxController {
     try {
       final res = await AdminRepo().registerMainCollector(data, image);
       print("======$res");
-      if (res != null) {
+      if (res["userProfile"] != null) {
         _isRegisterd.value = true;
         setLoading(false);
         Get.to(() => const AdminHomeScreen());

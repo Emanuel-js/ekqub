@@ -20,4 +20,6 @@ class ApiEndPoints {
   static const createDropTickets = "lotto/createDropTickets";
   static const getCreatedTickets = "lotto/GetAllMyTickets/";
   static const getMyUsers = "common/getAllMyUsers";
+
+  static const requestRefund = "refund/requestRefund";
 }

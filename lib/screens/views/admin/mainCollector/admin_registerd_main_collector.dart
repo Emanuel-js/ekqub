@@ -131,10 +131,14 @@ class _AdminResistersMainCollectorState
     required UserDetailModel userDetailModel,
   }) {
     return GestureDetector(
-      onTap: () => {Get.to(() => const AdminMainCollectorDetail())},
+      onTap: () => {
+        Get.to(() => const AdminMainCollectorDetail(),
+            arguments: userDetailModel)
+      },
       child: Container(
         width: double.maxFinite,
         height: Get.height * 0.15,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
           color: _authControler.isDarkMode
               ? AppTheme.darkTheme.primaryColor
@@ -145,13 +149,16 @@ class _AdminResistersMainCollectorState
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              child: CircleAvatar(
-                backgroundColor: AppColor.secondaryColor,
-                radius: 35,
-                child: const CircleAvatar(
-                  radius: 30,
-                  backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
+            Hero(
+              tag: userDetailModel.id.toString(),
+              child: Container(
+                child: CircleAvatar(
+                  backgroundColor: AppColor.secondaryColor,
+                  radius: 35,
+                  child: const CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage("https://i.pravatar.cc/300"),
+                  ),
                 ),
               ),
             ),

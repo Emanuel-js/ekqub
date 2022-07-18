@@ -2,7 +2,6 @@ import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class AdminProfile extends StatelessWidget {
@@ -80,18 +79,7 @@ class AdminProfile extends StatelessWidget {
             SizedBox(
               height: Get.height * 0.02,
             ),
-            //setting
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColor.primaryColor),
-              child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Edit",
-                    style: TextStyle(color: Colors.white),
-                  )),
-            ),
+
             SizedBox(
               height: Get.height * 0.05,
             ),
@@ -166,20 +154,7 @@ class AdminProfile extends StatelessWidget {
                 ),
               ),
             ),
-            //withdrawal
-            Container(
-              child: ListTile(
-                leading: const Icon(FontAwesomeIcons.moneyBill),
-                title: Container(
-                  alignment: Alignment.centerLeft,
-                  child: TextWidget(label: "Withdrawal"),
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  onPressed: () {},
-                ),
-              ),
-            ),
+
             Container(
               child: ListTile(
                 leading: const Icon(Icons.logout),
