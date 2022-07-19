@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   late String _signedInUser;
 
-  final _isDarkMode = false.obs;
+  final _isDarkMode = true.obs;
 
   final _userInfo = UserAccountModel().obs;
   final _userDetail = <UserDetailModel>[].obs;

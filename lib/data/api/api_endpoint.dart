@@ -22,4 +22,5 @@ class ApiEndPoints {
   static const getMyUsers = "common/getAllMyUsers";
 
   static const requestRefund = "refund/requestRefund";
+  static const getReqRefund = "refund/getAllRefundRequests";
 }

@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         title: 'እቁብ',
         theme:
             _controller.isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme,
-        themeMode: ThemeMode.system,
+        themeMode: ThemeMode.dark,
         home: const MyHomePage(),
       ),
     );

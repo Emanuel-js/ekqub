@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 class RefundModel {
   int userId;
   String fullName;
   String reason;
-  String amount;
+  double amount;
   String bankAccountNumber;
   String phoneForBankAccountNumber;
   String bankName;
+  String? refundMeStatus;
+  String? createdAt;
+  String? updatedAt;
   RefundModel({
     required this.userId,
     required this.fullName,
@@ -14,16 +19,22 @@ class RefundModel {
     required this.bankAccountNumber,
     required this.phoneForBankAccountNumber,
     required this.bankName,
+    this.refundMeStatus,
+    this.createdAt,
+    this.updatedAt,
   });
 
   RefundModel copyWith({
     int? userId,
     String? fullName,
     String? reason,
-    String? amount,
+    double? amount,
     String? bankAccountNumber,
     String? phoneForBankAccountNumber,
     String? bankName,
+    String? refundMeStatus,
+    String? createdAt,
+    String? updatedAt,
   }) {
     return RefundModel(
       userId: userId ?? this.userId,
@@ -34,6 +45,9 @@ class RefundModel {
       phoneForBankAccountNumber:
           phoneForBankAccountNumber ?? this.phoneForBankAccountNumber,
       bankName: bankName ?? this.bankName,
+      refundMeStatus: refundMeStatus ?? this.refundMeStatus,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -60,6 +74,50 @@ class RefundModel {
       bankAccountNumber: map['bankAccountNumber'] ?? '',
       phoneForBankAccountNumber: map['phoneForBankAccountNumber'] ?? '',
       bankName: map['bankName'] ?? '',
+      refundMeStatus: map['refundMeStatus'],
+      createdAt: map['createdAt'],
+      updatedAt: map['updatedAt'],
     );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory RefundModel.fromJson(String source) =>
+      RefundModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'RefundModel(userId: $userId, fullName: $fullName, reason: $reason, amount: $amount, bankAccountNumber: $bankAccountNumber, phoneForBankAccountNumber: $phoneForBankAccountNumber, bankName: $bankName, refundMeStatus: $refundMeStatus, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RefundModel &&
+        other.userId == userId &&
+        other.fullName == fullName &&
+        other.reason == reason &&
+        other.amount == amount &&
+        other.bankAccountNumber == bankAccountNumber &&
+        other.phoneForBankAccountNumber == phoneForBankAccountNumber &&
+        other.bankName == bankName &&
+        other.refundMeStatus == refundMeStatus &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return userId.hashCode ^
+        fullName.hashCode ^
+        reason.hashCode ^
+        amount.hashCode ^
+        bankAccountNumber.hashCode ^
+        phoneForBankAccountNumber.hashCode ^
+        bankName.hashCode ^
+        refundMeStatus.hashCode ^
+        createdAt.hashCode ^
+        updatedAt.hashCode;
   }
 }

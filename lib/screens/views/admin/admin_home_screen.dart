@@ -1,5 +1,6 @@
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/screens/views/admin/mainCollector/admin_registerd_main_collector.dart';
+import 'package:ekub/screens/views/admin/notification/admin_notification.dart';
 import 'package:ekub/screens/views/admin/profile.dart';
 import 'package:ekub/screens/views/admin/register_main_collector.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
@@ -74,7 +75,9 @@ class AdminHomeScreen extends StatelessWidget {
                         icon: const Icon(
                           Icons.notifications_active,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(() => const AdminNotification());
+                        },
                       ),
                     ),
                     Hero(

@@ -5,6 +5,7 @@ import 'package:ekub/data/user/model/user_detail_model.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:get/get.dart';
 import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +21,9 @@ class AdminMainCollectorDetail extends StatelessWidget {
     final double lat = double.parse(user.userProfile!.latitude.toString());
 
     log("long $longt lat $lat");
+
+    _getLaocation(longt, lat) async {}
+
     var _controller = StaticMapController(
         googleApiKey: Api.api_key,
         width: 400,
@@ -36,7 +40,7 @@ class AdminMainCollectorDetail extends StatelessWidget {
     }
 
     _launchEmail(String email) async {
-      final Uri _url = Uri.parse(email);
+      final Uri _url = Uri.parse("mailto:$email");
       if (!await launchUrl(_url)) {
         throw 'Could not launch $_url';
       }

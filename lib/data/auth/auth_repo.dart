@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ekub/data/api/api_helper.dart';
 import 'package:ekub/data/auth/model/auth_model.dart';
@@ -38,30 +36,11 @@ class AuthRepo {
     String url = Api.baseUrl + ApiEndPoints.getMyUsers;
 
     final response = await apiUtils.get(url: url);
-    // log(response.data.toString());
-
-    // log(x["userProfile"].toString());
-
-    // var b = UserDetailModel(
-    //   id: x["id"],
-    //   createdBy: x["createdBy"],
-    //   createdAt: x["createdAt"],
-    //   email: x["email"],
-    //   accountNonLocked: x["accountNonLocked"],
-    //   failedAttempt: x["failedAttempt"],
-    //   lockTime: x["lockTime"],
-    //   updatedAt: x["updatedAt"],
-    //   updatedBy: x["updatedBy"],
-    //   role: x["role"],
-    //   userProfile: x["userProfile"],
-    // );
-    // log(b.toString());
 
     List<UserDetailModel> result = List<UserDetailModel>.from(response.data.map(
       (res) => UserDetailModel.fromMap(res),
     ));
 
-    log(result.toString());
     return result;
   }
 }

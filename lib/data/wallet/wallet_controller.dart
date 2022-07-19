@@ -14,7 +14,9 @@ class WalletController extends GetxController {
   final _myWallet = WalletModel().obs;
   final _mySavingBalance = SavingAccountModel().obs;
   final _myTransaction = <TransactionResponseModel>[].obs;
+  final _refundController = <RefundModel>[].obs;
   final _authController = Get.find<AuthController>();
+  final _isRefund = false.obs;
 
   final _isLoading = false.obs;
 
@@ -23,7 +25,12 @@ class WalletController extends GetxController {
 
   List<TransactionResponseModel>? get myTransaction => _myTransaction;
 
+  List<RefundModel>? get refundController => _refundController;
+
   bool get isLoading => _isLoading.value;
+  bool get isRefund => _isRefund.value;
+
+  set isRefund(bool value) => _isRefund.value = value;
 
   void setLoading(bool show) {
     _isLoading.value = show;
@@ -100,15 +107,26 @@ class WalletController extends GetxController {
     try {
       final result = await WalletRepo().requestReFund(data);
 
-      if (result != null) {
+      if (result["id"].toString().isNotEmpty) {
         MessageHandler()
-            .displayMessage(msg: "Transaction is Done", title: "Transaction");
+            .displayMessage(msg: "Request Refund is Done!", title: "Request");
         setLoading(false);
+        _isRefund.value = true;
       } else {
         setLoading(false);
       }
     } catch (e) {
       setLoading(false);
+    }
+  }
+
+  void getReqRefunds() async {
+    try {
+      final result = await WalletRepo().getReqRefund();
+
+      _refundController.value = result;
+    } catch (e) {
+      log("message$e");
     }
   }
 }

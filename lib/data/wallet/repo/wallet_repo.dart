@@ -87,4 +87,20 @@ class WalletRepo {
     final response = await apiUtils.post(url: url, data: data.toMap());
     return response.data;
   }
+
+  Future<List<RefundModel>> getReqRefund() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.getReqRefund;
+
+    final response = await apiUtils.get(url: url);
+    List<RefundModel> result = List<RefundModel>.from(response.data.map(
+      (res) => RefundModel.fromMap(res),
+    ));
+
+    return result;
+  }
 }

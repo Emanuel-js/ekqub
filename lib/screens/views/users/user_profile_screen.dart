@@ -229,97 +229,112 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   hadleRequestReFund() {
     Get.bottomSheet(
-        SingleChildScrollView(
-          child: Form(
-            key: _globalKey,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-                color: _authControler.isDarkMode
-                    ? AppColor.darkBlue
-                    : AppColor.white,
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: Get.height * 0.01,
+      SingleChildScrollView(
+        child: Form(
+          key: _globalKey,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              color: _authControler.isDarkMode
+                  ? AppColor.darkBlue
+                  : AppColor.white,
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: Get.height * 0.01,
+                ),
+                Container(
+                  height: 10,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    color: AppColor.lightGray,
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  Container(
-                    height: 10,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      color: AppColor.lightGray,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.05,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: Get.width * 0.057),
+                  alignment: Alignment.centerLeft,
+                  child: TextWidget(
+                    label: "Request Refund",
+                    color: AppColor.black,
                   ),
-                  SizedBox(
-                    height: Get.height * 0.05,
+                ),
+                SizedBox(
+                  height: Get.height * 0.02,
+                ),
+                SizedBox(
+                  width: Get.width * 0.9,
+                  child: inputField(
+                      controller: _fullNameController,
+                      hint: "Full Name",
+                      keytype: TextInputType.text,
+                      icon: FontAwesomeIcons.user),
+                ),
+                SizedBox(
+                  height: Get.height * 0.02,
+                ),
+                SizedBox(
+                  width: Get.width * 0.9,
+                  child: inputField(
+                      controller: _amountController,
+                      hint: "Amount",
+                      keytype: TextInputType.number,
+                      icon: FontAwesomeIcons.moneyBill1),
+                ),
+                SizedBox(
+                  height: Get.height * 0.02,
+                ),
+                SizedBox(
+                  width: Get.width * 0.9,
+                  child: inputField(
+                      controller: _accountNoController,
+                      keytype: TextInputType.number,
+                      hint: "account number",
+                      icon: FontAwesomeIcons.bank),
+                ),
+                SizedBox(
+                  height: Get.height * 0.02,
+                ),
+                SizedBox(
+                  width: Get.width * 0.9,
+                  child: inputField(
+                      controller: _resonController,
+                      hint: "Reason for refund",
+                      icon: FontAwesomeIcons.noteSticky),
+                ),
+                SizedBox(
+                  height: Get.height * 0.02,
+                ),
+                SizedBox(
+                  width: Get.width * 0.9,
+                  child: TextFormField(
+                    controller: _phoneController,
+                    keyboardType: TextInputType.phone,
+                    decoration: _decoration(
+                        hint: "Phone Number", icon: FontAwesomeIcons.phone),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your phone number';
+                      }
+                      if (!value.isPhoneNumber) {
+                        return 'Please enter a valid phone number';
+                      }
+                      return null;
+                    },
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: Get.width * 0.057),
-                    alignment: Alignment.centerLeft,
-                    child: TextWidget(
-                      label: "Request Refund",
-                      color: AppColor.black,
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.9,
-                    child: inputField(
-                        controller: _fullNameController,
-                        hint: "Full Name",
-                        keytype: TextInputType.text,
-                        icon: FontAwesomeIcons.user),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.9,
-                    child: inputField(
-                        controller: _amountController,
-                        hint: "Amount",
-                        icon: FontAwesomeIcons.moneyBill1),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.9,
-                    child: inputField(
-                        controller: _accountNoController,
-                        hint: "account number",
-                        icon: FontAwesomeIcons.bank),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.9,
-                    child: inputField(
-                        controller: _resonController,
-                        hint: "Reason for refund",
-                        icon: FontAwesomeIcons.noteSticky),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  SizedBox(
-                    width: Get.width * 0.9,
-                    child: inputField(
-                        controller: _phoneController,
-                        hint: "Phone Number",
-                        icon: FontAwesomeIcons.phone),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  ),
-                  DropdownButton(
+                ),
+                SizedBox(
+                  height: Get.height * 0.02,
+                ),
+                SizedBox(
+                  width: Get.width * 0.9,
+                  child: DropdownButtonFormField(
+                    decoration: _decoration(hint: "Select Bank"),
                     icon: const Icon(Icons.keyboard_arrow_down),
                     // Array list of items
                     items: bankNam.map((String items) {
@@ -336,45 +351,90 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       });
                     },
                   ),
-                  SizedBox(
-                    width: Get.width * 0.9,
-                    child: ElevatedButton.icon(
-                      style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
-                              EdgeInsets.symmetric(
-                                  horizontal: Get.height * 0.01, vertical: 15)),
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)))),
-                      onPressed: () {
-                        _walletController.requestRefund(RefundModel(
-                            userId: 4,
-                            fullName: _fullNameController.text,
-                            reason: _resonController.text,
-                            amount: _amountController.text,
-                            bankAccountNumber: _accountNoController.text,
-                            phoneForBankAccountNumber: _phoneController.text,
-                            bankName: bank));
-                      },
-                      label: TextWidget(
-                        label: "request",
-                        size: 16,
-                      ),
-                      icon: const Icon(FontAwesomeIcons.dollarSign),
-                    ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.05,
+                ),
+                Container(
+                  child: Obx(
+                    () => _walletController.isLoading
+                        ? const CircularProgressIndicator()
+                        : SizedBox(
+                            width: Get.width * 0.9,
+                            child: ElevatedButton.icon(
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.symmetric(
+                                          horizontal: Get.height * 0.01,
+                                          vertical: 15)),
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)))),
+                              onPressed: () {
+                                if (_globalKey.currentState!.validate()) {
+                                  // _globalKey.currentState!.save();
+                                  _walletController.requestRefund(RefundModel(
+                                      userId: int.parse(
+                                          _authControler.userInfo!.id!),
+                                      fullName: _fullNameController.text,
+                                      reason: _resonController.text,
+                                      amount:
+                                          double.parse(_amountController.text),
+                                      bankAccountNumber:
+                                          _accountNoController.text,
+                                      phoneForBankAccountNumber:
+                                          _phoneController.text,
+                                      bankName: bank));
+                                }
+                                if (_walletController.isRefund) {
+                                  Get.back();
+                                  _fullNameController.clear();
+                                  _amountController.clear();
+                                  _accountNoController.clear();
+                                  _resonController.clear();
+                                  _phoneController.clear();
+                                  _walletController.isRefund = false;
+                                }
+                              },
+                              label: TextWidget(
+                                label: "request",
+                                size: 16,
+                              ),
+                              icon: const Icon(FontAwesomeIcons.dollarSign),
+                            ),
+                          ),
                   ),
-                  SizedBox(
-                    height: Get.height * 0.02,
-                  )
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.04,
+                )
+              ],
             ),
           ),
         ),
-        isScrollControlled: true
+      ),
+      isScrollControlled: true,
 
-        // isScrollControlled: true,
-        );
+      // isScrollControlled: true,
+    );
+  }
+
+  InputDecoration _decoration({IconData? icon, String? hint}) {
+    return InputDecoration(
+      prefixIcon: Container(
+          padding: const EdgeInsets.only(left: 10), child: Icon(icon)),
+      contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+      labelText: hint,
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColor.primaryColor),
+        borderRadius: BorderRadius.circular(25.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(25.0),
+        borderSide: BorderSide(color: AppColor.primaryColor),
+      ),
+    );
   }
 
   Widget inputField(
