@@ -1,4 +1,5 @@
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/helpers/localization_helper.dart';
 import 'package:ekub/data/wallet/model/refend_model.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
@@ -124,11 +125,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 leading: const Icon(Icons.language),
                 title: Container(
                   alignment: Alignment.centerLeft,
-                  child: TextWidget(label: "Language"),
+                  child: TextWidget(label: "Language".tr),
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.arrow_forward_ios),
-                  onPressed: () {},
+                  onPressed: () {
+                    _lang();
+                  },
                 ),
               ),
             ),
@@ -148,7 +151,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 title: Container(
                   alignment: Alignment.topLeft,
-                  child: TextWidget(label: "Theme"),
+                  child: TextWidget(label: "Theme".tr),
                 ),
                 trailing: Obx(
                   () => Switch(
@@ -167,7 +170,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 leading: const Icon(Icons.info),
                 title: Container(
                   alignment: Alignment.centerLeft,
-                  child: TextWidget(label: "About us"),
+                  child: TextWidget(label: "About us".tr),
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.arrow_forward_ios),
@@ -181,7 +184,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 leading: const Icon(Icons.phone),
                 title: Container(
                   alignment: Alignment.centerLeft,
-                  child: TextWidget(label: "Contact us"),
+                  child: TextWidget(label: "Contact us".tr),
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.arrow_forward_ios),
@@ -195,7 +198,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 leading: const Icon(FontAwesomeIcons.moneyBill),
                 title: Container(
                   alignment: Alignment.centerLeft,
-                  child: TextWidget(label: "Withdrawal"),
+                  child: TextWidget(label: "Withdrawal".tr),
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.arrow_forward_ios),
@@ -210,7 +213,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 leading: const Icon(Icons.logout),
                 title: Container(
                   alignment: Alignment.centerLeft,
-                  child: TextWidget(label: "Logout"),
+                  child: TextWidget(label: "Logout".tr),
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.arrow_forward_ios),
@@ -468,6 +471,43 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
       ),
     );
+  }
+
+  _lang() {
+    Get.dialog(Scaffold(
+      body: Container(
+        child: Column(
+          children: [
+            Container(),
+            Container(
+              margin: const EdgeInsets.all(20),
+              // color: AppColor().lightYellow,
+              child: TextWidget(
+                label: "Select Language".tr,
+                size: 16,
+              ),
+            ),
+            ...LocalizationService.instance.supportedLocales
+                .map((Map<String, dynamic> localeInfo) => PopupMenuItem(
+                    onTap: () async {
+                      if (LocalizationService.instance.currentLocaleLangCode !=
+                          localeInfo['languageCode']) {
+                        LocalizationService.instance
+                            .changeLocale(localeInfo['languageCode']);
+                      }
+                    },
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(localeInfo['name'],
+                            style: Theme.of(context).textTheme.subtitle2))))
+                .toList(),
+            const Divider(
+              height: 10,
+            )
+          ],
+        ),
+      ),
+    ));
   }
 }
 

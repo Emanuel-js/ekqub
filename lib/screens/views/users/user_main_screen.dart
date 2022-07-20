@@ -25,7 +25,7 @@ class _UserMainScreenState extends State<UserMainScreen> {
   static final List<Widget> _widgetOptions = [
     const UserHomeScreen(),
     const UserWalletScreen(),
-    UserDropScreen()
+    const UserDropScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -48,10 +48,11 @@ class _UserMainScreenState extends State<UserMainScreen> {
         // padding: const EdgeInsets.symmetric(horizontal: 10),
         child: FancyBottomNavigation(
           circleColor: AppColor.primaryColor,
+          activeIconColor: AppColor.white,
           tabs: [
-            TabData(iconData: FontAwesomeIcons.house, title: "መነሻ"),
-            TabData(iconData: FontAwesomeIcons.wallet, title: "ቁጠባ"),
-            TabData(iconData: FontAwesomeIcons.piggyBank, title: "ጣል")
+            TabData(iconData: FontAwesomeIcons.house, title: "Home".tr),
+            TabData(iconData: FontAwesomeIcons.wallet, title: "Wallet".tr),
+            TabData(iconData: FontAwesomeIcons.piggyBank, title: "Drop".tr)
           ],
           onTabChangedListener: (position) {
             setState(() {

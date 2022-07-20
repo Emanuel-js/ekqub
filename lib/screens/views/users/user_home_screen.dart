@@ -39,8 +39,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       return (await showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text('Are you sure?'),
-              content: const Text('Do you want to exit an App'),
+              title: Text('Are you sure?'.tr),
+              content: Text('Do you want to exit an App'.tr),
               actions: <Widget>[
                 TextButton(
                   onPressed: () =>
@@ -93,25 +93,26 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       () => card(
                           data: "${_ticketController.myLotto?.length}",
                           icon: FontAwesomeIcons.receipt,
-                          subtitle: "ጠቅላላ እጣዎች ያሎት",
-                          title: "ጠቅላላ እጣዎች",
+                          subtitle: "Total lot you have".tr,
+                          title: "Total lot".tr,
                           color: AppColor.lightBlue),
                     ),
                     Obx(
                       () => card(
-                          data: "${_walletController.myWallet?.balance} ብር",
+                          data: "${_walletController.myWallet?.balance} " +
+                              "ETB".tr,
                           icon: FontAwesomeIcons.wallet,
-                          subtitle: "ያለዎት ጠቅላላ ቀሪ ገንዘብ",
-                          title: "ጠቅላላ ቀሪ ገንዘብ",
+                          subtitle: "Wallet amount you have".tr,
+                          title: "Wallet amount".tr,
                           color: AppColor.primaryColor),
                     ),
                     Obx(
                       () => card(
-                        data:
-                            "${_walletController.mySavingBalance?.balance} ብር",
+                        data: "${_walletController.mySavingBalance?.balance} " +
+                            "ETB".tr,
                         icon: FontAwesomeIcons.moneyBills,
-                        subtitle: "ያለዎት አጠቃላይ ቁጠባ ገንዘብ ",
-                        title: "የተጠራቀመ ገንዘብ",
+                        subtitle: "Saving amount you have".tr,
+                        title: "Saving amount".tr,
                         color: AppColor.darkGray,
                       ),
                     ),
@@ -119,8 +120,8 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       () => card(
                           data: "${_ticketController.myLotto?.length}",
                           icon: FontAwesomeIcons.piggyBank,
-                          subtitle: "ጠቅላላ የጣሉት እጣዎች",
-                          title: "የጣሉት እጣዎች",
+                          subtitle: "Total tickets you have".tr,
+                          title: "Drop tickets".tr,
                           color: AppColor.purple),
                     ),
                   ],
@@ -188,14 +189,14 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                     children: [
                       Container(
                         child: TextWidget(
-                          label: "የዛሬ እጣ",
+                          label: "Todays Lot".tr,
                           color: AppColor.white,
                           ftw: FontWeight.w600,
                         ),
                       ),
                       Container(
                         child: TextWidget(
-                          label: "የቀረው ጊዜ 3:00h",
+                          label: "Reaming time".tr + " 3:00h",
                           color: AppColor.white,
                           size: 14,
                         ),
@@ -235,7 +236,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                       children: [
                         Container(
                           child: TextWidget(
-                            label: "የዛሬ እጣ አሸናፊ",
+                            label: "Todays Winner".tr,
                             color: AppColor.white,
                           ),
                         ),
@@ -250,7 +251,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                         ),
                         Container(
                           child: TextWidget(
-                            label: "1,000,000 ብር",
+                            label: "1,000,000 " + "ETB".tr,
                             color: AppColor.white,
                           ),
                         ),

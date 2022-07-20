@@ -1,3 +1,4 @@
+import 'package:ekub/data/helpers/localization_helper.dart';
 import 'package:ekub/screens/views/admin/showmap.dart';
 import 'package:ekub/screens/views/auth/login_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
@@ -16,6 +17,32 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: Container(),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: [
+          PopupMenuButton(
+              icon: const Icon(
+                Icons.more_vert,
+              ),
+              itemBuilder: (_) => LocalizationService.instance.supportedLocales
+                  .map((Map<String, dynamic> localeInfo) => PopupMenuItem(
+                      onTap: () async {
+                        if (LocalizationService
+                                .instance.currentLocaleLangCode !=
+                            localeInfo['languageCode']) {
+                          LocalizationService.instance
+                              .changeLocale(localeInfo['languageCode']);
+                        }
+                      },
+                      child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(localeInfo['name'],
+                              style: Theme.of(context).textTheme.subtitle2))))
+                  .toList()),
+        ],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -53,7 +80,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Get.to(const LoginScreen());
                     },
                     child: TextWidget(
-                      label: "ይግቡ",
+                      label: "Login".tr,
                       size: 16,
                     ),
                   ),
@@ -77,7 +104,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Get.to(const ShowMap());
                     },
                     child: TextWidget(
-                      label: "ይመዝገቡ",
+                      label: "Register".tr,
                       size: 16,
                     ),
                   ),

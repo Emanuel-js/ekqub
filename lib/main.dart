@@ -3,6 +3,7 @@ import 'package:ekub/constants/messages.dart';
 import 'package:ekub/data/admin/admin_controller.dart';
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/helpers/local_storage_provider.dart';
+import 'package:ekub/data/helpers/localization_helper.dart';
 import 'package:ekub/data/maincollector/main_collector_controller.dart';
 import 'package:ekub/data/subcollector/sub_collector_controller.dart';
 import 'package:ekub/data/ticket/ticket_controller.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
     final _controller = Get.find<AuthController>();
     return Obx(
       () => GetMaterialApp(
+        translations: LocalizationService.instance,
+        locale: LocalizationService.instance.currentLocale,
+        fallbackLocale: LocalizationService.instance.fallbackLocale,
         debugShowCheckedModeBanner: false,
         title: 'እቁብ',
         theme:

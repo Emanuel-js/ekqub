@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/wallet/model/refend_model.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/admin/notification/refundNotificationDetail.dart';
 import 'package:ekub/screens/widgets/tab_indictor.dart';
@@ -24,7 +23,7 @@ class _AdminNotificationState extends State<AdminNotification>
   Widget build(BuildContext context) {
     final TabController _tabController = TabController(length: 3, vsync: this);
     _walletController.getReqRefunds();
-    log("refund" + _walletController.refundController.toString());
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -100,9 +99,14 @@ class _AdminNotificationState extends State<AdminNotification>
                   height: Get.height * 0.5,
                   child: TabBarView(controller: _tabController, children: [
                     Container(
-                        child: ListView(
-                      children: [_withdrwalList()],
-                    )),
+                        child: ListView.builder(
+                            itemCount:
+                                _walletController.refundController!.length,
+                            itemBuilder: (context, index) {
+                              RefundModel refund =
+                                  _walletController.refundController![index];
+                              return _withdrwalList(refund);
+                            })),
                     Container(
                         child: ListView(
                       children: const [],
@@ -119,10 +123,10 @@ class _AdminNotificationState extends State<AdminNotification>
     );
   }
 
-  Widget _withdrwalList() {
+  Widget _withdrwalList(RefundModel refund) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const AdminRefundNotificationDetail());
+        Get.to(() => const AdminRefundNotificationDetail(), arguments: refund);
       },
       child: Container(
         child: Card(
@@ -132,16 +136,24 @@ class _AdminNotificationState extends State<AdminNotification>
             child: Container(
               padding: const EdgeInsets.all(10),
               child: ListTile(
-                leading: Container(
-                  child: const CircleAvatar(
-                      backgroundImage:
-                          NetworkImage("https://i.pravatar.cc/300")),
+                leading: Hero(
+                  tag: refund.updatedAt.toString(),
+                  child: Container(
+                    child: const CircleAvatar(
+                        backgroundImage:
+                            NetworkImage("https://i.pravatar.cc/300")),
+                  ),
                 ),
-                title: TextWidget(label: "Amanuel Awol request refund"),
+                title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: TextWidget(
+                      label: "${refund.fullName} request refund",
+                      size: 15,
+                    )),
                 subtitle: Container(
                     alignment: Alignment.topLeft,
                     child: TextWidget(
-                      label: "2000 ETB",
+                      label: "${refund.amount} ETB",
                     )),
               ),
             )

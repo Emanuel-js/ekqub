@@ -23,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
       ),
       PageViewModel(
         title: "Keep Your Wallet",
-        body: "",
+        body: "save the many and get the many billon times",
         image: Center(
           child: Image(
             image: const AssetImage("assets/imgs/onboard2.png"),
@@ -33,7 +33,7 @@ class OnboardingScreen extends StatelessWidget {
       ),
       PageViewModel(
         title: "Win a Prize",
-        body: "",
+        body: "save the many and get the many billon times",
         image: Center(
           child: Image(
             image: const AssetImage("assets/imgs/onboard3.png"),

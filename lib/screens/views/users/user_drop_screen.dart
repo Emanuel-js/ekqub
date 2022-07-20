@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/ticket/model/drop_ticket_model.dart';
 import 'package:ekub/data/ticket/model/ticekt_model.dart';
@@ -24,11 +26,27 @@ class _UserDropScreenState extends State<UserDropScreen> {
   final _globalKey = GlobalKey<FormState>();
   final _ticketController = Get.find<TicketController>();
   final _authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
-    _ticketController.getMyTicket(_authController.userInfo!.id.toString());
+    // _ticketController.getMyTicket(_authController.userInfo!.id.toString());
+
+    final List<TicketModel>? allTicket = _ticketController.myLotto;
+    final List<TicketModel> monday = [];
+    final List<TicketModel> tuesday = [];
+
+    void removeAll(TicketModel toRemove) {
+      allTicket!.removeWhere((ticket) => ticket.id == toRemove.id);
+      monday.removeWhere((ticket) => ticket.id == toRemove.id);
+      tuesday.removeWhere((ticket) => ticket.id == toRemove.id);
+    }
+
+    log("monday  $monday");
+    log("tuesday  $tuesday");
+    log("allTicket  $allTicket");
+
     return Scaffold(
-        floatingActionButton: SingleChildScrollView(
+        floatingActionButton: Container(
           child: Container(
             margin: const EdgeInsets.only(bottom: 30),
             child: FloatingActionButton(
@@ -56,7 +74,7 @@ class _UserDropScreenState extends State<UserDropScreen> {
             ),
           ),
         ),
-        body: Container(
+        body: SingleChildScrollView(
           child: Column(
             children: [
               Obx(
@@ -90,21 +108,36 @@ class _UserDropScreenState extends State<UserDropScreen> {
                   color: AppColor.black,
                 ),
               ),
-              Expanded(
-                child: Obx(
-                  () => ListView.builder(
-                      itemCount: _ticketController.myLotto?.length,
-                      itemBuilder: (context, index) {
-                        final lotto = _ticketController.myLotto![index];
+              buildTarget(
+                context,
+                text: "my lotto",
+                tickets: allTicket!,
+                onAccept: (data) => setState(() {
+                  removeAll(data);
+                  allTicket.add(data);
+                }),
+              ),
 
-                        return Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 10),
-                            width: Get.width * 0.8,
-                            child: tiketCard(lotto));
-                      }),
+              Container(
+                child: Column(
+                  children: [
+                    buildTarget(context,
+                        text: "Monday",
+                        tickets: monday,
+                        onAccept: (data) => setState(() {
+                              removeAll(data);
+                              monday.add(data);
+                            })),
+                    buildTarget(context,
+                        text: "Tuesday",
+                        tickets: tuesday,
+                        onAccept: (data) => setState(() {
+                              removeAll(data);
+                              tuesday.add(data);
+                            })),
+                  ],
                 ),
-              )
+              ),
             ],
           ),
         ));
@@ -345,6 +378,45 @@ class _UserDropScreenState extends State<UserDropScreen> {
           borderRadius: BorderRadius.circular(25.0),
           borderSide: BorderSide(color: AppColor.primaryColor),
         ),
+      ),
+    );
+  }
+
+  Widget buildTarget(
+    BuildContext context, {
+    required String text,
+    required List<TicketModel> tickets,
+    required DragTargetAccept<TicketModel> onAccept,
+  }) =>
+      Column(children: [
+        Container(
+          child: TextWidget(
+            label: text,
+            size: 16,
+          ),
+        ),
+        DragTarget<TicketModel>(
+            onWillAccept: (data) => true,
+            onAccept: (data) {
+              onAccept(data);
+            },
+            builder: (context, candidateData, rejectedData) => Column(
+                  children: [
+                    ...tickets
+                        .map((lot) => DragbleWidget(ticketModel: lot))
+                        .toList(),
+                    IgnorePointer(child: Container()),
+                  ],
+                )),
+      ]);
+
+  Widget DragbleWidget({required TicketModel ticketModel}) {
+    return Draggable<TicketModel>(
+      data: ticketModel,
+      child: tiketCard(ticketModel),
+      feedback: tiketCard(ticketModel),
+      childWhenDragging: Container(
+        width: Get.width,
       ),
     );
   }

@@ -1,6 +1,6 @@
 class Api {
-  static const baseUrl = "http://192.168.45.233:8080/api/v1/";
-  static const Customeurl = "http://192.168.45.233:8080/api/";
+  static const baseUrl = "http://192.168.0.106:8080/api/v1/";
+  static const Customeurl = "http://192.168.0.106:8080/api/";
   static const api_key = "AIzaSyApudOBhp9u8Bq3wu_qObLHtb78PQxPrPI";
 }
 

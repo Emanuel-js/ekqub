@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       child: inputField(
                           controller: _usernameOrEmailController,
-                          hint: "የተጠቃሚ ስም ወይም ኢሜል",
+                          hint: "Email or UserName".tr,
                           keytype: TextInputType.text,
                           icon: Icons.person),
                     ),
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       child: inputField(
                           controller: _passwordController,
-                          hint: "የይለፍ ቃል",
+                          hint: "Password".tr,
                           icon: Icons.lock,
                           suficon: _showPassword
                               ? Icons.visibility
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                   },
                                   child: TextWidget(
-                                    label: "ይግቡ",
+                                    label: "Login".tr,
                                     size: 16,
                                   ),
                                 ),
