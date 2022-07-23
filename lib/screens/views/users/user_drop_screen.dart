@@ -397,6 +397,7 @@ class _UserDropScreenState extends State<UserDropScreen> {
         ),
         DragTarget<TicketModel>(
             onWillAccept: (data) => true,
+            onLeave: (data) => false,
             onAccept: (data) {
               onAccept(data);
             },

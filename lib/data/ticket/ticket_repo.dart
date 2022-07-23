@@ -19,6 +19,18 @@ class TicketRepo {
     return response.data;
   }
 
+  dropTicketForClint(DropTicketModel data) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+    }
+
+    String url = Api.Customeurl + ApiEndPoints.dropTicketForClient;
+
+    final response = await apiUtils.post(url: url, data: data.toMap());
+    return response.data;
+  }
+
   Future<List<TicketModel>> getMyLotto(String id) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {

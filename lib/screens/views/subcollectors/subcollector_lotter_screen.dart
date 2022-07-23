@@ -1,4 +1,6 @@
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/ticket/model/drop_ticket_model.dart';
+import 'package:ekub/data/ticket/ticket_controller.dart';
 import 'package:ekub/data/user/model/user_detail_model.dart';
 import 'package:ekub/screens/views/subcollectors/registerr/register_lotter_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
@@ -9,9 +11,22 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class SubCollectorLottScreen extends StatelessWidget {
-  SubCollectorLottScreen({Key? key}) : super(key: key);
+class SubCollectorLottScreen extends StatefulWidget {
+  const SubCollectorLottScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SubCollectorLottScreen> createState() => _SubCollectorLottScreenState();
+}
+
+class _SubCollectorLottScreenState extends State<SubCollectorLottScreen> {
   final _authControler = Get.find<AuthController>();
+  final _moneyController = TextEditingController();
+
+  final _timesController = TextEditingController();
+
+  final _globalKey = GlobalKey<FormState>();
+  final _ticketController = Get.find<TicketController>();
+  final _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     _authControler.getMyUsers();
@@ -84,14 +99,26 @@ class SubCollectorLottScreen extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.only(left: 20, top: 10),
-            child: TextWidget(
-              label: "ዕጣ ጣይዮች",
-              size: 18,
-              ftw: FontWeight.bold,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(left: 20, top: 10),
+                child: TextWidget(
+                  label: "ዕጣ ጣይዮች",
+                  size: 18,
+                  ftw: FontWeight.bold,
+                ),
+              ),
+              Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(left: 20, top: 10),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: TextWidget(label: "Drop Ticket"),
+                  )),
+            ],
           ),
           Expanded(
               child: Obx(
@@ -163,6 +190,121 @@ class SubCollectorLottScreen extends StatelessWidget {
                 ],
               ),
             )));
+  }
+
+  dropLott() {
+    Get.bottomSheet(SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          color: _authController.isDarkMode
+              ? AppTheme.darkTheme.backgroundColor
+              : AppTheme.lightTheme.backgroundColor,
+        ),
+        child: Form(
+          key: _globalKey,
+          child: Column(
+            children: [
+              SizedBox(
+                height: Get.height * 0.02,
+              ),
+              Container(
+                width: 120,
+                height: 15,
+                decoration: BoxDecoration(
+                    color: AppColor.lightGray,
+                    borderRadius: BorderRadius.circular(15)),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              SizedBox(
+                width: Get.width * 0.8,
+                child: inputField(
+                    controller: _moneyController,
+                    hint: "የገንዘብ መጠን",
+                    keytype: TextInputType.number),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              SizedBox(
+                width: Get.width * 0.8,
+                child: inputField(
+                    controller: _timesController,
+                    hint: "የትኬት መጠን",
+                    keytype: TextInputType.number),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              SizedBox(
+                width: Get.width * 0.9,
+                child: ElevatedButton.icon(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(
+                          horizontal: Get.height * 0.01, vertical: 15)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)))),
+                  onPressed: () {
+                    if (_globalKey.currentState!.validate()) {
+                      _ticketController.dropTicket(DropTicketModel(
+                          amount: double.parse(_moneyController.text),
+                          numberOfTickets: int.parse(_timesController.text),
+                          userId: int.parse(
+                              _authController.userInfo!.id.toString())));
+                      if (_ticketController.isLoading) {
+                        Get.back();
+                      }
+                    }
+                  },
+                  label: TextWidget(
+                    label: "ጣል",
+                    size: 16,
+                  ),
+                  icon: const Icon(FontAwesomeIcons.piggyBank),
+                ),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
+
+  Widget inputField(
+      {required String hint,
+      required TextEditingController controller,
+      IconData? icon,
+      TextInputType keytype = TextInputType.text}) {
+    return TextFormField(
+      style: const TextStyle(fontSize: 16),
+      controller: controller,
+      keyboardType: keytype,
+      validator: (v) {
+        if (v!.isEmpty) {
+          return "Please insret required filed";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        prefixIcon: Container(
+            padding: const EdgeInsets.only(left: 10), child: Icon(icon)),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        labelText: hint,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColor.primaryColor),
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(color: AppColor.primaryColor),
+        ),
+      ),
+    );
   }
 
   Widget _cards({

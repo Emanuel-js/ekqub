@@ -18,6 +18,7 @@ class ApiEndPoints {
   static const savingAccount = "wallet/accumlatedBalance";
 
   static const createDropTickets = "lotto/createDropTickets";
+  static const dropTicketForClient = "lotto/createDropTicketsForClient";
   static const getCreatedTickets = "lotto/GetAllMyTickets/";
   static const getMyUsers = "common/getAllMyUsers";
 

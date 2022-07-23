@@ -1,3 +1,4 @@
+import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/wallet/model/transaction_model.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
@@ -16,6 +17,7 @@ class SubCollectorWalletScreen extends StatefulWidget {
 
 class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
   final _walletController = Get.find<WalletController>();
+  final _authController = Get.find<AuthController>();
 
   final _amountController = TextEditingController();
 
@@ -134,7 +136,8 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
         child: Form(
           key: _globalKey,
           child: Container(
-            color: AppColor.white,
+            color:
+                _authController.isDarkMode ? AppColor.darkBlue : AppColor.white,
             height: Get.height * 0.5,
             child: Column(
               children: [
