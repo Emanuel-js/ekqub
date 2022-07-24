@@ -18,6 +18,10 @@ class SubCollectorHomeScreen extends StatelessWidget {
     final _authController = Get.find<AuthController>();
     final _walletController = Get.find<WalletController>();
     _walletController.getWalletAccount(_authController.userInfo!.id.toString());
+    _walletController
+        .getTransactionHistory(_authController.userInfo!.id.toString());
+    _authController.getMyUsers();
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.primaryColor,
@@ -110,13 +114,15 @@ class SubCollectorHomeScreen extends StatelessWidget {
                   left: 15.0, right: 15.0, top: Get.height * 0.23),
               child: Column(
                 children: [
-                  _cards(
-                      data: "100",
-                      icon: FontAwesomeIcons.peopleGroup,
-                      title: "ጠቅላላ ዕጣ",
-                      onPress: () {
-                        Get.to(SubCollectorLottScreen());
-                      }),
+                  Obx(
+                    () => _cards(
+                        data: _authController.userDetail!.length.toString(),
+                        icon: FontAwesomeIcons.peopleGroup,
+                        title: "ጠቅላላ ዕጣ",
+                        onPress: () {
+                          Get.to(const SubCollectorLottScreen());
+                        }),
+                  ),
                   Obx(
                     () => _cards(
                         data: "${_walletController.myWallet!.balance} ETB",

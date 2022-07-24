@@ -219,6 +219,7 @@ class AdminMainCollectorDetail extends StatelessWidget {
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               child: const Icon(FontAwesomeIcons.idCard),

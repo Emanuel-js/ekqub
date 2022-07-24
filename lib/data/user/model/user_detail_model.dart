@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ekub/data/user/model/role_model.dart';
 import 'package:ekub/data/user/model/user.dart';
 
@@ -105,7 +103,6 @@ class UserDetailModel {
   }
 
   UserDetailModel.fromMap(Map<String, dynamic> map) {
-    log("inside user detail model from map");
     createdAt = map['createdAt'];
     updatedAt = map['updatedAt'];
     createdBy = map['createdBy'];
@@ -116,24 +113,7 @@ class UserDetailModel {
     lockTime = map['lockTime'];
     failedAttempt = map['failedAttempt'];
     accountNonLocked = map['accountNonLocked'];
-
     userProfile = UserModel.fromMap(map['userProfile']);
-    // log("User profile is $userProfile");
     role = RoleModel.fromMap(map['role']);
-    log("role is $role");
-    // return UserDetailModel(
-    //   createdAt: map['createdAt'],
-    //   updatedAt: map['updatedAt'],
-    //   createdBy: map['createdBy'],
-    //   updatedBy: map['updatedBy'],
-    //   id: int.parse(map['id']),
-    //   username: map['username'],
-    //   email: map['email'],
-    //   lockTime: map['lockTime'],
-    //   failedAttempt: map['failedAttempt'],
-    //   accountNonLocked: map['accountNonLocked'],
-    //   userProfile: UserModel.fromMap(map['userProfile']),
-    //   role: RoleModel.fromMap(map['role']),
-    // );
   }
 }

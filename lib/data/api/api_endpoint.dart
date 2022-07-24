@@ -10,18 +10,20 @@ class ApiEndPoints {
 
   static const clientRegister = "subCollector/addClient";
 
-  static const getUserWalletAccount = "wallet/user";
-
   static const transferMoney = "transaction/transferBalance";
   static const transferWalletToSales = "transaction/addBalance";
   static const transactionHistory = "transaction/user";
+
   static const savingAccount = "wallet/accumlatedBalance";
+  static const getUserWalletAccount = "wallet/user";
 
   static const createDropTickets = "lotto/createDropTickets";
   static const dropTicketForClient = "lotto/createDropTicketsForClient";
   static const getCreatedTickets = "lotto/GetAllMyTickets/";
+
   static const getMyUsers = "common/getAllMyUsers";
 
   static const requestRefund = "refund/requestRefund";
   static const getReqRefund = "refund/getAllRefundRequests";
+  static const requestApprove = "refund/approveRefundRequest";
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ekub/data/api/api_helper.dart';
 import 'package:ekub/data/auth/model/auth_model.dart';
@@ -9,12 +11,12 @@ import '../api/baserepository/api.dart';
 
 class AuthRepo {
   Future login(AuthModel data) async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      return AuthResponse.withError(
-          success: false, msg: apiUtils.getNetworkError());
-    }
-
+    // final connectivityResult = await (Connectivity().checkConnectivity());
+    // if (connectivityResult == ConnectivityResult.none) {
+    //   return AuthResponse.withError(
+    //       success: false, msg: apiUtils.getNetworkError());
+    // }
+    log("login...");
     String url = Api.baseUrl + ApiEndPoints.login;
 
     try {

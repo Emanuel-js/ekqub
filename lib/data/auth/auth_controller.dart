@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ekub/constants/messages.dart';
 import 'package:ekub/constants/role.dart';
 import 'package:ekub/data/auth/auth_repo.dart';
@@ -45,7 +47,7 @@ class AuthController extends GetxController {
 
   void handleRole(String role) {
     if (role == Role.ROlE_ADMIN) {
-      Get.off(() => const AdminHomeScreen());
+      Get.off(() => AdminHomeScreen());
     } else if (role == Role.ROLE_MAIN_COLLECTOR) {
       Get.off(() => const MainCollectorHomeScreen());
     } else if (role == Role.ROLE_SUB_COLLECTOR) {
@@ -58,6 +60,7 @@ class AuthController extends GetxController {
   void login(AuthModel data) async {
     setLoading(true);
     try {
+      log("login");
       final result = await AuthRepo().login(data);
 
       await LocalStorageService.instance

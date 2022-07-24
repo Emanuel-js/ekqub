@@ -53,76 +53,79 @@ class _AdminResistersMainCollectorState
                 ),
               )),
         ),
-        body: Container(
-          margin: const EdgeInsets.only(top: 20),
-          child: Column(
-            children: [
-              Container(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TabBar(
-                      controller: _tabController,
-                      isScrollable: true,
-                      unselectedLabelColor: _authControler.isDarkMode
-                          ? AppColor.darkGray
-                          : AppColor.purple,
-                      labelColor: _authControler.isDarkMode
-                          ? AppColor.white
-                          : AppColor.primaryColor,
-                      labelPadding: const EdgeInsets.only(left: 20, right: 20),
-                      indicator: CircleTabIndicator(
-                          _authControler.isDarkMode
-                              ? AppColor.secondaryColor
-                              : AppColor.black,
-                          4),
-                      tabs: [
-                        TextWidget(
-                          label: "ዛሬ",
-                          // color: AppColor.black,
-                          size: 16,
-                        ),
-                        TextWidget(
-                          label: "ወርሃዊ",
-                          // color: AppColor.black,
-                          size: 16,
-                        ),
-                        TextWidget(
-                          label: "የሁልጊዜ",
-                          size: 16,
-                          // color: AppColor.black,
-                        ),
-                      ]),
+        body: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                Container(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TabBar(
+                        controller: _tabController,
+                        isScrollable: true,
+                        unselectedLabelColor: _authControler.isDarkMode
+                            ? AppColor.darkGray
+                            : AppColor.purple,
+                        labelColor: _authControler.isDarkMode
+                            ? AppColor.white
+                            : AppColor.primaryColor,
+                        labelPadding:
+                            const EdgeInsets.only(left: 20, right: 20),
+                        indicator: CircleTabIndicator(
+                            _authControler.isDarkMode
+                                ? AppColor.secondaryColor
+                                : AppColor.black,
+                            4),
+                        tabs: [
+                          TextWidget(
+                            label: "ዛሬ",
+                            // color: AppColor.black,
+                            size: 16,
+                          ),
+                          TextWidget(
+                            label: "ወርሃዊ",
+                            // color: AppColor.black,
+                            size: 16,
+                          ),
+                          TextWidget(
+                            label: "የሁልጊዜ",
+                            size: 16,
+                            // color: AppColor.black,
+                          ),
+                        ]),
+                  ),
                 ),
-              ),
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                width: double.maxFinite,
-                height: Get.height * 0.78,
-                child: TabBarView(controller: _tabController, children: [
-                  Obx(
-                    () => ListView.builder(
-                        itemCount: _authControler.userDetail!.length,
-                        itemBuilder: ((context, index) {
-                          UserDetailModel myUser =
-                              _authControler.userDetail![index];
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  width: double.maxFinite,
+                  height: Get.height * 0.78,
+                  child: TabBarView(controller: _tabController, children: [
+                    Obx(
+                      () => ListView.builder(
+                          itemCount: _authControler.userDetail!.length,
+                          itemBuilder: ((context, index) {
+                            UserDetailModel myUser =
+                                _authControler.userDetail![index];
 
-                          return getUsers(userDetailModel: myUser);
-                        })),
-                  ),
-                  Container(
-                    child: ListView(
-                      children: const [],
+                            return getUsers(userDetailModel: myUser);
+                          })),
                     ),
-                  ),
-                  Container(
-                    child: ListView(
-                      children: const [],
+                    Container(
+                      child: ListView(
+                        children: const [],
+                      ),
                     ),
-                  ),
-                ]),
-              )
-            ],
+                    Container(
+                      child: ListView(
+                        children: const [],
+                      ),
+                    ),
+                  ]),
+                )
+              ],
+            ),
           ),
         ));
   }

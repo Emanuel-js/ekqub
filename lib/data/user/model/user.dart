@@ -1,14 +1,11 @@
 import 'dart:convert';
 
-import 'dart:developer';
-
 class UserModel {
   int? id;
   String? firstName;
   String? lastName;
   String? username;
   String? email;
-  String? role;
   String? phoneNumber;
   String? alternatePhoneNumber;
   double? latitude;
@@ -26,7 +23,6 @@ class UserModel {
       this.lastName,
       this.username,
       this.email,
-      this.role,
       this.phoneNumber,
       this.latitude,
       this.longitude,
@@ -63,7 +59,6 @@ class UserModel {
         lastName: lastName ?? this.lastName,
         username: username ?? this.username,
         email: email ?? this.email,
-        role: role ?? this.role,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
@@ -92,9 +87,7 @@ class UserModel {
     if (email != null) {
       result.addAll({'email': email});
     }
-    if (role != null) {
-      result.addAll({'role': role});
-    }
+
     if (phoneNumber != null) {
       result.addAll({'phoneNumber': phoneNumber});
     }
@@ -132,9 +125,7 @@ class UserModel {
     if (email != null) {
       result.addAll({'email': email});
     }
-    if (role != null) {
-      result.addAll({'role': role});
-    }
+
     if (phoneNumber != null) {
       result.addAll({'phoneNumber': phoneNumber});
     }
@@ -161,7 +152,6 @@ class UserModel {
   }
 
   UserModel.fromMap(Map<String, dynamic> map) {
-    log("Inside user model from map");
     id = map['id'];
     firstName = map['firstName'];
     lastName = map['lastName'];
@@ -198,9 +188,4 @@ class UserModel {
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'UserModel(firstName: $firstName, lastName: $lastName, username: $username, email: $email, role: $role, phoneNumber: $phoneNumber, latitude: $latitude, longitude: $longitude, city: $city, yearBorn: $yearBorn, gender: $gender, initialBalance: $initialBalance, idCardImageUrl: $idCardImageUrl, avatarImageUrl: $avatarImageUrl)';
-  }
 }

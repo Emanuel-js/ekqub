@@ -40,11 +40,11 @@ class AdminController extends GetxController {
 
     try {
       final res = await AdminRepo().registerMainCollector(data, image);
-      print("======$res");
+
       if (res["userProfile"] != null) {
         _isRegisterd.value = true;
         setLoading(false);
-        Get.to(() => const AdminHomeScreen());
+        Get.to(() => AdminHomeScreen());
         MessageHandler().displayMessage(title: "መልክት", msg: "በተሳካ ሁኔታ ተመዝግቧል");
       }
     } catch (e) {

@@ -39,7 +39,7 @@ class MainCollectorController extends GetxController {
 
     try {
       final res = await ManiCollectorRepo().registerSubCollector(data, image);
-      if (res != null) {
+      if (res["userProfile"] != null) {
         _isRegisterd.value = true;
         setLoading(false);
         Get.to(() => const MainCollectorHomeScreen());

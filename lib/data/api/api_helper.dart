@@ -144,9 +144,15 @@ class ApiUtils {
 
       if (dioError.response != null) {
         var msg = dioError.response;
-        MessageHandler().displayMessage(
-            title: "message",
-            msg: dioError.response!.data["httpmessage"].toString());
+        if (dioError.response!.data["httpmessage"] != null) {
+          MessageHandler().displayMessage(
+              title: "message",
+              msg: dioError.response!.data["httpmessage"].toString());
+        } else {
+          MessageHandler().displayMessage(
+              title: "message",
+              msg: dioError.response!.data["message"].toString());
+        }
 
         log("dioError:: response ++>> " + dioError.response.toString());
       }
@@ -176,8 +182,8 @@ class ApiUtils {
     } else {
       errorDescription = "Unexpected error occured";
     }
-    MessageHandler()
-        .displayMessage(title: "message", msg: errorDescription.toString());
+    // MessageHandler()
+    //     .displayMessage(title: "message", msg: errorDescription.toString());
     log("handleError:: errorDescription >> $errorDescription");
 
     return errorDescription;

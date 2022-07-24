@@ -14,12 +14,13 @@ import 'package:ekub/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   await GetStorage.init();
   await initApp();
   runApp(const MyApp());
-
+//  String? token = await FirebaseMessaging.instance.getToken();
   Get.put(AuthController());
   Get.put(AdminController());
   Get.put(MainCollectorController());
@@ -70,6 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget getPage() {
     if (LocalStorageService.instance.get(AppConst.APP_ACCESS_TOKEN) != null) {
+      final _authController = Get.find<AuthController>();
+      _authController.getMyUsers();
       return const WelcomeScreen();
     }
     return const OnboardingScreen();

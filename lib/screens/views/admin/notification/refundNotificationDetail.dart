@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:ekub/data/wallet/model/refend_model.dart';
+import 'package:ekub/data/wallet/model/refund_requst_approved_model.dart';
+import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:ekub/utils/formating.dart';
@@ -7,11 +11,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class AdminRefundNotificationDetail extends StatelessWidget {
-  const AdminRefundNotificationDetail({Key? key}) : super(key: key);
-
+  AdminRefundNotificationDetail({Key? key}) : super(key: key);
+  final _walletController = Get.find<WalletController>();
+  RefundModel refund = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    RefundModel refund = Get.arguments;
+    log(refund.toMap().toString());
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
@@ -31,20 +36,19 @@ class AdminRefundNotificationDetail extends StatelessWidget {
                       Container(
                         alignment: Alignment.centerLeft,
                         child: TextWidget(
-                          label: refund.fullName,
+                          label: refund.refundForm!.fullName.toString(),
                           ftw: FontWeight.bold,
                           size: 25,
                         ),
                       ),
                       Hero(
-                        tag: refund.updatedAt.toString(),
-                        child: Container(
-                          child: const CircleAvatar(
-                              radius: 40,
-                              backgroundImage:
-                                  NetworkImage("https://i.pravatar.cc/300")),
-                        ),
-                      )
+                          tag: refund.refundForm!.updatedAt.toString() +
+                              refund.refundForm!.reason.toString(),
+                          child: Container(
+                              child: const CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: NetworkImage(
+                                      "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"))))
                     ],
                   ),
                   // account balance
@@ -55,35 +59,36 @@ class AdminRefundNotificationDetail extends StatelessWidget {
                   // refund date
                   Container(
                     child: _card(
-                        data: refund.bankName.toString(),
+                        data: refund.refundForm!.bankName.toString(),
                         title: "Bank Name",
                         icon: FontAwesomeIcons.bank),
                   ),
                   Container(
                     child: _card(
-                        data: refund.bankAccountNumber.toString(),
+                        data: refund.refundForm!.bankAccountNumber.toString(),
                         title: "Account Number",
                         lts: 2,
                         icon: FontAwesomeIcons.bank),
                   ),
                   Container(
                     child: _card(
-                        data: refund.phoneForBankAccountNumber.toString(),
+                        data: refund.refundForm!.phoneForBankAccountNumber
+                            .toString(),
                         title: "Phone Number",
                         lts: 2,
                         icon: FontAwesomeIcons.phone),
                   ),
                   Container(
                     child: _card(
-                        data:
-                            Formatting.formatDate(refund.createdAt.toString()),
+                        data: Formatting.formatDate(
+                            refund.refundForm!.createdAt.toString()),
                         title: "Refund Date",
                         icon: Icons.date_range),
                   ),
 
                   Container(
                     child: _card(
-                        data: refund.reason.toString(),
+                        data: refund.refundForm!.reason.toString(),
                         title: "Reason",
                         icon: FontAwesomeIcons.noteSticky),
                   ),
@@ -148,7 +153,7 @@ class AdminRefundNotificationDetail extends StatelessWidget {
                   ),
                   Container(
                     child: TextWidget(
-                      label: "10,000 ብር",
+                      label: refund.wallet!.balance.toString() + " " + "ETB".tr,
                       size: 30,
                       ftw: FontWeight.w500,
                       color: AppColor.white,
@@ -165,7 +170,8 @@ class AdminRefundNotificationDetail extends StatelessWidget {
                   ),
                   Container(
                     child: TextWidget(
-                      label: "200 ብር",
+                      label:
+                          refund.refundForm!.amount.toString() + " " + "ETB".tr,
                       color: AppColor.white,
                     ),
                   ),
@@ -180,7 +186,14 @@ class AdminRefundNotificationDetail extends StatelessWidget {
                                 Colors.green[500],
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              _walletController.requestRefundApproval(
+                                  RefundRequestApprovedModel(
+                                userId: refund.refundForm!.userId,
+                                refundMeStatus: "APPROVE",
+                                refundUniqueId: refund.wallet!.account,
+                              ));
+                            },
                             icon: const Icon(Icons.check),
                             label: TextWidget(label: "Approve")),
                       ),

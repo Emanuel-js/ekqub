@@ -1,4 +1,5 @@
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/admin/mainCollector/admin_registerd_main_collector.dart';
 import 'package:ekub/screens/views/admin/notification/admin_notification.dart';
 import 'package:ekub/screens/views/admin/profile.dart';
@@ -10,10 +11,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class AdminHomeScreen extends StatelessWidget {
-  const AdminHomeScreen({Key? key}) : super(key: key);
-
+  AdminHomeScreen({Key? key}) : super(key: key);
+  final _autController = Get.find<AuthController>();
+  final _walletController = Get.find<WalletController>();
   @override
   Widget build(BuildContext context) {
+    _autController.getMyUsers();
+    _walletController.getReqRefunds();
     Future<bool> _onWillPop() async {
       return (await showDialog(
             context: context,
@@ -36,8 +40,6 @@ class AdminHomeScreen extends StatelessWidget {
           )) ??
           false;
     }
-
-    final _autController = Get.find<AuthController>();
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -147,15 +149,17 @@ class AdminHomeScreen extends StatelessWidget {
                         subtitle: "አጠቃላይ እቁብ ጣይዮች ብዛት",
                         title: "እቁብ ጣይዮች",
                         color: AppColor.lightBlue),
-                    _cards(
-                        onPressed: () {
-                          Get.to(() => const AdminResistersMainCollector());
-                        },
-                        data: "5",
-                        icon: FontAwesomeIcons.userGroup,
-                        subtitle: "የሰብሳቢዎች ጠቅላላ ቁጥር",
-                        title: "የዋና ሰብሳቢዎች",
-                        color: AppColor.darkGray),
+                    Obx(
+                      () => _cards(
+                          onPressed: () {
+                            Get.to(() => const AdminResistersMainCollector());
+                          },
+                          data: _autController.userDetail!.length.toString(),
+                          icon: FontAwesomeIcons.userGroup,
+                          subtitle: "የሰብሳቢዎች ጠቅላላ ቁጥር",
+                          title: "የዋና ሰብሳቢዎች",
+                          color: AppColor.darkGray),
+                    ),
                     _cards(
                         onPressed: () {},
                         data: "100",

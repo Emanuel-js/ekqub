@@ -126,7 +126,7 @@ class _AdminNotificationState extends State<AdminNotification>
   Widget _withdrwalList(RefundModel refund) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const AdminRefundNotificationDetail(), arguments: refund);
+        Get.to(() => AdminRefundNotificationDetail(), arguments: refund);
       },
       child: Container(
         child: Card(
@@ -137,23 +137,24 @@ class _AdminNotificationState extends State<AdminNotification>
               padding: const EdgeInsets.all(10),
               child: ListTile(
                 leading: Hero(
-                  tag: refund.updatedAt.toString(),
+                  tag: refund.refundForm!.updatedAt.toString() +
+                      refund.refundForm!.reason.toString(),
                   child: Container(
-                    child: const CircleAvatar(
-                        backgroundImage:
-                            NetworkImage("https://i.pravatar.cc/300")),
+                    child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            refund.userProfile!.avatarImageUrl.toString())),
                   ),
                 ),
                 title: Container(
                     alignment: Alignment.centerLeft,
                     child: TextWidget(
-                      label: "${refund.fullName} request refund",
+                      label: "${refund.refundForm!.fullName} request refund",
                       size: 15,
                     )),
                 subtitle: Container(
                     alignment: Alignment.topLeft,
                     child: TextWidget(
-                      label: "${refund.amount} ETB",
+                      label: "${refund.refundForm!.amount} ETB",
                     )),
               ),
             )

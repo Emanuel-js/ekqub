@@ -1,6 +1,6 @@
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/helpers/localization_helper.dart';
-import 'package:ekub/data/wallet/model/refend_model.dart';
+import 'package:ekub/data/wallet/model/refund_responce_model.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
@@ -377,27 +377,28 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               onPressed: () {
                                 if (_globalKey.currentState!.validate()) {
                                   // _globalKey.currentState!.save();
-                                  _walletController.requestRefund(RefundModel(
-                                      userId: int.parse(
-                                          _authControler.userInfo!.id!),
-                                      fullName: _fullNameController.text,
-                                      reason: _resonController.text,
-                                      amount:
-                                          double.parse(_amountController.text),
-                                      bankAccountNumber:
-                                          _accountNoController.text,
-                                      phoneForBankAccountNumber:
-                                          _phoneController.text,
-                                      bankName: bank));
+                                  _walletController.requestRefund(
+                                      RefundResponseModel(
+                                          userId: int.parse(
+                                              _authControler.userInfo!.id!),
+                                          fullName: _fullNameController.text,
+                                          reason: _resonController.text,
+                                          amount: double.parse(
+                                              _amountController.text),
+                                          bankAccountNumber:
+                                              _accountNoController.text,
+                                          phoneForBankAccountNumber:
+                                              _phoneController.text,
+                                          bankName: bank));
                                 }
                                 if (_walletController.isRefund) {
-                                  Get.back();
                                   _fullNameController.clear();
                                   _amountController.clear();
                                   _accountNoController.clear();
                                   _resonController.clear();
                                   _phoneController.clear();
                                   _walletController.isRefund = false;
+                                  Get.back();
                                 }
                               },
                               label: TextWidget(

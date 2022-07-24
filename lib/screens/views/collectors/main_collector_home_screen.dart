@@ -115,13 +115,15 @@ class _MainCollectorHomeScreenState extends State<MainCollectorHomeScreen> {
                   left: 15.0, right: 15.0, top: Get.height * 0.23),
               child: Column(
                 children: [
-                  _cards(
-                      data: "100",
-                      icon: FontAwesomeIcons.peopleGroup,
-                      title: "ጠቅላላ ቆጣቢዎች",
-                      onPress: () {
-                        Get.to(MainRegisterSubList());
-                      }),
+                  Obx(
+                    () => _cards(
+                        data: _authControler.userDetail!.length.toString(),
+                        icon: FontAwesomeIcons.peopleGroup,
+                        title: "ጠቅላላ ቆጣቢዎች",
+                        onPress: () {
+                          Get.to(MainRegisterSubList());
+                        }),
+                  ),
                   _cards(
                       data: "10K ብር",
                       icon: FontAwesomeIcons.wallet,

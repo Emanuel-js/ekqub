@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/wallet/model/refend_model.dart';
+import 'package:ekub/data/wallet/model/refund_requst_approved_model.dart';
+import 'package:ekub/data/wallet/model/refund_responce_model.dart';
 import 'package:ekub/data/wallet/model/saving_account_model.dart';
 import 'package:ekub/data/wallet/model/transaction_model.dart';
 import 'package:ekub/data/wallet/model/trnsactionResponce.dart';
@@ -17,7 +19,6 @@ class WalletController extends GetxController {
   final _refundController = <RefundModel>[].obs;
   final _authController = Get.find<AuthController>();
   final _isRefund = false.obs;
-
   final _isLoading = false.obs;
 
   WalletModel? get myWallet => _myWallet.value;
@@ -45,6 +46,7 @@ class WalletController extends GetxController {
         MessageHandler()
             .displayMessage(msg: "Transaction is Done", title: "Transaction");
         setLoading(false);
+        _isRefund.value = true;
       } else {
         setLoading(false);
       }
@@ -58,9 +60,10 @@ class WalletController extends GetxController {
     try {
       final result = await WalletRepo().topUpWallet(data);
 
-      if (result != null) {
+      if (result["transactionType"] != null) {
         MessageHandler()
             .displayMessage(msg: "Transaction is Done", title: "Transaction");
+        _isRefund.value = true;
         setLoading(false);
         getWalletAccount(_authController.userInfo!.id.toString());
         getSavingBalance(_authController.userInfo!.id.toString());
@@ -102,7 +105,7 @@ class WalletController extends GetxController {
     }
   }
 
-  void requestRefund(RefundModel data) async {
+  void requestRefund(RefundResponseModel data) async {
     setLoading(true);
     try {
       final result = await WalletRepo().requestReFund(data);
@@ -127,6 +130,24 @@ class WalletController extends GetxController {
       _refundController.value = result;
     } catch (e) {
       log("message$e");
+    }
+  }
+
+  void requestRefundApproval(RefundRequestApprovedModel data) async {
+    setLoading(true);
+    try {
+      final result = await WalletRepo().requestReFundApproval(data);
+
+      if (result["id"].toString().isNotEmpty) {
+        MessageHandler()
+            .displayMessage(msg: "Request Refund is Done!", title: "Request");
+        setLoading(false);
+        _isRefund.value = true;
+      } else {
+        setLoading(false);
+      }
+    } catch (e) {
+      setLoading(false);
     }
   }
 }

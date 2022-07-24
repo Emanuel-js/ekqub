@@ -43,77 +43,81 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   .toList()),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          //logo
-          SizedBox(
-              height: Get.height * 0.5,
-              width: Get.width,
-              child: const Image(
-                image: AssetImage("assets/imgs/logo.png"),
-              )),
-          Container(
-            height: Get.height * 0.4,
-            alignment: Alignment.bottomCenter,
-            decoration: BoxDecoration(
-                color: AppColor.secondaryColor,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(80),
-                    topRight: Radius.circular(80))),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: Get.width * 0.8,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(AppColor.primaryColor),
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 10)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)))),
-                    onPressed: () {
-                      //todo
-                      Get.to(const LoginScreen());
-                    },
-                    child: TextWidget(
-                      label: "Login".tr,
-                      size: 16,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            //logo
+            SizedBox(
+                height: Get.height * 0.5,
+                width: Get.width,
+                child: const Image(
+                  image: AssetImage("assets/imgs/logo.png"),
+                )),
+            Container(
+              height: Get.height * 0.4,
+              alignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                  color: AppColor.secondaryColor,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(80),
+                      topRight: Radius.circular(80))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: Get.width * 0.8,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(AppColor.primaryColor),
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 10)),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)))),
+                      onPressed: () {
+                        //todo
+                        Get.to(const LoginScreen());
+                      },
+                      child: TextWidget(
+                        label: "Login".tr,
+                        size: 16,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.03,
-                ),
-                SizedBox(
-                  width: Get.width * 0.8,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(AppColor.darkBlue),
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 10)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)))),
-                    onPressed: () {
-                      //todo
-                      Get.to(const ShowMap());
-                    },
-                    child: TextWidget(
-                      label: "Register".tr,
-                      size: 16,
-                    ),
+                  SizedBox(
+                    height: Get.height * 0.03,
                   ),
-                )
-              ],
-            ),
-          )
-          //bottem
-        ],
+                  SizedBox(
+                    width: Get.width * 0.8,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(AppColor.darkBlue),
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 10)),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)))),
+                      onPressed: () {
+                        //todo
+                        Get.to(const ShowMap());
+                      },
+                      child: TextWidget(
+                        label: "Register".tr,
+                        size: 16,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+            //bottem
+          ],
+        ),
       ),
     );
   }

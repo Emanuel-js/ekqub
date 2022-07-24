@@ -29,6 +29,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _walletController.getTransactionHistory(_authController.userInfo!.id!);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           heroTag: "transferto",
@@ -112,19 +113,18 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
               color: AppColor.black,
             ),
           ),
-          Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                _transactionList(),
-                _transactionList(),
-                _transactionList(),
-                _transactionList(),
-                _transactionList(),
-                _transactionList(),
-              ],
-            ),
-          )
+          Obx(() => Expanded(
+              child: ListView.builder(
+                  itemCount: _walletController.myTransaction?.length,
+                  itemBuilder: (BuildContext ctxt, int index) {
+                    var transaction = _walletController.myTransaction![index];
+                    return _transactionList(
+                        id: transaction.receiverAccount,
+                        phone: "09191919",
+                        amount: transaction.amount,
+                        date: transaction.transactionDate,
+                        Trnsactiontype: transaction.transactionType);
+                  }))),
         ],
       ),
     );
@@ -281,7 +281,12 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
     );
   }
 
-  Widget _transactionList() {
+  Widget _transactionList(
+      {String? phone,
+      double? amount,
+      String? date,
+      String? Trnsactiontype,
+      int? id}) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child: Card(
@@ -304,7 +309,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                       children: [
                         Container(
                           child: TextWidget(
-                            label: "25199999",
+                            label: phone.toString(),
                             size: 14,
                             color: AppColor.black,
                           ),
@@ -314,7 +319,9 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                         ),
                         Container(
                           child: TextWidget(
-                            label: "+20 ETB",
+                            label: id == _authController.userInfo!.id
+                                ? "- " + amount.toString()
+                                : "+ " + amount.toString(),
                             color: AppColor.black,
                             size: 12,
                           ),
@@ -331,7 +338,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                       children: [
                         Container(
                           child: TextWidget(
-                            label: "20/2/2022",
+                            label: date.toString(),
                             color: AppColor.darkGray,
                             size: 12,
                           ),
@@ -341,8 +348,10 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                         ),
                         Container(
                           child: TextWidget(
-                            label: "transaction",
-                            color: AppColor.black,
+                            label: Trnsactiontype.toString(),
+                            color: _authController.userInfo!.id == id
+                                ? AppColor.black
+                                : AppColor.purple,
                             size: 12,
                           ),
                         )

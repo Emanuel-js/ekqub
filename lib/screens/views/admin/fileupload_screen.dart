@@ -167,7 +167,7 @@ class _MainCollectorFileUploadState extends State<MainCollectorFileUpload> {
                                   _adminController.imageFile = null;
                                   _adminController.lat = null;
                                   _adminController.log = null;
-                                  _adminController.mainCollectorReq = null;
+                                  // _adminController.mainCollectorReq = null;
                                 }
                               } else {
                                 Get.snackbar(

@@ -2,18 +2,21 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ekub/data/api/api_endpoint.dart';
 import 'package:ekub/data/api/api_helper.dart';
 import 'package:ekub/data/api/baserepository/api.dart';
-import 'package:ekub/data/auth/model/auth_response.dart';
 import 'package:ekub/data/wallet/model/refend_model.dart';
+import 'package:ekub/data/wallet/model/refund_requst_approved_model.dart';
+import 'package:ekub/data/wallet/model/refund_responce_model.dart';
 import 'package:ekub/data/wallet/model/saving_account_model.dart';
 import 'package:ekub/data/wallet/model/transaction_model.dart';
 import 'package:ekub/data/wallet/model/trnsactionResponce.dart';
 import 'package:ekub/data/wallet/model/wallet_mode.dart';
+import 'package:ekub/utils/message_widet.dart';
 
 class WalletRepo {
   transferToUser(TransactionModel data) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+      MessageHandler().displayMessage(
+          msg: apiUtils.getNetworkError(), title: "Network Error");
     }
 
     String url = Api.baseUrl + ApiEndPoints.transferMoney;
@@ -25,7 +28,8 @@ class WalletRepo {
   topUpWallet(TransactionModel data) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+      MessageHandler().displayMessage(
+          msg: apiUtils.getNetworkError(), title: "Network Error");
     }
 
     String url = Api.baseUrl + ApiEndPoints.transferWalletToSales;
@@ -37,7 +41,8 @@ class WalletRepo {
   Future<WalletModel> getWalletAccount(String id) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+      MessageHandler().displayMessage(
+          msg: apiUtils.getNetworkError(), title: "Network Error");
     }
 
     String url = Api.baseUrl + ApiEndPoints.getUserWalletAccount + "/$id";
@@ -50,7 +55,8 @@ class WalletRepo {
       String id) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+      MessageHandler().displayMessage(
+          msg: apiUtils.getNetworkError(), title: "Network Error");
     }
 
     String url = Api.baseUrl + ApiEndPoints.transactionHistory + "/$id";
@@ -66,7 +72,8 @@ class WalletRepo {
   Future<SavingAccountModel> getSavingBalance(String id) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+      MessageHandler().displayMessage(
+          msg: apiUtils.getNetworkError(), title: "Network Error");
     }
 
     String url = Api.baseUrl + ApiEndPoints.savingAccount + "/$id";
@@ -76,10 +83,11 @@ class WalletRepo {
     return SavingAccountModel.fromMap(response.data);
   }
 
-  requestReFund(RefundModel data) async {
+  requestReFund(RefundResponseModel data) async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+      MessageHandler().displayMessage(
+          msg: apiUtils.getNetworkError(), title: "Network Error");
     }
 
     String url = Api.baseUrl + ApiEndPoints.requestRefund;
@@ -91,7 +99,8 @@ class WalletRepo {
   Future<List<RefundModel>> getReqRefund() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      AuthResponse.withError(success: false, msg: apiUtils.getNetworkError());
+      MessageHandler().displayMessage(
+          msg: apiUtils.getNetworkError(), title: "Network Error");
     }
 
     String url = Api.baseUrl + ApiEndPoints.getReqRefund;
@@ -102,5 +111,18 @@ class WalletRepo {
     ));
 
     return result;
+  }
+
+  requestReFundApproval(RefundRequestApprovedModel data) async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      MessageHandler().displayMessage(
+          msg: apiUtils.getNetworkError(), title: "Network Error");
+    }
+
+    String url = Api.baseUrl + ApiEndPoints.requestApprove;
+
+    final response = await apiUtils.post(url: url, data: data.toMap());
+    return response.data;
   }
 }

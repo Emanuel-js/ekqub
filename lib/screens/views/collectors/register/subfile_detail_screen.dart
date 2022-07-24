@@ -92,10 +92,9 @@ class _SubCollectorFileUploadState extends State<SubCollectorFileUpload> {
                   ),
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColor.darkGray),
-                    primary: AppColor.primaryColor,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.transparent,
                     elevation: 0,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
