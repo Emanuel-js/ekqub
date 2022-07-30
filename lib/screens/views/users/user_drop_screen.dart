@@ -29,7 +29,7 @@ class _UserDropScreenState extends State<UserDropScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _ticketController.getMyTicket(_authController.userInfo!.id.toString());
+    _ticketController.getMyTicket(_authController.userInfo!.id.toString());
 
     final List<TicketModel>? allTicket = _ticketController.myLotto;
     final List<TicketModel> monday = [];
@@ -108,36 +108,38 @@ class _UserDropScreenState extends State<UserDropScreen> {
                   color: AppColor.black,
                 ),
               ),
-              buildTarget(
-                context,
-                text: "my lotto",
-                tickets: allTicket!,
-                onAccept: (data) => setState(() {
-                  removeAll(data);
-                  allTicket.add(data);
-                }),
-              ),
-
-              Container(
-                child: Column(
-                  children: [
-                    buildTarget(context,
-                        text: "Monday",
-                        tickets: monday,
-                        onAccept: (data) => setState(() {
-                              removeAll(data);
-                              monday.add(data);
-                            })),
-                    buildTarget(context,
-                        text: "Tuesday",
-                        tickets: tuesday,
-                        onAccept: (data) => setState(() {
-                              removeAll(data);
-                              tuesday.add(data);
-                            })),
-                  ],
+              Center(
+                child: buildTarget(
+                  context,
+                  text: "",
+                  tickets: allTicket!,
+                  onAccept: (data) => setState(() {
+                    removeAll(data);
+                    allTicket.add(data);
+                  }),
                 ),
               ),
+
+              // Container(
+              //   child: Column(
+              //     children: [
+              //       buildTarget(context,
+              //           text: "Monday",
+              //           tickets: monday,
+              //           onAccept: (data) => setState(() {
+              //                 removeAll(data);
+              //                 monday.add(data);
+              //               })),
+              //       buildTarget(context,
+              //           text: "Tuesday",
+              //           tickets: tuesday,
+              //           onAccept: (data) => setState(() {
+              //                 removeAll(data);
+              //                 tuesday.add(data);
+              //               })),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ));

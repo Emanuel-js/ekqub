@@ -12,8 +12,8 @@ class ApiUtils {
   static final ApiUtils _apiUtils = ApiUtils._i();
 
   final Dio _dio = Dio(BaseOptions(
-    connectTimeout: 20000,
-    receiveTimeout: 15000,
+    connectTimeout: 200000,
+    receiveTimeout: 150000,
   ));
 
   ApiUtils._i() {
@@ -148,7 +148,9 @@ class ApiUtils {
           MessageHandler().displayMessage(
               title: "message",
               msg: dioError.response!.data["httpmessage"].toString());
-        } else {
+        }
+
+        if (dioError.response!.data["message"] != null) {
           MessageHandler().displayMessage(
               title: "message",
               msg: dioError.response!.data["message"].toString());

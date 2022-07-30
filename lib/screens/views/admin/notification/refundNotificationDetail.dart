@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ekub/constants/status.dart';
 import 'package:ekub/data/wallet/model/refend_model.dart';
 import 'package:ekub/data/wallet/model/refund_requst_approved_model.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
@@ -41,9 +42,8 @@ class AdminRefundNotificationDetail extends StatelessWidget {
                           size: 25,
                         ),
                       ),
-                      Hero(
-                          tag: refund.refundForm!.updatedAt.toString() +
-                              refund.refundForm!.reason.toString(),
+                      Container(
+                          // tag: refund.refundForm!.refundUniqueId.toString(),
                           child: Container(
                               child: const CircleAvatar(
                                   radius: 40,
@@ -190,9 +190,14 @@ class AdminRefundNotificationDetail extends StatelessWidget {
                               _walletController.requestRefundApproval(
                                   RefundRequestApprovedModel(
                                 userId: refund.refundForm!.userId,
-                                refundMeStatus: "APPROVE",
-                                refundUniqueId: refund.wallet!.account,
+                                refundMeStatus: Status.ACCEPTED,
+                                refundUniqueId:
+                                    refund.refundForm!.refundUniqueId,
                               ));
+                              if (_walletController.isRefund) {
+                                Get.back();
+                                _walletController.isRefund = false;
+                              }
                             },
                             icon: const Icon(Icons.check),
                             label: TextWidget(label: "Approve")),
@@ -207,7 +212,19 @@ class AdminRefundNotificationDetail extends StatelessWidget {
                                 Colors.red[500],
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              _walletController.requestRefundApproval(
+                                  RefundRequestApprovedModel(
+                                userId: refund.refundForm!.userId,
+                                refundMeStatus: Status.REJECTED,
+                                refundUniqueId:
+                                    refund.refundForm!.refundUniqueId,
+                              ));
+                              if (_walletController.isRefund) {
+                                Get.back();
+                                _walletController.isRefund = false;
+                              }
+                            },
                             icon: const Icon(Icons.close),
                             label: TextWidget(label: "Decline")),
                       ),

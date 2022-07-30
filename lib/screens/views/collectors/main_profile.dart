@@ -2,7 +2,6 @@ import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class MainCollectorProfile extends StatelessWidget {
@@ -167,19 +166,7 @@ class MainCollectorProfile extends StatelessWidget {
               ),
             ),
             //withdrawal
-            Container(
-              child: ListTile(
-                leading: const Icon(FontAwesomeIcons.moneyBill),
-                title: Container(
-                  alignment: Alignment.centerLeft,
-                  child: TextWidget(label: "Withdrawal"),
-                ),
-                trailing: IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  onPressed: () {},
-                ),
-              ),
-            ),
+
             Container(
               child: ListTile(
                 leading: const Icon(Icons.logout),

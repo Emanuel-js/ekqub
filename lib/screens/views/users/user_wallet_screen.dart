@@ -30,16 +30,16 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
     _walletController
         .getTransactionHistory(_authController.userInfo!.id.toString());
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          heroTag: "transfer",
-          onPressed: () {
-            transfer();
-          },
-          child: Icon(
-            FontAwesomeIcons.moneyBillTransfer,
-            color: AppColor.white,
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   heroTag: "transfer",
+        //   onPressed: () {
+        //     transfer();
+        //   },
+        //   child: Icon(
+        //     FontAwesomeIcons.moneyBillTransfer,
+        //     color: AppColor.white,
+        //   ),
+        // ),
         appBar: AppBar(
           leading: Container(),
           backgroundColor: Colors.transparent,

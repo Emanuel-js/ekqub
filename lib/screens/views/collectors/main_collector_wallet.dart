@@ -223,8 +223,8 @@ class _MainCollectorWalletScreenState extends State<MainCollectorWalletScreen> {
                                 _amountController.clear();
                                 _phoneController.clear();
                                 Get.back();
+                                _walletController.isRefund = false;
                               }
-                              _walletController.isRefund = false;
                             },
                             label: TextWidget(
                               label: "ይላኩ",

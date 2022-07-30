@@ -1,4 +1,5 @@
 import 'package:ekub/data/auth/auth_controller.dart';
+import 'package:ekub/data/subcollector/sub_collector_controller.dart';
 import 'package:ekub/data/ticket/model/drop_ticket_model.dart';
 import 'package:ekub/data/ticket/ticket_controller.dart';
 import 'package:ekub/data/user/model/user_detail_model.dart';
@@ -20,13 +21,15 @@ class SubCollectorLottScreen extends StatefulWidget {
 
 class _SubCollectorLottScreenState extends State<SubCollectorLottScreen> {
   final _authControler = Get.find<AuthController>();
+  final _subController = Get.find<SubCollectorController>();
   final _moneyController = TextEditingController();
 
   final _timesController = TextEditingController();
-
+  final _searchController = TextEditingController();
   final _globalKey = GlobalKey<FormState>();
   final _ticketController = Get.find<TicketController>();
   final _authController = Get.find<AuthController>();
+  int userId = 0;
   @override
   Widget build(BuildContext context) {
     _authControler.getMyUsers();
@@ -115,7 +118,9 @@ class _SubCollectorLottScreenState extends State<SubCollectorLottScreen> {
                   alignment: Alignment.centerLeft,
                   margin: const EdgeInsets.only(left: 20, top: 10),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      dropLott();
+                    },
                     child: TextWidget(label: "Drop Ticket"),
                   )),
             ],
@@ -219,6 +224,51 @@ class _SubCollectorLottScreenState extends State<SubCollectorLottScreen> {
               ),
               SizedBox(
                 width: Get.width * 0.8,
+                child: ElevatedButton.icon(
+                  icon: Icon(
+                    Icons.person,
+                    color: AppColor.darkGray,
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: AppColor.lightBlue),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 10),
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                  ),
+                  onPressed: () {
+                    {
+                      handelSearchUser();
+                    }
+                  },
+                  label: Container(
+                    alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.only(left: 10),
+                    child: Obx(
+                      () => TextWidget(
+                        label: _subController.searchResult == null
+                            ? "እቁብ ጣይ"
+                            : _subController
+                                    .searchResult!.userProfile!.firstName
+                                    .toString() +
+                                " " +
+                                _subController
+                                    .searchResult!.userProfile!.lastName
+                                    .toString(),
+                        txa: TextAlign.start,
+                        size: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              SizedBox(
+                width: Get.width * 0.8,
                 child: inputField(
                     controller: _moneyController,
                     hint: "የገንዘብ መጠን",
@@ -246,14 +296,18 @@ class _SubCollectorLottScreenState extends State<SubCollectorLottScreen> {
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)))),
                   onPressed: () {
-                    if (_globalKey.currentState!.validate()) {
-                      _ticketController.dropTicket(DropTicketModel(
+                    if (_globalKey.currentState!.validate() &&
+                        _subController.searchResult != null) {
+                      _ticketController.dropTicketForClient(DropTicketModel(
                           amount: double.parse(_moneyController.text),
                           numberOfTickets: int.parse(_timesController.text),
-                          userId: int.parse(
-                              _authController.userInfo!.id.toString())));
-                      if (_ticketController.isLoading) {
+                          userId: _subController.searchResult!.id));
+                      if (_ticketController.isDrop) {
                         Get.back();
+                        _moneyController.clear();
+                        _timesController.clear();
+                        _ticketController.isDrop = false;
+                        _subController.searchResult = null;
                       }
                     }
                   },
@@ -269,6 +323,55 @@ class _SubCollectorLottScreenState extends State<SubCollectorLottScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    ));
+  }
+
+  handelSearchUser() {
+    Get.dialog(Scaffold(
+      appBar: AppBar(
+        title: TextWidget(
+          label: "እቁብ ጣይ",
+          size: 18,
+        ),
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            SizedBox(
+              height: Get.height * 0.02,
+            ),
+            Container(
+              child: inputField(
+                  controller: _searchController,
+                  hint: "search by phone...",
+                  icon: Icons.search),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  if (_searchController.text.isNotEmpty) {
+                    _subController.searchUser(_searchController.text);
+                    _searchController.clear();
+                  }
+                },
+                child: TextWidget(label: "Search")),
+            Obx(
+              () => Container(
+                  child: _subController.searchResult == null
+                      ? TextWidget(label: "Search User")
+                      : GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                            child: _lotterList(
+                                user: _subController.searchResult
+                                    as UserDetailModel),
+                          ),
+                        )),
+            )
+          ],
         ),
       ),
     ));

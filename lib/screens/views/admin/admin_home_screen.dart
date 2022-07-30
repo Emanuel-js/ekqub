@@ -1,3 +1,4 @@
+import 'package:ekub/data/admin/admin_controller.dart';
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/admin/mainCollector/admin_registerd_main_collector.dart';
@@ -14,10 +15,12 @@ class AdminHomeScreen extends StatelessWidget {
   AdminHomeScreen({Key? key}) : super(key: key);
   final _autController = Get.find<AuthController>();
   final _walletController = Get.find<WalletController>();
+  final _adminController = Get.find<AdminController>();
   @override
   Widget build(BuildContext context) {
     _autController.getMyUsers();
     _walletController.getReqRefunds();
+    _adminController.getAnalytics();
     Future<bool> _onWillPop() async {
       return (await showDialog(
             context: context,
@@ -136,19 +139,22 @@ class AdminHomeScreen extends StatelessWidget {
                 margin: EdgeInsets.only(
                     left: 15.0, right: 15.0, top: Get.height * 0.23),
                 child: GridView.count(
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: const ScrollPhysics(),
                   shrinkWrap: true,
                   crossAxisCount: 2,
                   mainAxisSpacing: Get.height * 0.02,
                   crossAxisSpacing: Get.width * 0.02,
                   children: [
-                    _cards(
-                        onPressed: () {},
-                        data: "1M",
-                        icon: FontAwesomeIcons.receipt,
-                        subtitle: "አጠቃላይ እቁብ ጣይዮች ብዛት",
-                        title: "እቁብ ጣይዮች",
-                        color: AppColor.lightBlue),
+                    Obx(
+                      () => _cards(
+                          onPressed: () {},
+                          data: _adminController.analitics!.NumberOfClients
+                              .toString(),
+                          icon: FontAwesomeIcons.receipt,
+                          subtitle: "አጠቃላይ እቁብ ጣይዮች ብዛት",
+                          title: "እቁብ ጣይዮች",
+                          color: AppColor.lightBlue),
+                    ),
                     Obx(
                       () => _cards(
                           onPressed: () {
@@ -160,33 +166,56 @@ class AdminHomeScreen extends StatelessWidget {
                           title: "የዋና ሰብሳቢዎች",
                           color: AppColor.darkGray),
                     ),
-                    _cards(
-                        onPressed: () {},
-                        data: "100",
-                        icon: FontAwesomeIcons.personCirclePlus,
-                        subtitle: "የሽያጭ ሠራተኞች ጠቅላላ ቁጥር",
-                        title: "ሽያጭ ሠራተኞች",
-                        color: AppColor.darkGray),
-                    _cards(
-                        onPressed: () {},
-                        data: "10M ብር",
-                        icon: FontAwesomeIcons.moneyBill,
-                        subtitle: "ጠቅላላ የተቀመጠ ገንዘብ",
-                        title: "የተቀመጠ ገንዘብ",
-                        color: AppColor.lightBlue),
+                    Obx(
+                      () => _cards(
+                          onPressed: () {},
+                          data: _adminController
+                              .analitics!.NumberOfSubCollectors
+                              .toString(),
+                          icon: FontAwesomeIcons.personCirclePlus,
+                          subtitle: "የሽያጭ ሠራተኞች ጠቅላላ ቁጥር",
+                          title: "ሽያጭ ሠራተኞች",
+                          color: AppColor.darkGray),
+                    ),
+                    Obx(
+                      () => _cards(
+                          onPressed: () {},
+                          data: _adminController
+                              .analitics!.NumberOfRefundFormRequest
+                              .toString(),
+                          icon: FontAwesomeIcons.moneyBill,
+                          subtitle: "ጠቅላላ የተመላሽ ገንዘብ ጥያቄ",
+                          title: "የተመላሽ ጥያቄ",
+                          color: AppColor.lightBlue),
+                    ),
+                    Obx(
+                      () => _cards(
+                          onPressed: () {},
+                          data: _adminController
+                              .analitics!.NumberOfRefundFormRequestAccepted
+                              .toString(),
+                          icon: FontAwesomeIcons.personWalking,
+                          subtitle: "አቆርጦ የወጣ እቁብ ጣይ",
+                          title: "አቆርጦ የወጣ",
+                          color: AppColor.lightBlue),
+                    ),
+                    Obx(
+                      () => _cards(
+                          onPressed: () {},
+                          data: _adminController
+                              .analitics!.NumberOFLottoTicketsCreated
+                              .toString(),
+                          icon: FontAwesomeIcons.moneyBill,
+                          subtitle: "ጠቅላላ የተጣለ እጣ",
+                          title: " የተጣለ እጣ",
+                          color: AppColor.darkGray),
+                    ),
                     _cards(
                         onPressed: () {},
                         data: "5",
                         icon: FontAwesomeIcons.moneyCheck,
                         subtitle: "እቁብ የወጣለት ብዛት",
                         title: "እቁብ የደረሰው",
-                        color: AppColor.lightBlue),
-                    _cards(
-                        onPressed: () {},
-                        data: "5",
-                        icon: FontAwesomeIcons.personWalking,
-                        subtitle: "አቆርጦ የወጣ እቁብ ጣይ",
-                        title: "አቆርጦ የወጣ",
                         color: AppColor.darkGray),
                   ],
                 ),

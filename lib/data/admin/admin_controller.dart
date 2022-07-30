@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ekub/data/admin/admin_repo.dart';
+import 'package:ekub/data/admin/analytics_model.dart';
 import 'package:ekub/data/user/model/user.dart';
 import 'package:ekub/screens/views/admin/admin_home_screen.dart';
 import 'package:ekub/utils/message_widet.dart';
@@ -13,6 +14,7 @@ class AdminController extends GetxController {
   final _mainCollectorReq = Rxn<UserModel>();
   final _lat = Rxn<double>();
   final _log = Rxn<double>();
+  final _analitics = Rxn<AnalyticsModel>();
 
   double? get lat => _lat.value;
   set lat(val) => _lat.value = val;
@@ -27,6 +29,9 @@ class AdminController extends GetxController {
 
   UserModel? get mainCollectorReq => _mainCollectorReq.value;
   set mainCollectorReq(val) => _mainCollectorReq.value = val;
+
+  AnalyticsModel? get analitics => _analitics.value;
+  set analitics(val) => _analitics.value = val;
 
   File? get imageFile => _imagFile.value;
   set imageFile(val) => _imagFile.value = val;
@@ -51,5 +56,17 @@ class AdminController extends GetxController {
       _isRegisterd.value = false;
       setLoading(false);
     }
+  }
+
+  getAnalytics() async {
+    try {
+      final result = await AdminRepo().getAnalytics();
+
+      if (result != null) {
+        _analitics.value = result;
+      } else {
+        _analitics.value = null;
+      }
+    } catch (e) {}
   }
 }

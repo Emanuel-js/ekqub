@@ -9,20 +9,23 @@ class RefundResponseModel {
   String? phoneForBankAccountNumber;
   String? bankName;
   String? refundMeStatus;
+  String? refundUniqueId;
   String? createdAt;
   String? updatedAt;
-  RefundResponseModel({
-    this.userId,
-    this.fullName,
-    this.reason,
-    this.amount,
-    this.bankAccountNumber,
-    this.phoneForBankAccountNumber,
-    this.bankName,
-    this.refundMeStatus,
-    this.createdAt,
-    this.updatedAt,
-  });
+  String? approvedBy;
+  RefundResponseModel(
+      {this.userId,
+      this.fullName,
+      this.reason,
+      this.amount,
+      this.bankAccountNumber,
+      this.phoneForBankAccountNumber,
+      this.bankName,
+      this.refundMeStatus,
+      this.createdAt,
+      this.updatedAt,
+      this.approvedBy,
+      this.refundUniqueId});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -36,6 +39,8 @@ class RefundResponseModel {
       'refundMeStatus': refundMeStatus,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'approvedBy': approvedBy,
+      'refundUniqueId': refundUniqueId
     };
   }
 
@@ -46,11 +51,11 @@ class RefundResponseModel {
     amount = map['amount'];
     bankAccountNumber = map['bankAccountNumber'];
     phoneForBankAccountNumber = map['phoneForBankAccountNumber'];
-    bankName:
-    map['bankName'] = map['bankName'];
-    refundMeStatus:
-    map['refundMeStatus'];
+    bankName = map['bankName'];
+    refundMeStatus = map['refundMeStatus'];
     createdAt = map['createdAt'];
     updatedAt = map['updatedAt'];
+    approvedBy = map['approvedBy'];
+    refundUniqueId = map['refundUniqueId'];
   }
 }

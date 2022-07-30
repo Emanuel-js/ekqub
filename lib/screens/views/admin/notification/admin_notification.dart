@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ekub/constants/status.dart';
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/wallet/model/refend_model.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
@@ -105,7 +108,11 @@ class _AdminNotificationState extends State<AdminNotification>
                             itemBuilder: (context, index) {
                               RefundModel refund =
                                   _walletController.refundController![index];
-                              return _withdrwalList(refund);
+                              log(refund.refundForm!.toMap().toString());
+                              return refund.refundForm!.refundMeStatus !=
+                                      Status.PENDING
+                                  ? Container()
+                                  : _withdrwalList(refund);
                             })),
                     Container(
                         child: ListView(
@@ -136,13 +143,12 @@ class _AdminNotificationState extends State<AdminNotification>
             child: Container(
               padding: const EdgeInsets.all(10),
               child: ListTile(
-                leading: Hero(
-                  tag: refund.refundForm!.updatedAt.toString() +
-                      refund.refundForm!.reason.toString(),
+                leading: Container(
+                  // tag: refund.refundForm!.refundUniqueId.toString(),
                   child: Container(
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                         backgroundImage: NetworkImage(
-                            refund.userProfile!.avatarImageUrl.toString())),
+                            "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200")),
                   ),
                 ),
                 title: Container(

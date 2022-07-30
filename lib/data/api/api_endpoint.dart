@@ -4,6 +4,7 @@ class ApiEndPoints {
 
   static const manCollectorRegister = "admin/addMainCollector";
   static const updateMainCollector = "admin/update/personalInfo";
+  static const analytics = "admin/adminGetAnalyticsMetrics";
 
   static const subCollectorRegister = "mainCollector/addMySubCollector";
   static const updateSubCollector = "mainCollector/update/personalInfo";
@@ -26,4 +27,6 @@ class ApiEndPoints {
   static const requestRefund = "refund/requestRefund";
   static const getReqRefund = "refund/getAllRefundRequests";
   static const requestApprove = "refund/approveRefundRequest";
+  static const searchUser =
+      "subCollector/searchClientByUserNameOrPhoneNumberOrEmail";
 }

@@ -195,17 +195,11 @@ class SubCollectorHomeScreen extends StatelessWidget {
                 SizedBox(
                   width: Get.width * 0.25,
                 ),
-                Expanded(
-                  child: Container(
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: AppColor.secondaryColor,
-                      child: Icon(
-                        icon,
-                        color: AppColor.white,
-                        size: 40,
-                      ),
-                    ),
+                Container(
+                  child: Icon(
+                    icon,
+                    color: AppColor.white,
+                    size: 30,
                   ),
                 ),
                 const SizedBox(

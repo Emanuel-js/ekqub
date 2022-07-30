@@ -9,6 +9,7 @@ import 'package:ekub/data/wallet/model/transaction_model.dart';
 import 'package:ekub/data/wallet/model/trnsactionResponce.dart';
 import 'package:ekub/data/wallet/model/wallet_mode.dart';
 import 'package:ekub/data/wallet/repo/wallet_repo.dart';
+import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/utils/message_widet.dart';
 import 'package:get/get.dart';
 
@@ -46,6 +47,8 @@ class WalletController extends GetxController {
         MessageHandler()
             .displayMessage(msg: "Transaction is Done", title: "Transaction");
         setLoading(false);
+        getWalletAccount(_authController.userInfo!.id.toString());
+
         _isRefund.value = true;
       } else {
         setLoading(false);
@@ -135,13 +138,16 @@ class WalletController extends GetxController {
 
   void requestRefundApproval(RefundRequestApprovedModel data) async {
     setLoading(true);
+    Get.defaultDialog(
+        title: "Approve Refund", content: TextWidget(label: "Approving..."));
     try {
       final result = await WalletRepo().requestReFundApproval(data);
-
-      if (result["id"].toString().isNotEmpty) {
+      log(result.toString());
+      if (result["id"] != null) {
         MessageHandler()
-            .displayMessage(msg: "Request Refund is Done!", title: "Request");
+            .displayMessage(msg: "Refund Approved!", title: "Request");
         setLoading(false);
+        Get.back();
         _isRefund.value = true;
       } else {
         setLoading(false);

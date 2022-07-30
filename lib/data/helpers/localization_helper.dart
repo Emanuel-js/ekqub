@@ -74,7 +74,7 @@ class LocalizationService extends Translations {
           "Total lot": "ጠቅላላ እጣዎች",
           "Total lot you have": "ጠቅላላ እጣዎች ያሎት",
           "Saving amount you have": "ያለዎት አጠቃላይ ቁጠባ ገንዘብ",
-          "Saving amount": "የተጠራቀመ ገንዘብ" "ጠቅላላ ቀሪ ገንዘብ",
+          "Saving amount": "የተጠራቀመ ገንዘብ",
           "Wallet amount you have": "ያለዎት ጠቅላላ ቀሪ ገንዘብ",
           "Wallet amount": "ጠቅላላ ቀሪ ገንዘብ",
           "ETB": "ብር",

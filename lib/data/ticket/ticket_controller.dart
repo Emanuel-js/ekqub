@@ -13,9 +13,12 @@ class TicketController extends GetxController {
 
   final _isLoading = false.obs;
 
+  final _isDrop = false.obs;
   List<TicketModel>? get myLotto => _mylotto;
 
   bool get isLoading => _isLoading.value;
+  bool get isDrop => _isDrop.value;
+  set isDrop(val) => _isDrop.value = val;
 
   void setLoading(bool show) {
     _isLoading.value = show;
@@ -29,6 +32,24 @@ class TicketController extends GetxController {
       log(result.toString());
       if (result != null) {
         getMyTicket(_authController.userInfo!.id.toString());
+        _isDrop.value = true;
+        MessageHandler().displayMessage(msg: "drop success", title: "Drop");
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    } catch (e) {
+      setLoading(false);
+    }
+  }
+
+  void dropTicketForClient(DropTicketModel data) async {
+    setLoading(true);
+    try {
+      final result = await TicketRepo().dropTicketForClint(data);
+      log(result.toString());
+      if (result != null) {
+        _isDrop.value = true;
 
         MessageHandler().displayMessage(msg: "drop success", title: "Drop");
         setLoading(false);

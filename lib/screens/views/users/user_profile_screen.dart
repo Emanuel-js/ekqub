@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ekub/data/auth/auth_controller.dart';
 import 'package:ekub/data/helpers/localization_helper.dart';
 import 'package:ekub/data/wallet/model/refund_responce_model.dart';
@@ -375,8 +377,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                           borderRadius:
                                               BorderRadius.circular(15)))),
                               onPressed: () {
-                                if (_globalKey.currentState!.validate()) {
+                                if (_globalKey.currentState!.validate() &&
+                                    bank.isNotEmpty) {
                                   // _globalKey.currentState!.save();
+                                  log(bank);
                                   _walletController.requestRefund(
                                       RefundResponseModel(
                                           userId: int.parse(

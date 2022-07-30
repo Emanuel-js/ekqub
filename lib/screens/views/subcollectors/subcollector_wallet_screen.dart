@@ -119,7 +119,7 @@ class _SubCollectorWalletScreenState extends State<SubCollectorWalletScreen> {
                   itemBuilder: (BuildContext ctxt, int index) {
                     var transaction = _walletController.myTransaction![index];
                     return _transactionList(
-                        id: transaction.receiverAccount,
+                        id: transaction.senderAccount,
                         phone: "09191919",
                         amount: transaction.amount,
                         date: transaction.transactionDate,

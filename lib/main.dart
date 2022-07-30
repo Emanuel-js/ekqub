@@ -71,8 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget getPage() {
     if (LocalStorageService.instance.get(AppConst.APP_ACCESS_TOKEN) != null) {
-      final _authController = Get.find<AuthController>();
-      _authController.getMyUsers();
       return const WelcomeScreen();
     }
     return const OnboardingScreen();

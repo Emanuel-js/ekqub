@@ -61,6 +61,7 @@ class CustomLogInterceptor extends Interceptor {
     logPrint('************************ Response ************************');
     printKV('uri', response.requestOptions.uri);
     _printResponse(response);
+
     logPrint('*************************************************');
     // return handler.next(response);
     return super.onResponse(response, handler);

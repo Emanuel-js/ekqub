@@ -23,6 +23,7 @@ class _MainCollectorHomeScreenState extends State<MainCollectorHomeScreen> {
   final _authControler = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
+    _authControler.getMyUsers();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: AppColor.primaryColor,

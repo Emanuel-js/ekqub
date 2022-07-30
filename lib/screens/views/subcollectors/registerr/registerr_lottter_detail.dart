@@ -166,7 +166,7 @@ class _RegisterLotDetailInfoState extends State<RegisterLotDetailInfo> {
                 selectedGenderTextStyle: TextStyle(
                     color: AppColor.darkGray, fontWeight: FontWeight.bold),
                 unSelectedGenderTextStyle: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.normal),
+                    color: Colors.transparent, fontWeight: FontWeight.normal),
                 onChanged: (Gender? gender) {
                   _genderController =
                       gender.toString().replaceAll("Gender.", "");

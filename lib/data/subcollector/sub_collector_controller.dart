@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ekub/data/subcollector/sub_collector_repo.dart';
 import 'package:ekub/data/user/model/user.dart';
+import 'package:ekub/data/user/model/user_detail_model.dart';
 import 'package:ekub/screens/views/subcollectors/subcollector_home_screen.dart';
 import 'package:ekub/utils/message_widet.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class SubCollectorController extends GetxController {
   final _isRegisterd = false.obs;
   final _imagFile = Rxn<File>();
   final _mainCollectorReq = Rxn<UserModel>();
+  final _searchResult = Rxn<UserDetailModel>();
   final _lat = Rxn<double>();
   final _log = Rxn<double>();
 
@@ -27,6 +29,8 @@ class SubCollectorController extends GetxController {
 
   UserModel? get mainCollectorReq => _mainCollectorReq.value;
   set mainCollectorReq(val) => _mainCollectorReq.value = val;
+  UserDetailModel? get searchResult => _searchResult.value;
+  set searchResult(val) => _searchResult.value = val;
 
   File? get imageFile => _imagFile.value;
   set imageFile(val) => _imagFile.value = val;
@@ -50,6 +54,16 @@ class SubCollectorController extends GetxController {
       _isRegisterd.value = false;
       setLoading(false);
     }
-    return _isRegisterd.value;
+  }
+
+  searchUser(String phone) async {
+    try {
+      final result = await SubCollectorRepo().searchUser(phone);
+      if (result != null) {
+        _searchResult.value = result;
+      } else {
+        _searchResult.value = null;
+      }
+    } catch (e) {}
   }
 }

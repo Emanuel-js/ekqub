@@ -6,7 +6,6 @@ import 'package:ekub/data/ticket/ticket_controller.dart';
 import 'package:ekub/data/wallet/wallet_controller.dart';
 import 'package:ekub/screens/views/users/user_loting_screen.dart';
 import 'package:ekub/screens/views/users/user_profile_screen.dart';
-import 'package:ekub/screens/views/users/user_wallet_screen.dart';
 import 'package:ekub/screens/widgets/text_widget.dart';
 import 'package:ekub/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -279,7 +278,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
       required String subtitle}) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const UserWalletScreen());
+        // Get.to(() => const UserWalletScreen());
       },
       child: Card(
         color: color,
